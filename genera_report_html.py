@@ -98,7 +98,7 @@ def genera_html_report():
         x=df_fabb_dot['Costo_Totale'],
         y=df_fabb_dot['Descrizione'],
         orientation='h',
-        text=[f'€{val:,.0f}' for val in df_fabb_dot['Costo_Totale']],
+        text=[f'€{val:,.0f}'.replace(',', '.') for val in df_fabb_dot['Costo_Totale']],  # Punto come separatore migliaia
         textposition='outside',
         marker=dict(color='#1f77b4')
     ))
@@ -107,7 +107,12 @@ def genera_html_report():
         xaxis_title='Costo Totale (€)',
         yaxis_title='Dotazione',
         height=500,
-        showlegend=False
+        showlegend=False,
+        xaxis=dict(
+            tickformat=',.0f',  # Formato con migliaia
+            separatethousands=True,
+            range=[0, df_fabb_dot['Costo_Totale'].max() * 1.15]  # Estendo range per vedere valori esterni
+        )
     )
 
     # Genera HTML
