@@ -555,6 +555,49 @@ def main():
     st.sidebar.metric("Dotazioni Catalogo", len(df_catalogo))
     st.sidebar.metric("Configurazioni", len(df_dotazioni))
 
+    st.sidebar.divider()
+
+    # Popup dotazioni minime
+    with st.sidebar.expander("📋 Dotazioni Minime Standard", expanded=False):
+        st.markdown("### 🏥 Case di Comunità (CDC)")
+        st.markdown("""
+        **Dispositivi Diagnostici:**
+        - ECG (Elettrocardiografo)
+        - Holter cardiaco
+        - Spirometro
+        - Ecografo portatile
+        - Monitor multiparametrico
+        """)
+
+        st.markdown("### 🏥 Ospedali di Comunità (ODC)")
+        st.markdown("""
+        **Dispositivi Diagnostici:**
+        - Defibrillatore/DAE
+        - Apparecchio radiologico
+        - Emogasanalizzatore
+        - POC (Point of Care)
+        - Carrello emergenza
+        - ECG portatile
+        - Spirometro
+        - Ecografo
+        - Telemedicina (STANZA)
+        """)
+
+        st.markdown("### 🛏️ Attrezzature Sanitarie (CDC/ODC)")
+        st.markdown("""
+        **Comuni a tutte le strutture:**
+        - Lettino visita elettrico
+        - Lettino ginecologico
+        - Letto degenza elettrico
+        - DAE con aspiratore
+        - Lampada visita
+        - Frigofarmaco
+        - Lavapadelle
+        - Vuotatorio
+        - Sollevatore/Sollevapazienti
+        - Riunito oculistico completo
+        """)
+
     # Routing pagine
     if pagina == "Riepilogo Generale":
         pagina_riepilogo_generale(df_strutture, df_catalogo, df_dotazioni, df_fabbisogno)
