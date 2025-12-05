@@ -125,12 +125,12 @@ def genera_html_report():
         title='Top 10 Dotazioni per Fabbisogno',
         labels={'Costo_Totale': 'Costo Totale (€)', 'Descrizione': 'Dotazione'},
         color='Costo_Totale',
-        color_continuous_scale='Reds'
+        color_continuous_scale='Reds',
+        text='Costo_Totale'  # FIX: Aggiungo text qui
     )
-    # FIX: Aggiungo i valori sulle barre
+    # FIX: Formatto i valori sulle barre
     fig_bar.update_traces(
-        text=df_fabb_dot['Costo_Totale'],
-        texttemplate='€%{text:,.0f}',
+        texttemplate='€%{x:,.0f}',  # Usa x per grafico orizzontale
         textposition='outside'
     )
     fig_bar.update_layout(
