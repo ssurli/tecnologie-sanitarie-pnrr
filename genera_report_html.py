@@ -117,6 +117,9 @@ def genera_html_report():
         'Costo_Totale': 'sum'
     }).reset_index().sort_values('Costo_Totale', ascending=False).head(10)
 
+    # Pre-formatto i valori come stringhe
+    df_fabb_dot['Testo_Costo'] = df_fabb_dot['Costo_Totale'].apply(lambda x: f'€{x:,.0f}')
+
     fig_bar = px.bar(
         df_fabb_dot,
         y='Descrizione',
@@ -126,11 +129,10 @@ def genera_html_report():
         labels={'Costo_Totale': 'Costo Totale (€)', 'Descrizione': 'Dotazione'},
         color='Costo_Totale',
         color_continuous_scale='Reds',
-        text='Costo_Totale'  # FIX: Aggiungo text qui
+        text='Testo_Costo'  # Uso il testo già formattato
     )
-    # FIX: Formatto i valori sulle barre
+    # Posiziono il testo fuori dalle barre
     fig_bar.update_traces(
-        texttemplate='€%{x:,.0f}',  # Usa x per grafico orizzontale
         textposition='outside'
     )
     fig_bar.update_layout(
