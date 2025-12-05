@@ -152,7 +152,7 @@ def pagina_strutture(df_strutture, df_fabbisogno):
     st.header("🏥 Elenco Strutture")
 
     # Filtri
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         tipo_filtro = st.multiselect(
@@ -162,13 +162,30 @@ def pagina_strutture(df_strutture, df_fabbisogno):
         )
 
     with col2:
-        provincia_filtro = st.multiselect(
-            "Provincia",
-            options=sorted(df_strutture['Provincia'].unique()),
-            default=sorted(df_strutture['Provincia'].unique())
-        )
+        # Filtra zone non vuote
+        zone_disponibili = sorted([z for z in df_strutture['Zona'].unique() if pd.notna(z) and str(z).strip() != ''])
+        if zone_disponibili:
+            zona_filtro = st.multiselect(
+                "Zona Distretto",
+                options=zone_disponibili,
+                default=zone_disponibili
+            )
+        else:
+            zona_filtro = []
 
     with col3:
+        # Filtra classificazioni non vuote
+        class_disponibili = sorted([c for c in df_strutture['Classificazione'].unique() if pd.notna(c) and str(c).strip() != ''])
+        if class_disponibili:
+            class_filtro = st.multiselect(
+                "Classificazione",
+                options=class_disponibili,
+                default=class_disponibili
+            )
+        else:
+            class_filtro = None
+
+    with col4:
         pnrr_filtro = st.multiselect(
             "PNRR",
             options=['SI', 'NO'],
@@ -176,11 +193,15 @@ def pagina_strutture(df_strutture, df_fabbisogno):
         )
 
     # Applica filtri
-    df_filtrato = df_strutture[
-        (df_strutture['Tipologia'].isin(tipo_filtro)) &
-        (df_strutture['Provincia'].isin(provincia_filtro)) &
-        (df_strutture['PNRR'].isin(pnrr_filtro))
-    ]
+    df_filtrato = df_strutture[df_strutture['Tipologia'].isin(tipo_filtro)]
+
+    if zona_filtro:
+        df_filtrato = df_filtrato[df_filtrato['Zona'].isin(zona_filtro)]
+
+    if class_filtro:
+        df_filtrato = df_filtrato[df_filtrato['Classificazione'].isin(class_filtro)]
+
+    df_filtrato = df_filtrato[df_filtrato['PNRR'].isin(pnrr_filtro)]
 
     # Calcola fabbisogno per struttura
     fabbisogno_struttura = df_fabbisogno.groupby('Codice_Struttura')['Costo_Totale'].sum().reset_index()
@@ -192,9 +213,10 @@ def pagina_strutture(df_strutture, df_fabbisogno):
 
     st.metric("Strutture visualizzate", len(df_display))
 
-    # Tabella strutture
+    # Tabella strutture - includi nuovi campi
+    colonne_da_mostrare = ['Tipologia', 'Nome_Struttura', 'Zona', 'Classificazione', 'Comune', 'PNRR', 'Fabbisogno_EUR']
     st.dataframe(
-        df_display[['Tipologia', 'Nome_Struttura', 'Comune', 'Provincia', 'PNRR', 'Fabbisogno_EUR']].style.format({
+        df_display[colonne_da_mostrare].style.format({
             'Fabbisogno_EUR': '€{:,.2f}'
         }),
         hide_index=True,
@@ -222,14 +244,24 @@ def pagina_dotazioni_struttura(df_strutture, df_catalogo, df_fabbisogno):
     # Info struttura
     info_struttura = df_strutture[df_strutture['Codice'] == struttura_selezionata].iloc[0]
 
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3, col4, col5 = st.columns(5)
     with col1:
         st.metric("Tipologia", info_struttura['Tipologia'])
     with col2:
-        st.metric("Comune", info_struttura['Comune'])
+        zona = info_struttura.get('Zona', '')
+        if pd.notna(zona) and str(zona).strip():
+            st.metric("Zona", zona)
+        else:
+            st.metric("Zona", "-")
     with col3:
-        st.metric("Provincia", info_struttura['Provincia'])
+        class_val = info_struttura.get('Classificazione', '')
+        if pd.notna(class_val) and str(class_val).strip():
+            st.metric("Classificazione", class_val)
+        else:
+            st.metric("Classificazione", "-")
     with col4:
+        st.metric("Comune", info_struttura['Comune'])
+    with col5:
         st.metric("PNRR", info_struttura['PNRR'])
 
     st.divider()
