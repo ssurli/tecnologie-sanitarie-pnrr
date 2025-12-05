@@ -91,7 +91,7 @@ def genera_html_report():
     df_fabb_dot = df_da_acq.groupby('Descrizione').agg({
         'Quantita_Da_Acquistare': 'sum',
         'Costo_Totale': 'sum'
-    }).reset_index().sort_values('Costo_Totale', ascending=False).head(10)
+    }).reset_index().sort_values('Costo_Totale', ascending=False).head(10).iloc[::-1]  # Inverto per avere valori alti in alto
 
     # Uso go.Bar per controllo completo sull'ordine
     fig_bar = go.Figure(go.Bar(
