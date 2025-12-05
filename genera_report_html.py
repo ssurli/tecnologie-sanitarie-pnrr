@@ -70,31 +70,7 @@ def genera_html_report():
 
     print(f"📝 Generazione grafici...")
 
-    # GRAFICO 1: Gauge per scadenza PNRR
-    fig_gauge = go.Figure(go.Indicator(
-        mode="gauge+number+delta",
-        value=costo_da_acq_pnrr,
-        domain={'x': [0, 1], 'y': [0, 1]},
-        title={'text': "Fabbisogno PNRR<br><span style='font-size:0.8em;color:red'>Scadenza: Marzo 2026</span>", 'font': {'size': 24}},
-        delta={'reference': 1000000, 'increasing': {'color': "red"}},
-        gauge={
-            'axis': {'range': [None, 1000000], 'tickformat': '€,.0f'},
-            'bar': {'color': "darkred"},
-            'steps': [
-                {'range': [0, 500000], 'color': "lightgray"},
-                {'range': [500000, 800000], 'color': "gray"}
-            ],
-            'threshold': {
-                'line': {'color': "red", 'width': 4},
-                'thickness': 0.75,
-                'value': 900000
-            }
-        },
-        number={'prefix': "€", 'valueformat': ',.0f'}
-    ))
-    fig_gauge.update_layout(height=300, margin=dict(l=20, r=20, t=60, b=20))
-
-    # GRAFICO 2: Torta finanziamento
+    # GRAFICO 1: Torta finanziamento
     fig_pie = go.Figure(data=[go.Pie(
         labels=['DA FINANZIARE<br>(PNRR)', 'DA FINANZIARE<br>(non-PNRR)', 'GIÀ FINANZIATO', 'GIÀ PRESENTE'],
         values=[costo_da_acq_pnrr, costo_da_acq_no, costo_finanz, costo_presente],
@@ -111,26 +87,27 @@ def genera_html_report():
         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5)
     )
 
-    # GRAFICO 3: Bar chart fabbisogno per dotazione
+    # GRAFICO 2: Bar chart fabbisogno per dotazione
     df_fabb_dot = df_da_acq.groupby('Descrizione').agg({
         'Quantita_Da_Acquistare': 'sum',
         'Costo_Totale': 'sum'
-    }).reset_index().sort_values('Costo_Totale', ascending=True).head(10)  # ascending=True per avere valori alti in alto
+    }).reset_index().sort_values('Costo_Totale', ascending=False).head(10)
 
-    fig_bar = px.bar(
-        df_fabb_dot,
-        x='Costo_Totale',
-        y='Descrizione',
+    # Uso go.Bar per controllo completo sull'ordine
+    fig_bar = go.Figure(go.Bar(
+        x=df_fabb_dot['Costo_Totale'],
+        y=df_fabb_dot['Descrizione'],
         orientation='h',
-        title='Top 10 Dotazioni per Costo Totale',
-        labels={'Costo_Totale': 'Costo Totale (€)', 'Descrizione': 'Dotazione'},
-        text='Costo_Totale'
-    )
-    fig_bar.update_traces(texttemplate='€%{text:,.0f}', textposition='outside')
+        text=[f'€{val:,.0f}' for val in df_fabb_dot['Costo_Totale']],
+        textposition='outside',
+        marker=dict(color='#1f77b4')
+    ))
     fig_bar.update_layout(
+        title='Top 10 Dotazioni per Costo Totale',
+        xaxis_title='Costo Totale (€)',
+        yaxis_title='Dotazione',
         height=500,
-        showlegend=False,
-        yaxis={'categoryorder': 'array', 'categoryarray': df_fabb_dot['Descrizione'].tolist()}
+        showlegend=False
     )
 
     # Genera HTML
@@ -462,10 +439,6 @@ def genera_html_report():
                         <div class="kpi-value">{n_pnrr}</div>
                         <div class="kpi-note">{n_pnrr/n_strutture*100:.1f}% del totale</div>
                     </div>
-                </div>
-
-                <div class="chart-container">
-                    {fig_gauge.to_html(include_plotlyjs=False, div_id="gauge")}
                 </div>
             </div>
 
