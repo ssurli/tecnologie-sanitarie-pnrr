@@ -43,3 +43,7 @@ Thumbs.db
 # Excel temp files
 ~$*.xlsx
 ~$*.xls
+
+# Backup files
+*_backup_old.csv
+*_backup.csv
