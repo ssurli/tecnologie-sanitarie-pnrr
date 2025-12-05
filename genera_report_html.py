@@ -111,9 +111,12 @@ def genera_html_report():
         showlegend=False,
         xaxis=dict(
             tickformat=',.0f',  # Formato con migliaia
-            automargin=True  # Margine automatico per i testi esterni
+            automargin=True,  # Margine automatico per i testi esterni
+            rangemode='tozero',  # Forza l'asse a partire da zero
+            fixedrange=False  # Permette zoom
         ),
-        margin=dict(r=100)  # Margine destro per valori esterni
+        margin=dict(r=150),  # Margine destro aumentato per valori esterni
+        bargap=0.15  # Spazio tra le barre
     )
 
     # Genera HTML
