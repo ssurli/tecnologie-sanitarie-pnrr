@@ -484,7 +484,15 @@ def carica_attrezzature_sanitarie(df_strutture):
 
             # Normalizza nome da file (rimuovi "CdC " e pulisci)
             nome_file = struttura_nome.replace('CdC ', '').strip()
-            nome_file_norm = nome_file.lower().replace('(terminetto)', '').replace('marina pisa', 'marina di pisa').strip()
+            nome_file_lower = nome_file.lower()
+
+            # Estrai parte tra parentesi se presente (es: "Viareggio (terminetto)" -> cerca "terminetto")
+            nome_parentesi = None
+            if '(' in nome_file and ')' in nome_file:
+                nome_parentesi = nome_file[nome_file.find('(')+1:nome_file.find(')')].strip().lower()
+
+            # Normalizza per matching
+            nome_file_norm = nome_file_lower.replace('(terminetto)', '').replace('(', '').replace(')', '').replace('marina pisa', 'marina di pisa').strip()
 
             for _, strutt in df_strutture.iterrows():
                 if strutt['Tipologia'] == 'CdC':
@@ -495,7 +503,8 @@ def carica_attrezzature_sanitarie(df_strutture):
                     # Match con diverse strategie
                     if (nome_file_norm in nome_strutt_norm or
                         nome_strutt_norm in nome_file_norm or
-                        nome_file.split()[0].lower() in nome_strutt_norm):  # Match prima parola
+                        nome_file.split()[0].lower() in nome_strutt_norm or
+                        (nome_parentesi and nome_parentesi in nome_strutt_norm)):  # Match parte tra parentesi
                         codice_strutt = strutt['Codice']
                         break
 
@@ -537,7 +546,14 @@ def carica_attrezzature_sanitarie(df_strutture):
 
             # Normalizza nome da file (rimuovi "OdC " e pulisci)
             nome_file = struttura_nome.replace('OdC ', '').strip()
-            nome_file_norm = nome_file.lower().strip()
+            nome_file_lower = nome_file.lower()
+
+            # Estrai parte tra parentesi se presente
+            nome_parentesi = None
+            if '(' in nome_file and ')' in nome_file:
+                nome_parentesi = nome_file[nome_file.find('(')+1:nome_file.find(')')].strip().lower()
+
+            nome_file_norm = nome_file_lower.replace('(', '').replace(')', '').strip()
 
             for _, strutt in df_strutture.iterrows():
                 if strutt['Tipologia'] == 'OdC':
@@ -548,7 +564,8 @@ def carica_attrezzature_sanitarie(df_strutture):
                     # Match con diverse strategie
                     if (nome_file_norm in nome_strutt_norm or
                         nome_strutt_norm in nome_file_norm or
-                        nome_file.split()[0].lower() in nome_strutt_norm):  # Match prima parola
+                        nome_file.split()[0].lower() in nome_strutt_norm or
+                        (nome_parentesi and nome_parentesi in nome_strutt_norm)):  # Match parte tra parentesi
                         codice_strutt = strutt['Codice']
                         break
 
