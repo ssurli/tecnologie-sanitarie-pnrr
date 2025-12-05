@@ -87,11 +87,14 @@ def genera_html_report():
         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5)
     )
 
-    # GRAFICO 2: Bar chart fabbisogno per dotazione - CODICE IDENTICO DASHBOARD
+    # GRAFICO 2: Bar chart fabbisogno per dotazione
     top_dotazioni = df_da_acq.groupby(['Descrizione', 'Costo_Unitario_EUR']).agg({
         'Quantita_Da_Acquistare': 'sum',
         'Costo_Totale': 'sum'
     }).reset_index().sort_values('Costo_Totale', ascending=False).head(10)
+
+    # Pre-formatto i valori con punto come separatore
+    top_dotazioni['Testo_Costo'] = top_dotazioni['Costo_Totale'].apply(lambda x: f'€{x:,.0f}'.replace(',', '.'))
 
     fig_bar = px.bar(
         top_dotazioni,
@@ -100,9 +103,9 @@ def genera_html_report():
         orientation='h',
         title='Top 10 Dotazioni per Costo Totale',
         labels={'Costo_Totale': 'Costo Totale (€)', 'Descrizione': 'Dotazione'},
-        text='Costo_Totale'
+        text='Testo_Costo'
     )
-    fig_bar.update_traces(texttemplate='€%{text:,.0f}', textposition='outside')
+    fig_bar.update_traces(textposition='outside')
     fig_bar.update_layout(yaxis={'categoryorder': 'total ascending'}, height=500)
 
     # Genera HTML
