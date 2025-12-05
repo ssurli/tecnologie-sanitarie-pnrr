@@ -47,3 +47,5 @@ Thumbs.db
 # Backup files
 *_backup_old.csv
 *_backup.csv
+# Report generati automaticamente
+report_direzione_telemedicina_*.xlsx
