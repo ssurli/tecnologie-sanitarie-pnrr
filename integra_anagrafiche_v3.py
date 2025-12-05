@@ -236,13 +236,23 @@ def carica_attrezzature_sanitarie(df_strutture):
             struttura_nome = row['Struttura']
             quantita = int(row['Quantita'])
 
-            # Trova codice struttura - matching migliorato
+            # Trova codice struttura - matching migliorato con normalizzazione
             codice_strutt = None
+
+            # Normalizza nome da file (rimuovi "CdC " e pulisci)
+            nome_file = struttura_nome.replace('CdC ', '').strip()
+            nome_file_norm = nome_file.lower().replace('(terminetto)', '').replace('marina pisa', 'marina di pisa').strip()
+
             for _, strutt in df_strutture.iterrows():
                 if strutt['Tipologia'] == 'CdC':
-                    # Estrai parte comune del nome per matching
-                    nome_struttura = strutt['Nome_Struttura'].replace('CdC ', '')
-                    if nome_struttura in struttura_nome or struttura_nome in strutt['Nome_Struttura']:
+                    # Normalizza nome da strutture
+                    nome_strutt = strutt['Nome_Struttura'].replace('CdC ', '').strip()
+                    nome_strutt_norm = nome_strutt.lower().strip()
+
+                    # Match con diverse strategie
+                    if (nome_file_norm in nome_strutt_norm or
+                        nome_strutt_norm in nome_file_norm or
+                        nome_file.split()[0].lower() in nome_strutt_norm):  # Match prima parola
                         codice_strutt = strutt['Codice']
                         break
 
@@ -254,6 +264,8 @@ def carica_attrezzature_sanitarie(df_strutture):
                     'Quantita_Richiesta': quantita,
                     'Note': 'Presente (da file PNRR)'
                 })
+            elif tecnologia in mapping:
+                print(f"  ⚠️  CDC non trovato per: {struttura_nome}")
 
     except Exception as e:
         print(f"⚠️ Errore caricamento attrezzature CDC: {e}")
@@ -276,12 +288,23 @@ def carica_attrezzature_sanitarie(df_strutture):
             struttura_nome = row['Struttura']
             quantita = int(row['Quantita'])
 
-            # Trova codice struttura - matching migliorato
+            # Trova codice struttura - matching migliorato con normalizzazione
             codice_strutt = None
+
+            # Normalizza nome da file (rimuovi "OdC " e pulisci)
+            nome_file = struttura_nome.replace('OdC ', '').strip()
+            nome_file_norm = nome_file.lower().strip()
+
             for _, strutt in df_strutture.iterrows():
                 if strutt['Tipologia'] == 'OdC':
-                    nome_struttura = strutt['Nome_Struttura'].replace('OdC ', '')
-                    if nome_struttura in struttura_nome or struttura_nome in strutt['Nome_Struttura']:
+                    # Normalizza nome da strutture
+                    nome_strutt = strutt['Nome_Struttura'].replace('OdC ', '').strip()
+                    nome_strutt_norm = nome_strutt.lower().strip()
+
+                    # Match con diverse strategie
+                    if (nome_file_norm in nome_strutt_norm or
+                        nome_strutt_norm in nome_file_norm or
+                        nome_file.split()[0].lower() in nome_strutt_norm):  # Match prima parola
                         codice_strutt = strutt['Codice']
                         break
 
@@ -293,6 +316,8 @@ def carica_attrezzature_sanitarie(df_strutture):
                     'Quantita_Richiesta': quantita,
                     'Note': 'Presente (da file PNRR)'
                 })
+            elif tecnologia in mapping:
+                print(f"  ⚠️  ODC non trovato per: {struttura_nome}")
 
     except Exception as e:
         print(f"⚠️ Errore caricamento attrezzature ODC: {e}")
