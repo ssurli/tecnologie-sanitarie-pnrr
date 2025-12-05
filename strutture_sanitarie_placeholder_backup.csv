@@ -1,0 +1,23 @@
+Tipologia,Codice,Nome_Struttura,Comune,Provincia,Indirizzo,CAP,PNRR
+CdC,CDC001,CdC Carrara,Carrara,MS,Via Example 1,54033,SI
+CdC,CDC002,CdC Pontremoli,Pontremoli,MS,Via Example 2,54027,SI
+CdC,CDC003,CdC Montignoso,Montignoso,MS,Via Example 3,54038,SI
+CdC,CDC004,CdC Massa,Massa,MS,Via Example 4,54100,SI
+CdC,CDC005,CdC Viareggio (Terminetto),Viareggio,LU,Via Example 5,55049,SI
+CdC,CDC006,CdC Pietrasanta,Pietrasanta,LU,Via Example 6,55045,SI
+CdC,CDC007,CdC Camaiore,Camaiore,LU,Via Example 7,55041,SI
+CdC,CDC008,CdC Pisa,Pisa,PI,Via Example 8,56100,SI
+CdC,CDC009,CdC Vecchiano,Vecchiano,PI,Via Example 9,56019,SI
+CdC,CDC010,CdC Marina di Pisa,Pisa,PI,Via Example 10,56128,SI
+CdC,CDC011,CdC Crespina,Crespina Lorenzana,PI,Via Example 11,56042,SI
+CdC,CDC012,CdC Pontedera,Pontedera,PI,Via Example 12,56025,SI
+CdC,CDC013,CdC Pomarance,Pomarance,PI,Via Example 13,56045,SI
+CdC,CDC014,CdC Bientina,Bientina,PI,Via Example 14,56031,SI
+CdC,CDC015,CdC San Giuliano Terme,San Giuliano Terme,PI,Via Example 15,56017,SI
+CdC,CDC016,CdC Portoferraio,Portoferraio,LI,Via Example 16,57037,SI
+CdC,CDC017,CdC Suvereto,Suvereto,LI,Via Example 17,57028,SI
+OdC,ODC001,OdC Viareggio,Viareggio,LU,Via Example 18,55049,SI
+OdC,ODC002,OdC Barga,Barga,LU,Via Example 19,55051,SI
+OdC,ODC003,OdC Cecina,Cecina,LI,Via Example 20,57023,SI
+OdC,ODC004,OdC Piombino,Piombino,LI,Via Example 21,57025,SI
+OdC,ODC005,OdC Massa,Massa,MS,Via Example 22,54100,SI
