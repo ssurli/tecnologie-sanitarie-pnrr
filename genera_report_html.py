@@ -14,7 +14,6 @@ import pandas as pd
 from datetime import datetime
 import plotly.express as px
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 
 def genera_html_report():
     """Genera report HTML completo"""
@@ -112,63 +111,33 @@ def genera_html_report():
         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5)
     )
 
-    # GRAFICO 3: Bar chart top dotazioni
-    df_top_dot = df_da_acq.groupby('Descrizione').agg({
+    # GRAFICO 3: Bar chart fabbisogno per dotazione (FIX: mostra valori sulle barre)
+    df_fabb_dot = df_da_acq.groupby('Descrizione').agg({
         'Quantita_Da_Acquistare': 'sum',
         'Costo_Totale': 'sum'
     }).reset_index().sort_values('Costo_Totale', ascending=False).head(10)
 
     fig_bar = px.bar(
-        df_top_dot,
+        df_fabb_dot,
         y='Descrizione',
         x='Costo_Totale',
         orientation='h',
-        title='Top 10 Dotazioni per Costo',
+        title='Top 10 Dotazioni per Fabbisogno',
         labels={'Costo_Totale': 'Costo Totale (€)', 'Descrizione': 'Dotazione'},
-        text='Costo_Totale',
         color='Costo_Totale',
         color_continuous_scale='Reds'
     )
-    fig_bar.update_traces(texttemplate='€%{text:,.0f}', textposition='outside')
+    # FIX: Aggiungo i valori sulle barre
+    fig_bar.update_traces(
+        text=df_fabb_dot['Costo_Totale'],
+        texttemplate='€%{text:,.0f}',
+        textposition='outside'
+    )
     fig_bar.update_layout(
         yaxis={'categoryorder': 'total ascending'},
         height=500,
         showlegend=False
     )
-
-    # GRAFICO 4: Strutture PNRR
-    df_pnrr_strutt = df_da_acq[df_da_acq['PNRR'] == 'SI'].groupby(
-        ['Nome_Struttura', 'Zona', 'Tipologia']
-    ).agg({'Costo_Totale': 'sum'}).reset_index().sort_values('Costo_Totale', ascending=False).head(15)
-
-    fig_pnrr = px.bar(
-        df_pnrr_strutt,
-        y='Nome_Struttura',
-        x='Costo_Totale',
-        orientation='h',
-        color='Zona',
-        title='Top 15 Strutture PNRR per Fabbisogno',
-        labels={'Costo_Totale': 'Fabbisogno (€)', 'Nome_Struttura': 'Struttura'},
-        text='Costo_Totale',
-        height=600
-    )
-    fig_pnrr.update_traces(texttemplate='€%{text:,.0f}', textposition='outside')
-    fig_pnrr.update_layout(yaxis={'categoryorder': 'total ascending'})
-
-    # GRAFICO 5: Distribuzione geografica
-    df_zona = df_da_acq.groupby('Zona').agg({'Costo_Totale': 'sum'}).reset_index()
-    fig_zona = px.bar(
-        df_zona,
-        x='Zona',
-        y='Costo_Totale',
-        title='Distribuzione Geografica Fabbisogno',
-        labels={'Costo_Totale': 'Fabbisogno (€)', 'Zona': 'Zona Distretto'},
-        text='Costo_Totale',
-        color='Costo_Totale',
-        color_continuous_scale='Blues'
-    )
-    fig_zona.update_traces(texttemplate='€%{text:,.0f}', textposition='outside')
-    fig_zona.update_layout(height=400, showlegend=False)
 
     # Genera HTML
     print(f"📝 Generazione HTML: {filename}")
@@ -448,10 +417,7 @@ def genera_html_report():
         <div class="nav">
             <a href="#executive">Executive Summary</a>
             <a href="#finanziamento">Analisi Finanziamento</a>
-            <a href="#pnrr">Priorità PNRR</a>
             <a href="#dotazioni">Dotazioni</a>
-            <a href="#geografica">Distribuzione</a>
-            <a href="#azioni">Azioni Richieste</a>
         </div>
 
         <!-- Content -->
@@ -502,12 +468,6 @@ def genera_html_report():
                         <div class="kpi-value">{n_pnrr}</div>
                         <div class="kpi-note">{n_pnrr/n_strutture*100:.1f}% del totale</div>
                     </div>
-
-                    <div class="kpi-card">
-                        <div class="kpi-label">ROI Investimento</div>
-                        <div class="kpi-value">{(costo_da_acq_pnrr + costo_da_acq_no) / costo_presente * 100:.0f}%</div>
-                        <div class="kpi-note">Su rete da €{costo_presente:,.0f}</div>
-                    </div>
                 </div>
 
                 <div class="chart-container">
@@ -525,7 +485,6 @@ def genera_html_report():
                         <li><strong>€{costo_da_acq_pnrr + costo_da_acq_no:,.2f}</strong> di investimento necessario per completare la rete</li>
                         <li>Il <strong>{costo_da_acq_pnrr/(costo_da_acq_pnrr + costo_da_acq_no)*100:.1f}%</strong> sono fondi PNRR con scadenza obbligatoria</li>
                         <li>La rete ha già <strong>€{costo_presente:,.2f}</strong> di dotazioni operative</li>
-                        <li>ROI del <strong>{(costo_da_acq_pnrr + costo_da_acq_no) / costo_presente * 100:.0f}%</strong> per completare l'investimento</li>
                     </ul>
                 </div>
 
@@ -577,24 +536,6 @@ def genera_html_report():
                 </table>
             </div>
 
-            <!-- Priorità PNRR -->
-            <div id="pnrr" class="section">
-                <h2>🎯 Priorità PNRR - Scadenza Marzo 2026</h2>
-
-                <div class="info-box warning">
-                    <h3>⚠️ URGENZA MASSIMA</h3>
-                    <p style="font-size: 1.1em; margin: 10px 0;">
-                        <strong>{n_pnrr} strutture</strong> richiedono completamento con fondi PNRR.<br>
-                        Fabbisogno totale: <strong>€{costo_da_acq_pnrr:,.2f}</strong><br>
-                        Scadenza rendicontazione: <strong style="color: #d62728;">31 MARZO 2026</strong> (NON DEROGABILE)
-                    </p>
-                </div>
-
-                <div class="chart-container">
-                    {fig_pnrr.to_html(include_plotlyjs=False, div_id="pnrr")}
-                </div>
-            </div>
-
             <!-- Dotazioni -->
             <div id="dotazioni" class="section">
                 <h2>🔬 Fabbisogno per Dotazione</h2>
@@ -608,79 +549,6 @@ def genera_html_report():
                     {fig_bar.to_html(include_plotlyjs=False, div_id="bar")}
                 </div>
             </div>
-
-            <!-- Distribuzione Geografica -->
-            <div id="geografica" class="section">
-                <h2>📍 Distribuzione Geografica</h2>
-
-                <div class="chart-container">
-                    {fig_zona.to_html(include_plotlyjs=False, div_id="zona")}
-                </div>
-            </div>
-
-            <!-- Azioni Richieste -->
-            <div id="azioni" class="section">
-                <h2>✅ Azioni Richieste</h2>
-
-                <div class="info-box success">
-                    <h3>🎯 Decisione Richiesta alla Direzione</h3>
-                    <p style="font-size: 1.1em; margin: 15px 0;">
-                        Si richiede l'<strong>approvazione del finanziamento</strong> di <strong>€{costo_da_acq_pnrr + costo_da_acq_no:,.2f}</strong> per completare le dotazioni tecnologiche della rete territoriale.
-                    </p>
-                </div>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fase</th>
-                            <th>Tempistica</th>
-                            <th>Responsabile</th>
-                            <th>Note</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background: #fff3e0;">
-                            <td><strong>1. Approvazione Budget</strong></td>
-                            <td>Entro 15/12/2024</td>
-                            <td>Direzione Generale</td>
-                            <td>URGENTE per rispettare timeline PNRR</td>
-                        </tr>
-                        <tr>
-                            <td>2. Gare d'Acquisto</td>
-                            <td>Gennaio 2025</td>
-                            <td>Ufficio Acquisti</td>
-                            <td>Gare per lotti funzionali</td>
-                        </tr>
-                        <tr>
-                            <td>3. Consegna/Installazione</td>
-                            <td>Febbraio 2025</td>
-                            <td>Fornitori</td>
-                            <td>Coordinamento con strutture</td>
-                        </tr>
-                        <tr>
-                            <td>4. Collaudo</td>
-                            <td>Marzo 2025</td>
-                            <td>Ufficio Tecnico</td>
-                            <td>Verifica funzionalità</td>
-                        </tr>
-                        <tr style="background: #ffebee;">
-                            <td><strong>5. Rendicontazione PNRR</strong></td>
-                            <td><strong>Entro 31/03/2026</strong></td>
-                            <td><strong>Ufficio PNRR</strong></td>
-                            <td><strong>⚠️ SCADENZA OBBLIGATORIA</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="info-box warning" style="margin-top: 30px;">
-                    <h3>⚡ Messaggio Chiave per la Direzione</h3>
-                    <p style="font-size: 1.2em; line-height: 1.8; margin: 15px 0;">
-                        "Con un investimento di <strong>€{costo_da_acq_pnrr + costo_da_acq_no:,.2f}</strong> (di cui <strong>€{costo_da_acq_pnrr:,.2f}</strong> fondi PNRR),
-                        completiamo le dotazioni tecnologiche di <strong>65 strutture territoriali</strong>, rispettando la scadenza PNRR di marzo 2026
-                        e portando a termine un investimento complessivo di <strong>€{costo_presente + costo_da_acq_pnrr + costo_da_acq_no:,.2f}</strong>."
-                    </p>
-                </div>
-            </div>
         </div>
 
         <!-- Footer -->
@@ -688,7 +556,7 @@ def genera_html_report():
             <p><strong>USL Toscana Nord Ovest</strong> - Report Direzione Telemedicina</p>
             <p>Generato il {datetime.now().strftime("%d/%m/%Y alle %H:%M")}</p>
             <p style="margin-top: 10px; font-size: 0.9em;">
-                Per informazioni tecniche: Ufficio ICT | Per informazioni amministrative: Ufficio Acquisti
+                Per informazioni e supporto: <strong>UOC Tecnologie</strong>
             </p>
         </div>
     </div>

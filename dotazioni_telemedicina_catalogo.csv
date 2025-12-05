@@ -2,7 +2,7 @@ Categoria,Codice,Descrizione,Costo_Unitario_EUR,Applicabile_A
 Dispositivi Diagnostici,DIAG001,ECG (Elettrocardiografo),3000.00,CDC
 Dispositivi Diagnostici,DIAG002,Holter cardiaco,2000.00,CDC
 Dispositivi Diagnostici,DIAG003,Spirometro,2500.00,CDC
-Dispositivi Diagnostici,DIAG004,Ecografo portatile,30000.00,CDC
+Dispositivi Diagnostici,DIAG004,Ecografo portatile,16000.00,CDC
 Dispositivi Diagnostici,DIAG005,Monitor multiparametrico,1600.00,CDC
 Dispositivi Diagnostici,DIAG006,Defibrillatore/DAE,1500.00,ODC
 Dispositivi Diagnostici,DIAG007,Apparecchio radiologico,15000.00,ODC
@@ -11,7 +11,7 @@ Dispositivi Diagnostici,DIAG009,POC (Point of Care),1000.00,ODC
 Dispositivi Diagnostici,DIAG010,Carrello emergenza,800.00,ODC
 Dispositivi Diagnostici,DIAG011,ECG portatile,3000.00,ODC
 Dispositivi Diagnostici,DIAG012,Spirometro (ODC),2500.00,ODC
-Dispositivi Diagnostici,DIAG013,Ecografo (ODC),30000.00,ODC
+Dispositivi Diagnostici,DIAG013,Ecografo (ODC),16000.00,ODC
 Dispositivi Diagnostici,DIAG014,Telemedicina (STANZA),10000.00,ODC
 Attrezzature Sanitarie,ATTR001,Lettino visita elettrico,848.00,COMUNE
 Attrezzature Sanitarie,ATTR002,Lettino ginecologico,1766.61,COMUNE
