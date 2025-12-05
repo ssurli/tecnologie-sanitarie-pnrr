@@ -136,7 +136,6 @@ def genera_html_report():
         textposition='outside'
     )
     fig_bar.update_layout(
-        yaxis={'categoryorder': 'total ascending'},
         height=500,
         showlegend=False
     )
