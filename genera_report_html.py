@@ -99,7 +99,7 @@ def genera_html_report():
         y=df_fabb_dot['Descrizione'],
         orientation='h',
         text=[f'€{val:,.0f}'.replace(',', '.') for val in df_fabb_dot['Costo_Totale']],  # Punto come separatore migliaia
-        textposition='outside',
+        textposition='auto',
         marker=dict(color='#1f77b4')
     ))
     fig_bar.update_layout(
@@ -109,9 +109,7 @@ def genera_html_report():
         height=500,
         showlegend=False,
         xaxis=dict(
-            tickformat=',.0f',  # Formato con migliaia
-            separatethousands=True,
-            range=[0, df_fabb_dot['Costo_Totale'].max() * 1.15]  # Estendo range per vedere valori esterni
+            tickformat=',.0f'  # Formato con migliaia
         )
     )
 
