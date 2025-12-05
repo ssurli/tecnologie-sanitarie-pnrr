@@ -87,37 +87,23 @@ def genera_html_report():
         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5)
     )
 
-    # GRAFICO 2: Bar chart fabbisogno per dotazione
-    df_fabb_dot = df_da_acq.groupby('Descrizione').agg({
+    # GRAFICO 2: Bar chart fabbisogno per dotazione - CODICE IDENTICO DASHBOARD
+    top_dotazioni = df_da_acq.groupby(['Descrizione', 'Costo_Unitario_EUR']).agg({
         'Quantita_Da_Acquistare': 'sum',
         'Costo_Totale': 'sum'
-    }).reset_index().sort_values('Costo_Totale', ascending=False).head(10).iloc[::-1]  # Inverto per avere valori alti in alto
+    }).reset_index().sort_values('Costo_Totale', ascending=False).head(10)
 
-    # Uso go.Bar per controllo completo sull'ordine
-    fig_bar = go.Figure(go.Bar(
-        x=df_fabb_dot['Costo_Totale'],
-        y=df_fabb_dot['Descrizione'],
+    fig_bar = px.bar(
+        top_dotazioni,
+        x='Costo_Totale',
+        y='Descrizione',
         orientation='h',
-        text=[f'€{val:,.0f}'.replace(',', '.') for val in df_fabb_dot['Costo_Totale']],  # Punto come separatore migliaia
-        textposition='outside',
-        marker=dict(color='#1f77b4'),
-        cliponaxis=False  # Permette ai testi di uscire dall'area del grafico
-    ))
-    fig_bar.update_layout(
         title='Top 10 Dotazioni per Costo Totale',
-        xaxis_title='Costo Totale (€)',
-        yaxis_title='Dotazione',
-        height=500,
-        showlegend=False,
-        xaxis=dict(
-            tickformat=',.0f',  # Formato con migliaia
-            automargin=True,  # Margine automatico per i testi esterni
-            rangemode='tozero',  # Forza l'asse a partire da zero
-            fixedrange=False  # Permette zoom
-        ),
-        margin=dict(r=150),  # Margine destro aumentato per valori esterni
-        bargap=0.15  # Spazio tra le barre
+        labels={'Costo_Totale': 'Costo Totale (€)', 'Descrizione': 'Dotazione'},
+        text='Costo_Totale'
     )
+    fig_bar.update_traces(texttemplate='€%{text:,.0f}', textposition='outside')
+    fig_bar.update_layout(yaxis={'categoryorder': 'total ascending'}, height=500)
 
     # Genera HTML
     print(f"📝 Generazione HTML: {filename}")
