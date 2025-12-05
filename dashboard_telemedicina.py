@@ -25,9 +25,9 @@ st.set_page_config(
 )
 
 
-@st.cache_data
+@st.cache_data(ttl=600, show_spinner="Caricamento dati...")
 def carica_dati():
-    """Carica tutti i dati necessari"""
+    """Carica tutti i dati necessari (cache: 10 minuti)"""
     try:
         # Carica strutture
         df_strutture = pd.read_csv('strutture_sanitarie.csv')
@@ -422,6 +422,15 @@ def main():
         "Seleziona una vista",
         ["Riepilogo Generale", "Elenco Strutture", "Dettaglio Dotazioni Struttura", "Fabbisogno Complessivo"]
     )
+
+    st.sidebar.divider()
+
+    # Pulsante refresh cache
+    if st.sidebar.button("🔄 Aggiorna Dati", use_container_width=True):
+        st.cache_data.clear()
+        st.rerun()
+
+    st.sidebar.caption("💡 Usa questo pulsante per ricaricare i dati aggiornati")
 
     st.sidebar.divider()
 
