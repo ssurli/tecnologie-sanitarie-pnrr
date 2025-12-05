@@ -45,7 +45,7 @@ def carica_dati():
 
 
 def calcola_fabbisogno(df_dotazioni, df_catalogo):
-    """Calcola il fabbisogno complessivo per dotazione"""
+    """Calcola il fabbisogno complessivo per dotazione con distinzione stati finanziamento"""
 
     # Merge con catalogo per ottenere descrizione e costo
     df_merge = df_dotazioni.merge(
@@ -59,8 +59,19 @@ def calcola_fabbisogno(df_dotazioni, df_catalogo):
     df_merge['Quantita_Da_Acquistare'] = df_merge['Quantita_Richiesta'] - df_merge['Quantita_Presente']
     df_merge['Quantita_Da_Acquistare'] = df_merge['Quantita_Da_Acquistare'].clip(lower=0)
 
-    # Calcola costo per struttura
+    # Calcola costo per struttura (solo ciò che serve acquistare)
     df_merge['Costo_Totale'] = df_merge['Quantita_Da_Acquistare'] * df_merge['Costo_Unitario_EUR']
+
+    # Calcola costi separati per stato finanziamento
+    df_merge['Costo_Da_Finanziare'] = df_merge.apply(
+        lambda row: row['Costo_Totale'] if row.get('Stato_Finanziamento') == 'DA_ACQUISTARE' else 0, axis=1
+    )
+    df_merge['Costo_Gia_Finanziato'] = df_merge.apply(
+        lambda row: row['Quantita_Richiesta'] * row['Costo_Unitario_EUR'] if row.get('Stato_Finanziamento') == 'FINANZIATO' else 0, axis=1
+    )
+    df_merge['Costo_Presente'] = df_merge.apply(
+        lambda row: row['Quantita_Presente'] * row['Costo_Unitario_EUR'] if row.get('Stato_Finanziamento') == 'PRESENTE' else 0, axis=1
+    )
 
     return df_merge
 
@@ -109,6 +120,60 @@ def pagina_riepilogo_generale(df_strutture, df_catalogo, df_dotazioni, df_fabbis
     with col4:
         fabb_non_pnrr = df_fabb_strutt[df_fabb_strutt['PNRR'] == 'NO']['Costo_Totale'].sum()
         st.metric("💰 Fabbisogno non-PNRR", f"€{fabb_non_pnrr:,.2f}")
+
+    # KPI per stato finanziamento - terza riga
+    st.markdown("### 💸 Analisi Finanziamento")
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        costo_da_finanziare = df_fabbisogno['Costo_Da_Finanziare'].sum()
+        st.metric(
+            "🔴 DA FINANZIARE",
+            f"€{costo_da_finanziare:,.2f}",
+            delta="Richiede nuovo finanziamento",
+            delta_color="inverse"
+        )
+
+    with col2:
+        costo_gia_finanziato = df_fabbisogno['Costo_Gia_Finanziato'].sum()
+        st.metric(
+            "🟢 GIÀ FINANZIATO",
+            f"€{costo_gia_finanziato:,.2f}",
+            delta="Budget già allocato"
+        )
+
+    with col3:
+        costo_presente = df_fabbisogno['Costo_Presente'].sum()
+        st.metric(
+            "🔵 GIÀ PRESENTE",
+            f"€{costo_presente:,.2f}",
+            delta="Valore esistente"
+        )
+
+    with col4:
+        # Conteggi per stato
+        n_da_acquistare = len(df_fabbisogno[df_fabbisogno['Stato_Finanziamento'] == 'DA_ACQUISTARE'])
+        n_finanziato = len(df_fabbisogno[df_fabbisogno['Stato_Finanziamento'] == 'FINANZIATO'])
+        n_presente = len(df_fabbisogno[df_fabbisogno['Stato_Finanziamento'] == 'PRESENTE'])
+        st.metric(
+            "📊 Configurazioni",
+            f"{n_da_acquistare} / {n_finanziato} / {n_presente}",
+            delta="Da finanz. / Finanz. / Presenti"
+        )
+
+    # Alert PNRR se filtrato
+    df_fabb_strutt_pnrr = df_fabbisogno.merge(df_strutture[['Codice', 'PNRR']],
+                                               left_on='Codice_Struttura', right_on='Codice', how='left')
+    costo_da_finanz_pnrr = df_fabb_strutt_pnrr[
+        (df_fabb_strutt_pnrr['PNRR'] == 'SI') &
+        (df_fabb_strutt_pnrr['Stato_Finanziamento'] == 'DA_ACQUISTARE')
+    ]['Costo_Da_Finanziare'].sum()
+
+    if costo_da_finanz_pnrr > 0:
+        st.warning(
+            f"⚠️ **PRIORITÀ ALTA**: €{costo_da_finanz_pnrr:,.2f} da finanziare per interventi **PNRR** "
+            f"(scadenza: **marzo 2026**)"
+        )
 
     st.divider()
 
@@ -316,7 +381,7 @@ def pagina_dotazioni_struttura(df_strutture, df_catalogo, df_fabbisogno):
 
     if len(df_diag) > 0:
         st.dataframe(
-            df_diag[['Descrizione', 'Quantita_Presente', 'Quantita_Richiesta', 'Quantita_Da_Acquistare',
+            df_diag[['Descrizione', 'Stato_Finanziamento', 'Quantita_Presente', 'Quantita_Richiesta', 'Quantita_Da_Acquistare',
                      'Costo_Unitario_EUR', 'Costo_Totale', 'Note']].style.format({
                 'Costo_Unitario_EUR': '€{:,.2f}',
                 'Costo_Totale': '€{:,.2f}'
@@ -335,7 +400,7 @@ def pagina_dotazioni_struttura(df_strutture, df_catalogo, df_fabbisogno):
 
     if len(df_attr) > 0:
         st.dataframe(
-            df_attr[['Descrizione', 'Quantita_Presente', 'Quantita_Richiesta', 'Quantita_Da_Acquistare',
+            df_attr[['Descrizione', 'Stato_Finanziamento', 'Quantita_Presente', 'Quantita_Richiesta', 'Quantita_Da_Acquistare',
                      'Costo_Unitario_EUR', 'Costo_Totale', 'Note']].style.format({
                 'Costo_Unitario_EUR': '€{:,.2f}',
                 'Costo_Totale': '€{:,.2f}'
@@ -435,8 +500,7 @@ def main():
 
     # Carica dati
     with st.spinner("Caricamento dati in corso..."):
-        df_strutture, df_catalogo, df_dotazioni = carica_dati()
-        df_fabbisogno = calcola_fabbisogno(df_dotazioni, df_catalogo)
+        df_strutture_orig, df_catalogo, df_dotazioni_orig = carica_dati()
 
     # Sidebar navigazione
     st.sidebar.title("Navigazione")
@@ -444,6 +508,35 @@ def main():
         "Seleziona una vista",
         ["Riepilogo Generale", "Elenco Strutture", "Dettaglio Dotazioni Struttura", "Fabbisogno Complessivo"]
     )
+
+    st.sidebar.divider()
+
+    # Filtro PNRR
+    st.sidebar.subheader("🎯 Filtro PNRR")
+    filtro_pnrr = st.sidebar.radio(
+        "Interventi da visualizzare",
+        ["TUTTI", "Solo PNRR", "Solo non-PNRR"],
+        index=0,
+        help="Filtra per interventi PNRR (scadenza marzo 2026) o non-PNRR"
+    )
+
+    # Applica filtro PNRR
+    if filtro_pnrr == "Solo PNRR":
+        df_strutture = df_strutture_orig[df_strutture_orig['PNRR'] == 'SI'].copy()
+        codici_strutture = df_strutture['Codice'].unique()
+        df_dotazioni = df_dotazioni_orig[df_dotazioni_orig['Codice_Struttura'].isin(codici_strutture)].copy()
+        st.sidebar.info("🎯 Visualizzando solo interventi **PNRR** (scadenza marzo 2026)")
+    elif filtro_pnrr == "Solo non-PNRR":
+        df_strutture = df_strutture_orig[df_strutture_orig['PNRR'] == 'NO'].copy()
+        codici_strutture = df_strutture['Codice'].unique()
+        df_dotazioni = df_dotazioni_orig[df_dotazioni_orig['Codice_Struttura'].isin(codici_strutture)].copy()
+        st.sidebar.info("📍 Visualizzando solo interventi **non-PNRR**")
+    else:
+        df_strutture = df_strutture_orig.copy()
+        df_dotazioni = df_dotazioni_orig.copy()
+
+    # Calcola fabbisogno con dati filtrati
+    df_fabbisogno = calcola_fabbisogno(df_dotazioni, df_catalogo)
 
     st.sidebar.divider()
 

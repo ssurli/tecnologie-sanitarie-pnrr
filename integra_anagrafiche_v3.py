@@ -67,52 +67,167 @@ def carica_cdc_dispositivi():
         # ECG (col 5) - DIAG001
         if len(values) > 5:
             stato = values[5].strip().upper()
-            if 'PRESENTE' in stato or 'FINANZIATO' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG001',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
-            elif 'DA ACQUISTARE' in stato or 'NON RICHIESTO' not in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG001',
-                                'Quantita_Presente': 0, 'Quantita_Richiesta': 1, 'Note': 'Da acquistare'})
+            stato_finanziamento = None
+            quantita_presente = 0
+            quantita_richiesta = 1
+            note = ''
+
+            if 'PRESENTE' in stato:
+                stato_finanziamento = 'PRESENTE'
+                quantita_presente = 1
+                note = 'Già presente'
+            elif 'FINANZIATO' in stato:
+                stato_finanziamento = 'FINANZIATO'
+                quantita_presente = 0
+                note = 'Già finanziato/ordinato'
+            elif 'DA ACQUISTARE' in stato:
+                stato_finanziamento = 'DA_ACQUISTARE'
+                quantita_presente = 0
+                note = 'Da finanziare'
+            elif 'NON RICHIESTO' in stato:
+                stato_finanziamento = None
+
+            if stato_finanziamento:
+                dotazioni.append({
+                    'Codice_Struttura': codice,
+                    'Codice_Dotazione': 'DIAG001',
+                    'Quantita_Presente': quantita_presente,
+                    'Quantita_Richiesta': quantita_richiesta,
+                    'Stato_Finanziamento': stato_finanziamento,
+                    'Note': note
+                })
 
         # Holter (col 7) - DIAG002
         if len(values) > 7:
             stato = values[7].strip().upper()
-            if 'PRESENTE' in stato or 'FINANZIATO' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG002',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+            stato_finanziamento = None
+            quantita_presente = 0
+            quantita_richiesta = 1
+            note = ''
+
+            if 'PRESENTE' in stato:
+                stato_finanziamento = 'PRESENTE'
+                quantita_presente = 1
+                note = 'Già presente'
+            elif 'FINANZIATO' in stato:
+                stato_finanziamento = 'FINANZIATO'
+                quantita_presente = 0
+                note = 'Già finanziato/ordinato'
             elif 'DA ACQUISTARE' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG002',
-                                'Quantita_Presente': 0, 'Quantita_Richiesta': 1, 'Note': 'Da acquistare'})
+                stato_finanziamento = 'DA_ACQUISTARE'
+                quantita_presente = 0
+                note = 'Da finanziare'
+            elif 'NON RICHIESTO' in stato:
+                stato_finanziamento = None
+
+            if stato_finanziamento:
+                dotazioni.append({
+                    'Codice_Struttura': codice,
+                    'Codice_Dotazione': 'DIAG002',
+                    'Quantita_Presente': quantita_presente,
+                    'Quantita_Richiesta': quantita_richiesta,
+                    'Stato_Finanziamento': stato_finanziamento,
+                    'Note': note
+                })
 
         # Spirometro (col 8) - DIAG003
         if len(values) > 8:
             stato = values[8].strip().upper()
-            if 'PRESENTE' in stato or 'FINANZIATO' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG003',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+            stato_finanziamento = None
+            quantita_presente = 0
+            quantita_richiesta = 1
+            note = ''
+
+            if 'PRESENTE' in stato:
+                stato_finanziamento = 'PRESENTE'
+                quantita_presente = 1
+                note = 'Già presente'
+            elif 'FINANZIATO' in stato:
+                stato_finanziamento = 'FINANZIATO'
+                quantita_presente = 0
+                note = 'Già finanziato/ordinato'
             elif 'DA ACQUISTARE' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG003',
-                                'Quantita_Presente': 0, 'Quantita_Richiesta': 1, 'Note': 'Da acquistare'})
+                stato_finanziamento = 'DA_ACQUISTARE'
+                quantita_presente = 0
+                note = 'Da finanziare'
+            elif 'NON RICHIESTO' in stato:
+                stato_finanziamento = None
+
+            if stato_finanziamento:
+                dotazioni.append({
+                    'Codice_Struttura': codice,
+                    'Codice_Dotazione': 'DIAG003',
+                    'Quantita_Presente': quantita_presente,
+                    'Quantita_Richiesta': quantita_richiesta,
+                    'Stato_Finanziamento': stato_finanziamento,
+                    'Note': note
+                })
 
         # Ecografo (col 10) - DIAG004
         if len(values) > 10:
             stato = values[10].strip().upper()
-            if 'PRESENTE' in stato or 'FINANZIATO' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG004',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+            stato_finanziamento = None
+            quantita_presente = 0
+            quantita_richiesta = 1
+            note = ''
+
+            if 'PRESENTE' in stato:
+                stato_finanziamento = 'PRESENTE'
+                quantita_presente = 1
+                note = 'Già presente'
+            elif 'FINANZIATO' in stato:
+                stato_finanziamento = 'FINANZIATO'
+                quantita_presente = 0
+                note = 'Già finanziato/ordinato'
             elif 'DA ACQUISTARE' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG004',
-                                'Quantita_Presente': 0, 'Quantita_Richiesta': 1, 'Note': 'Da acquistare'})
+                stato_finanziamento = 'DA_ACQUISTARE'
+                quantita_presente = 0
+                note = 'Da finanziare'
+            elif 'NON RICHIESTO' in stato:
+                stato_finanziamento = None
+
+            if stato_finanziamento:
+                dotazioni.append({
+                    'Codice_Struttura': codice,
+                    'Codice_Dotazione': 'DIAG004',
+                    'Quantita_Presente': quantita_presente,
+                    'Quantita_Richiesta': quantita_richiesta,
+                    'Stato_Finanziamento': stato_finanziamento,
+                    'Note': note
+                })
 
         # Monitor (col 12) - DIAG005
         if len(values) > 12:
             stato = values[12].strip().upper()
-            if 'PRESENTE' in stato or 'FINANZIATO' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG005',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+            stato_finanziamento = None
+            quantita_presente = 0
+            quantita_richiesta = 1
+            note = ''
+
+            if 'PRESENTE' in stato:
+                stato_finanziamento = 'PRESENTE'
+                quantita_presente = 1
+                note = 'Già presente'
+            elif 'FINANZIATO' in stato:
+                stato_finanziamento = 'FINANZIATO'
+                quantita_presente = 0
+                note = 'Già finanziato/ordinato'
             elif 'DA ACQUISTARE' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG005',
-                                'Quantita_Presente': 0, 'Quantita_Richiesta': 1, 'Note': 'Da acquistare'})
+                stato_finanziamento = 'DA_ACQUISTARE'
+                quantita_presente = 0
+                note = 'Da finanziare'
+            elif 'NON RICHIESTO' in stato:
+                stato_finanziamento = None
+
+            if stato_finanziamento:
+                dotazioni.append({
+                    'Codice_Struttura': codice,
+                    'Codice_Dotazione': 'DIAG005',
+                    'Quantita_Presente': quantita_presente,
+                    'Quantita_Richiesta': quantita_richiesta,
+                    'Stato_Finanziamento': stato_finanziamento,
+                    'Note': note
+                })
 
     return strutture, dotazioni
 
@@ -189,27 +304,155 @@ def carica_odc_dispositivi():
             })
 
             # SOLO dispositivi ODC: DIAG006-DIAG014
-            # Assegna tutti i dispositivi ODC a ogni struttura ODC
-            dispositivi_odc = [
-                ('DIAG006', 'Defibrillatore/DAE'),
-                ('DIAG007', 'Apparecchio radiologico'),
-                ('DIAG008', 'Emogasanalizzatore'),
-                ('DIAG009', 'POC (Point of Care)'),
-                ('DIAG010', 'Carrello emergenza'),
-                ('DIAG011', 'ECG portatile'),
-                ('DIAG012', 'Spirometro (ODC)'),
-                ('DIAG013', 'Ecografo (ODC)'),
-                ('DIAG014', 'Telemedicina (STANZA)')
-            ]
+            # Leggi stato dispositivi dalle colonne appropriate
 
-            for cod_disp, desc_disp in dispositivi_odc:
-                dotazioni.append({
-                    'Codice_Struttura': codice,
-                    'Codice_Dotazione': cod_disp,
-                    'Quantita_Presente': 0,
-                    'Quantita_Richiesta': 1,
-                    'Note': 'Da acquistare'
-                })
+            # Apparecchio radiologico (col 6) - DIAG007
+            if len(values) > 6:
+                stato = values[6].strip().upper()
+                stato_finanziamento = None
+                if 'PRESENTE' in stato:
+                    stato_finanziamento = 'PRESENTE'
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG007',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': stato_finanziamento, 'Note': 'Già presente'})
+                elif 'FINANZIATO' in stato:
+                    stato_finanziamento = 'FINANZIATO'
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG007',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': stato_finanziamento, 'Note': 'Già finanziato/ordinato'})
+                elif 'DA ACQUISTARE' in stato:
+                    stato_finanziamento = 'DA_ACQUISTARE'
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG007',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': stato_finanziamento, 'Note': 'Da finanziare'})
+
+            # Ecografo (col 7) - DIAG013
+            if len(values) > 7:
+                stato = values[7].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG013',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'PRESENTE', 'Note': 'Già presente'})
+                elif 'FINANZIATO' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG013',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'FINANZIATO', 'Note': 'Già finanziato/ordinato'})
+                elif 'DA ACQUISTARE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG013',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'DA_ACQUISTARE', 'Note': 'Da finanziare'})
+
+            # Carrello emergenza (col 9) - DIAG010
+            if len(values) > 9:
+                stato = values[9].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG010',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'PRESENTE', 'Note': 'Già presente'})
+                elif 'FINANZIATO' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG010',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'FINANZIATO', 'Note': 'Già finanziato/ordinato'})
+                elif 'DA ACQUISTARE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG010',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'DA_ACQUISTARE', 'Note': 'Da finanziare'})
+
+            # Defibrillatore (col 10) - DIAG006
+            if len(values) > 10:
+                stato = values[10].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG006',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'PRESENTE', 'Note': 'Già presente'})
+                elif 'FINANZIATO' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG006',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'FINANZIATO', 'Note': 'Già finanziato/ordinato'})
+                elif 'DA ACQUISTARE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG006',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'DA_ACQUISTARE', 'Note': 'Da finanziare'})
+
+            # Spirometro (col 11) - DIAG012
+            if len(values) > 11:
+                stato = values[11].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG012',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'PRESENTE', 'Note': 'Già presente'})
+                elif 'FINANZIATO' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG012',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'FINANZIATO', 'Note': 'Già finanziato/ordinato'})
+                elif 'DA ACQUISTARE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG012',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'DA_ACQUISTARE', 'Note': 'Da finanziare'})
+
+            # Emogasanalizzatore (col 13) - DIAG008
+            if len(values) > 13:
+                stato = values[13].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG008',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'PRESENTE', 'Note': 'Già presente'})
+                elif 'FINANZIATO' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG008',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'FINANZIATO', 'Note': 'Già finanziato/ordinato'})
+                elif 'DA ACQUISTARE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG008',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'DA_ACQUISTARE', 'Note': 'Da finanziare'})
+
+            # POC (col 14) - DIAG009
+            if len(values) > 14:
+                stato = values[14].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG009',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'PRESENTE', 'Note': 'Già presente'})
+                elif 'FINANZIATO' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG009',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'FINANZIATO', 'Note': 'Già finanziato/ordinato'})
+                elif 'DA ACQUISTARE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG009',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'DA_ACQUISTARE', 'Note': 'Da finanziare'})
+
+            # ECG portatile (col 15) - DIAG011
+            if len(values) > 15:
+                stato = values[15].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG011',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'PRESENTE', 'Note': 'Già presente'})
+                elif 'FINANZIATO' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG011',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'FINANZIATO', 'Note': 'Già finanziato/ordinato'})
+                elif 'DA ACQUISTARE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG011',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'DA_ACQUISTARE', 'Note': 'Da finanziare'})
+
+            # Telemedicina STANZA (col 17) - DIAG014
+            if len(values) > 17:
+                stato = values[17].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG014',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'PRESENTE', 'Note': 'Già presente'})
+                elif 'FINANZIATO' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG014',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'FINANZIATO', 'Note': 'Già finanziato/ordinato'})
+                elif 'DA ACQUISTARE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG014',
+                                    'Quantita_Presente': 0, 'Quantita_Richiesta': 1,
+                                    'Stato_Finanziamento': 'DA_ACQUISTARE', 'Note': 'Da finanziare'})
 
     return strutture, dotazioni
 
@@ -262,7 +505,8 @@ def carica_attrezzature_sanitarie(df_strutture):
                     'Codice_Dotazione': mapping[tecnologia],
                     'Quantita_Presente': 0,  # Da acquistare (file PNRR indica fabbisogno)
                     'Quantita_Richiesta': quantita,
-                    'Note': 'Da acquistare (da file PNRR)'
+                    'Stato_Finanziamento': 'DA_ACQUISTARE',
+                    'Note': 'Da finanziare (da file PNRR)'
                 })
             elif tecnologia in mapping:
                 print(f"  ⚠️  CDC non trovato per: {struttura_nome}")
@@ -314,7 +558,8 @@ def carica_attrezzature_sanitarie(df_strutture):
                     'Codice_Dotazione': mapping[tecnologia],
                     'Quantita_Presente': 0,  # Da acquistare (file PNRR indica fabbisogno)
                     'Quantita_Richiesta': quantita,
-                    'Note': 'Da acquistare (da file PNRR)'
+                    'Stato_Finanziamento': 'DA_ACQUISTARE',
+                    'Note': 'Da finanziare (da file PNRR)'
                 })
             elif tecnologia in mapping:
                 print(f"  ⚠️  ODC non trovato per: {struttura_nome}")
