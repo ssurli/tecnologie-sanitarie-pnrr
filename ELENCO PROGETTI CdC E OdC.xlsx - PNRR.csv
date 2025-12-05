@@ -1,0 +1,46 @@
+ZONA DISTRETTO,DENOMINAZIONE,INDIRIZZO,"TIPOLOGIA
+(Nuova costruzione, Ampliamento, ristrutturazione)",CLASSIFICAZIONE,VALIDATA,TERMINI LAVORO CON COLLAUDO,NOTE
+LUNIGIANA,CdC di PONTREMOLI,"via Mazzini, 44 Pontremoli",Ristrutturazione,SPOKE,NO,15/12/2025,è in corso la redazione della variante 
+APUANE,CdC DI MONTIGNOSO,"Via C. Sforza n.58, Monitignoso (MS)",Demolizione e ricostruzione,SPOKE,SI,31/3/2026,fine lavori prevista per il 07/03/2026
+APUANE,CdC CARRARA CENTRO,"P.zza Sacco e Vanzetti, 5 - Carrara (MS)",Ristrutturazione,SPOKE,SI,31/3/2026,CdC Carrara Centro entra PNRR al posto di Rosignano (Delibera RT n. 286 del 10.03.25). Fine lavori previsto per il 15/12/2025
+VERSILIA,CdC TERMINETTO,"piazza Bonconsiglio, 1 - Località Termitetto -
+Viareggio",Ristrutturazione,SPOKE,NO,15/10/2025,
+VERSILIA,CdC di PIETRASANTA,"Via. Martiri di S.Anna,12, Pietrasanta (LU)",Ristrutturazione,SPOKE,SI,31/10/2025,
+VERSILIA,CdC di CAMAIORE,"via Guglielmo Oberdan, 28 - Camaiore",Ristrutturazione,SPOKE,NO,30/11/2025,
+PIANA DI LUCCA,CdC PESCAGLIA,via Donaldo Mei - Pescaglia,Ristrutturazione,SPOKE,NO,15/09/2025,
+PIANA DI LUCCA,CdC SAN LEONARDO IN TREPONZIO,"Via di Sottomonte n. 398, Località San Leonardo in Treponzio,  Capannori (LU)",Ampliamento,SPOKE,SI,28/11/2025,
+LIVORNESE,CdC COLLESALVETTI,Via Armando Picchi - Collesalvetti,Nuova Costruzione,SPOKE,NO,15/10/2025,Apertura entro 15 /12
+LIVORNESE,CdC LIVORNO EST,"Via Peppino Impastato, 10 -Livorno",Ristrutturazione,SPOKE,SI,30/09/2025,Apertura entro 15 /12
+LIVORNESE,CdC LIVORNO CENTRO,"Via Ernesto Rossi, 46 - Livorno",Ristrutturazione,SPOKE,NO,31/03/2026,
+PISANA,CdC CRESPINA LORENZANA,Località Pian di Laura - crespina Lorenzana,Nuova Costruzione,SPOKE,NO,31/12/2025,è in corso la redazione della variante
+PISANA,CdC VECCHIANO,"Via della Rocca, 26 - Vecchiano",Ristrutturazione,SPOKE,NO,24/03/2025,da effettuare sopralluogo con accreditamento per identificare i servizi necessari che sono emersi come criticità durante la verifica da parte del gruppo di lavoro
+PISANA,CdC CASCINA,"Via Fabrizio De Andre, 43 - Cascina",Ampliamento,HUB,NO,18/12/2025,"E' in corso la Perizia di Variante economica. L afine lavori verrà fatta entro il 18-12-2025, mentre il Collaudo Statico ed il Collaudo Tecnico-Amministrativo avverrà entro il 31-03-2026"
+PISANA,CdC MARINA DI PISA,"Via Flavio Andò, 5 - Pisa",Ristrutturazione ed ampliamento,SPOKE,NO,31/12/2025,E' in corso la redazione di variante e come indicato sul portale Regis la fine dei lavori è prevista per il 31/12/2025 mentre la fine delle fasi di  collaudo è prevista per il 31/03/2026.
+PISANA,CdC SAN GIULIANO TERME,"Via Martin Luther King, 10- San Giuliano Terme",Nuova Costruzione,SPOKE,SI,30/12/2025,come indicato sul portale Regis la fine dei lavori è prevista per il 30/12/2025 mentre la fine delle fasi di  collaudo è prevista per il 31/03/2026.
+PISANA,CdC PISA VIA GARIBALDI,"Via Garibaldi, 198 - Pisa",Ristrutturazione,HUB,NO,31/12/2025,
+ALTA VAL DI CECINA E VALDERA,CdC POMARANCE,"Via Roma, 5, Pomarance (PI)",Ristrutturazione,HUB,SI,30/11/2025,
+ALTA VAL DI CECINA E VALDERA,CdC PONTEDERA,"Via Fleming, 1, Pontedera (PI)",Ristrutturazione ed ampliamento,HUB,SI,31/12/2025,come indicato sul portale Regis la fine dei lavori è prevista per il 31/12/2025 mentre la fine delle fasi di  collaudo è prevista per il 31/03/2026.
+ALTA VAL DI CECINA E VALDERA,CdC VOLTERRA,"Borgo San Lazzaro, 5, Volterra (PI)",Ristrutturazione ed ampliamento,HUB,SI,31/03/2026,
+,,,,,,,
+,,,,,,,
+ALTA VAL DI CECINA E VALDERA,CdC PONSACCO,"Via di Rospicciano, 24",,SPOKE,NO,31/12/2025,
+ELBANA,CdC PORTOFERRAIO,Largo Torchiana - Portoferraio,Ristrutturazione,HUB,NO,31/12/2025,
+BASSA VAL DI CECINA - VAL DI CORNIA,CdC SUVERETO,Località il Logo - Suvereto,Nuova Costruzione,SPOKE,NO,29/03/2026,* = in condivisione con altri medici
+BASSA VAL DI CECINA - VAL DI CORNIA,CdC CECINA,"Via Girolamo Savonarola, 82 - Cecina",Ristrutturazione,HUB,NO,28/02/2026,
+BASSA VAL DI CECINA - VAL DI CORNIA,CdC PIOMBINO,"Via Veneto, Piombino",Ristrutturazione,HUB,NO,31/12/2026,con missione 5 - tempistiche diverse
+,,,,,,,
+,,,,,,,
+ZONA DISTRETTO,DENOMINAZIONE,INDIRIZZO,"TIPOLOGIA 
+ (Nuova costruzione, Ampliamento, ristrutturazione)",CLASSIFICAZIONE,P: L. ,TERMINI LAVORO CON COLLAUDO,NOTE
+APUANE,OdC FOSSONE,"Via Monteverdee 49P, Località Fossone -Carrara (MS)",Ampliamento,Alta complessità assistenziale (Lista D6),21,//,"in Overbooking
+ Attivazione due moduli da 10 e 11 pl. Deoga non applcabile: 20pl"
+APUANE,OdC EX OSPEDALE MASSA,P.zza 4 novembre (MS),Nuova realizzazione,Medio-bassa complessità assistenziale (Lista D7),20,2/2/2026,Probabile ucita da PNRR
+LIVORNESE,OdC PADIGLIONE 5,"Viale Alfieri, 36 - Livorno",Ristrutturazione,Alta complessità assistenziale (Lista D6),20,31/3/2026,
+,,,,Medio-bassa complessità assistenziale (Lista D7),20,,
+BASSA VAL DI CECINA - VAL DI CORNIA,OdC CECINA,"Via Montanara, 52 - Cecina",Ristrutturazione,Alta complessità assistenziale (Lista D6),16,31/10/2025,OdC Rosignano uscito da PNRR
+,OdC PIOMBINO,"Via Carlo Forlanini, 24 - Piombino",Ristrutturazione,Medio-bassa complessità assistenziale (Lista D7),20,31/12/2025,
+VERSILIA,OdC TABARACCI,"Via Fratti, 530-Viareggio (LU)",Ristrutturazione,Alta complessità assistenziale (Lista D6),18,31/3/2026,
+,,,,Medio-bassa complessità assistenziale (Lista D7),18,,
+VALLE DEL SERCHIO,OdC BARGA,"Via dei Frati, 1-Barga",Nuova realizzazione,Alta complessità assistenziale (Lista D6),20,31/12/2025,
+PIANA DI LUCCA,OdC CAMPO DI MARTE,"Via Ospedale, 1- Lucca",Ristrutturazione,Alta complessità assistenziale (Lista D6),20,31/3/2026,
+,,,,Medio-bassa complessità assistenziale (Lista D7),20,,
