@@ -1,20 +1,25 @@
-Categoria,Codice,Descrizione,Costo_Unitario_EUR
-Dispositivi Diagnostici,DIAG001,ECG (Elettrocardiografo),3000.00
-Dispositivi Diagnostici,DIAG002,Holter ECG 24h,2500.00
-Dispositivi Diagnostici,DIAG003,Spirometro,1800.00
-Dispositivi Diagnostici,DIAG004,Ecografo portatile,15000.00
-Dispositivi Diagnostici,DIAG005,Monitor multiparametrico,4500.00
-Dispositivi Diagnostici,DIAG006,Defibrillatore/DAE,1500.00
-Dispositivi Diagnostici,DIAG007,Apparecchio radiologico,100000.00
-Dispositivi Diagnostici,DIAG008,Emogasanalizzatore,20000.00
-Dispositivi Diagnostici,DIAG009,POC (Point of Care),10000.00
-Dispositivi Diagnostici,DIAG010,Carrello emergenza,800.00
-Attrezzature Sanitarie,ATTR001,Lettino visita elettrico,848.00
-Attrezzature Sanitarie,ATTR002,Lettino ginecologico,1766.61
-Attrezzature Sanitarie,ATTR003,Letto degenza elettrico,1723.13
-Attrezzature Sanitarie,ATTR004,DAE con aspiratore,1500.00
-Attrezzature Sanitarie,ATTR005,Lampada visita,1200.00
-Attrezzature Sanitarie,ATTR006,Frigofarmaco,3000.00
-Attrezzature Sanitarie,ATTR007,Lavapadelle,5048.34
-Attrezzature Sanitarie,ATTR008,Vuotatorio,1868.14
-Attrezzature Sanitarie,ATTR009,Sollevatore/Sollevapazienti,4680.00
+Categoria,Codice,Descrizione,Costo_Unitario_EUR,Applicabile_A
+Dispositivi Diagnostici,DIAG001,ECG (Elettrocardiografo),3000.00,CDC
+Dispositivi Diagnostici,DIAG002,Holter cardiaco,2000.00,CDC
+Dispositivi Diagnostici,DIAG003,Spirometro,2500.00,CDC
+Dispositivi Diagnostici,DIAG004,Ecografo portatile,30000.00,CDC
+Dispositivi Diagnostici,DIAG005,Monitor multiparametrico,1600.00,CDC
+Dispositivi Diagnostici,DIAG006,Defibrillatore/DAE,1500.00,ODC
+Dispositivi Diagnostici,DIAG007,Apparecchio radiologico,15000.00,ODC
+Dispositivi Diagnostici,DIAG008,Emogasanalizzatore,1000.00,ODC
+Dispositivi Diagnostici,DIAG009,POC (Point of Care),5000.00,ODC
+Dispositivi Diagnostici,DIAG010,Carrello emergenza,800.00,ODC
+Dispositivi Diagnostici,DIAG011,ECG portatile,3000.00,ODC
+Dispositivi Diagnostici,DIAG012,Spirometro (ODC),2500.00,ODC
+Dispositivi Diagnostici,DIAG013,Ecografo (ODC),30000.00,ODC
+Dispositivi Diagnostici,DIAG014,Telemedicina (STANZA),10000.00,ODC
+Attrezzature Sanitarie,ATTR001,Lettino visita elettrico,848.00,COMUNE
+Attrezzature Sanitarie,ATTR002,Lettino ginecologico,1766.61,COMUNE
+Attrezzature Sanitarie,ATTR003,Letto degenza elettrico,1723.13,COMUNE
+Attrezzature Sanitarie,ATTR004,DAE con aspiratore,1500.00,COMUNE
+Attrezzature Sanitarie,ATTR005,Lampada visita,1200.00,COMUNE
+Attrezzature Sanitarie,ATTR006,Frigofarmaco,3000.00,COMUNE
+Attrezzature Sanitarie,ATTR007,Lavapadelle,5048.34,COMUNE
+Attrezzature Sanitarie,ATTR008,Vuotatorio,1868.14,COMUNE
+Attrezzature Sanitarie,ATTR009,Sollevatore/Sollevapazienti,4680.00,COMUNE
+Attrezzature Sanitarie,ATTR010,Riunito oculistico completo,20000.00,COMUNE

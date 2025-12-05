@@ -69,7 +69,7 @@ def pagina_riepilogo_generale(df_strutture, df_catalogo, df_dotazioni, df_fabbis
     """Pagina riepilogo generale"""
     st.header("📊 Riepilogo Generale")
 
-    # KPI principali
+    # KPI principali - prima riga
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
@@ -87,6 +87,28 @@ def pagina_riepilogo_generale(df_strutture, df_catalogo, df_dotazioni, df_fabbis
     with col4:
         fabbisogno_totale = df_fabbisogno['Costo_Totale'].sum()
         st.metric("Fabbisogno Totale", f"€{fabbisogno_totale:,.2f}")
+
+    # KPI PNRR vs non-PNRR - seconda riga
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        n_pnrr = len(df_strutture[df_strutture['PNRR'] == 'SI'])
+        st.metric("🎯 Strutture PNRR", n_pnrr, delta=f"{n_pnrr/len(df_strutture)*100:.1f}%")
+
+    with col2:
+        n_non_pnrr = len(df_strutture[df_strutture['PNRR'] == 'NO'])
+        st.metric("📍 Strutture non-PNRR", n_non_pnrr, delta=f"{n_non_pnrr/len(df_strutture)*100:.1f}%")
+
+    with col3:
+        # Merge per ottenere PNRR dalle strutture
+        df_fabb_strutt = df_fabbisogno.merge(df_strutture[['Codice', 'PNRR']],
+                                              left_on='Codice_Struttura', right_on='Codice', how='left')
+        fabb_pnrr = df_fabb_strutt[df_fabb_strutt['PNRR'] == 'SI']['Costo_Totale'].sum()
+        st.metric("💰 Fabbisogno PNRR", f"€{fabb_pnrr:,.2f}")
+
+    with col4:
+        fabb_non_pnrr = df_fabb_strutt[df_fabb_strutt['PNRR'] == 'NO']['Costo_Totale'].sum()
+        st.metric("💰 Fabbisogno non-PNRR", f"€{fabb_non_pnrr:,.2f}")
 
     st.divider()
 
