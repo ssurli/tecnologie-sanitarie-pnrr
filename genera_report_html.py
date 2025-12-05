@@ -111,11 +111,11 @@ def genera_html_report():
         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5)
     )
 
-    # GRAFICO 3: Bar chart fabbisogno per dotazione - IDENTICO A DASHBOARD
+    # GRAFICO 3: Bar chart fabbisogno per dotazione
     df_fabb_dot = df_da_acq.groupby('Descrizione').agg({
         'Quantita_Da_Acquistare': 'sum',
         'Costo_Totale': 'sum'
-    }).reset_index().sort_values('Costo_Totale', ascending=False).head(10)
+    }).reset_index().sort_values('Costo_Totale', ascending=True).head(10)  # ascending=True per avere valori alti in alto
 
     fig_bar = px.bar(
         df_fabb_dot,
@@ -128,9 +128,9 @@ def genera_html_report():
     )
     fig_bar.update_traces(texttemplate='€%{text:,.0f}', textposition='outside')
     fig_bar.update_layout(
-        yaxis={'categoryorder': 'total ascending'},
         height=500,
-        showlegend=False
+        showlegend=False,
+        yaxis={'categoryorder': 'array', 'categoryarray': df_fabb_dot['Descrizione'].tolist()}
     )
 
     # Genera HTML
