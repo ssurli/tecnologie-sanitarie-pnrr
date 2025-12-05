@@ -113,6 +113,28 @@ def carica_cdc_dispositivi():
                 dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG005',
                                 'Quantita_Presente': 0, 'Quantita_Richiesta': 1, 'Note': 'Da acquistare'})
 
+        # Aggiungi nuovi dispositivi diagnostici richiesti (non presenti nel file originale)
+        # Defibrillatore/DAE
+        dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG006',
+                        'Quantita_Presente': 0, 'Quantita_Richiesta': 1, 'Note': 'Da acquistare'})
+
+        # Apparecchio radiologico (solo per Hub)
+        if tipologia == 'Hub':
+            dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG007',
+                            'Quantita_Presente': 0, 'Quantita_Richiesta': 1, 'Note': 'Da acquistare - Hub'})
+
+        # Emogasanalizzatore
+        dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG008',
+                        'Quantita_Presente': 0, 'Quantita_Richiesta': 1, 'Note': 'Da acquistare'})
+
+        # POC (Point of Care)
+        dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG009',
+                        'Quantita_Presente': 0, 'Quantita_Richiesta': 1, 'Note': 'Da acquistare'})
+
+        # Carrello emergenza
+        dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG010',
+                        'Quantita_Presente': 0, 'Quantita_Richiesta': 1, 'Note': 'Da acquistare'})
+
     return strutture, dotazioni
 
 def carica_odc_dispositivi():
