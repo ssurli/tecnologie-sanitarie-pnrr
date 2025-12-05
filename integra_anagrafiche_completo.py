@@ -120,116 +120,129 @@ def carica_odc_dispositivi():
     strutture = []
     dotazioni = []
 
+    # Usa csv.reader per gestire correttamente le celle multi-riga
     with open('ODC_CE_1_claude.csv', 'r', encoding='latin-1') as f:
-        lines = f.readlines()
+        # Salta le righe di intestazione iniziali
+        for _ in range(10):
+            next(f)
 
-    # Trova header
-    header_idx = None
-    for i, line in enumerate(lines):
-        if 'Zona;STRUTTURA' in line:
-            header_idx = i
-            break
+        reader = csv.reader(f, delimiter=';')
 
-    if header_idx is None:
-        print("❌ Header non trovato in ODC file")
-        return [], []
+        for values in reader:
+            if len(values) < 2:
+                continue
 
-    # Parse dati
-    for i in range(header_idx + 1, len(lines)):
-        line = lines[i].strip()
-        if not line:
-            continue
+            zona = values[0].strip() if len(values) > 0 else ''
+            struttura_raw = values[1].strip() if len(values) > 1 else ''
 
-        values = line.split(';')
-        if len(values) < 2:
-            continue
+            if not struttura_raw or not zona:
+                continue
 
-        zona = values[0].strip() if len(values) > 0 else ''
-        struttura_raw = values[1].strip() if len(values) > 1 else ''
+            # Salta l'header se presente
+            if 'STRUTTURA' in struttura_raw.upper() and 'POSTI LETTO' in str(values[2]).upper():
+                continue
 
-        if not struttura_raw:
-            continue
+            # Pulisci il nome
+            nome_pulito = struttura_raw.replace('\n', ' ').replace('  ', ' ')
+            nome_pulito = nome_pulito.replace("OSPEDALE DI COMUNITA' DI ", '')
+            nome_pulito = nome_pulito.replace("OSPEDALE DI COMUNITA' ", '')
+            nome_pulito = nome_pulito.replace("OSPEDALE DI COMUNITA ", '')
+            nome_pulito = nome_pulito.replace('CURE INTERMEDIE ', '')
 
-        nome_pulito = struttura_raw.replace('\n', ' ').replace('  ', ' ')
-        nome_pulito = nome_pulito.replace("OSPEDALE DI COMUNITA' DI ", '')
-        nome_pulito = nome_pulito.replace('CURE INTERMEDIE ', '')
-        nome_pulito = nome_pulito.split('\n')[0] if '\n' in nome_pulito else nome_pulito
+            # Rimuovi virgolette
+            nome_pulito = nome_pulito.strip('"').strip()
 
-        posti_letto = values[2].strip() if len(values) > 2 else ''
-        pnrr = values[4].strip().upper() if len(values) > 4 else ''
+            # Estrai solo il nome principale rimuovendo indirizzo
+            # Se contiene indirizzo (Via, P.zza, etc.) prendi solo la prima parte
+            if any(ind in nome_pulito for ind in ['P.zza', 'Via', 'Viale', 'Piazza']):
+                # Prendi tutto prima dell'indirizzo
+                for ind in ['P.zza', 'Via', 'Viale', 'Piazza', 'Largo']:
+                    if ind in nome_pulito:
+                        nome_pulito = nome_pulito.split(ind)[0].strip()
+                        break
 
-        codice = f"ODC{len(strutture)+1:03d}"
+            # Se contiene località tra parentesi, estrai
+            if '(' in nome_pulito:
+                # Es: "MASSA P.zza 4 Novembre (MS)" -> "MASSA"
+                # Ma mantieni es: "LE PIANE (DETTA VILLETTA)"
+                if not 'DETTA' in nome_pulito.upper():
+                    nome_pulito = nome_pulito.split('(')[0].strip()
 
-        strutture.append({
-            'Tipologia': 'OdC',
-            'Codice': codice,
-            'Nome_Struttura': f"OdC {nome_pulito}",
-            'Zona': zona,
-            'Classificazione': '',
-            'Comune': nome_pulito.split('-')[0].strip() if '-' in nome_pulito else nome_pulito,
-            'Provincia': '',
-            'Indirizzo': '',
-            'CAP': '',
-            'PNRR': 'SI' if pnrr in ['X', 'PNRR', 'SI'] else 'NO',
-            'Posti_Letto': posti_letto
-        })
+            posti_letto = values[2].strip() if len(values) > 2 else ''
+            pnrr = values[4].strip().upper() if len(values) > 4 else ''
 
-        # Dispositivi diagnostici ODC
-        # apparecchio radiologico (col 6)
-        if len(values) > 6:
-            stato = values[6].strip().upper()
-            if 'PRESENTE' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG007',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+            codice = f"ODC{len(strutture)+1:03d}"
 
-        # ECOGRAFO (col 7)
-        if len(values) > 7:
-            stato = values[7].strip().upper()
-            if 'PRESENTE' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG004',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+            strutture.append({
+                'Tipologia': 'OdC',
+                'Codice': codice,
+                'Nome_Struttura': f"OdC {nome_pulito}",
+                'Zona': zona,
+                'Classificazione': '',
+                'Comune': nome_pulito.split('-')[0].split('(')[0].strip(),
+                'Provincia': '',
+                'Indirizzo': '',
+                'CAP': '',
+                'PNRR': 'SI' if pnrr in ['X', 'PNRR', 'SI'] else 'NO',
+                'Posti_Letto': posti_letto
+            })
 
-        # carrello emergenza (col 9)
-        if len(values) > 9:
-            stato = values[9].strip().upper()
-            if 'PRESENTE' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG010',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+            # Dispositivi diagnostici ODC
+            # apparecchio radiologico (col 6)
+            if len(values) > 6:
+                stato = values[6].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG007',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
 
-        # defibrillatore (col 10)
-        if len(values) > 10:
-            stato = values[10].strip().upper()
-            if 'PRESENTE' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG006',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+            # ECOGRAFO (col 7)
+            if len(values) > 7:
+                stato = values[7].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG004',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
 
-        # SPIROMETRO (col 11)
-        if len(values) > 11:
-            stato = values[11].strip().upper()
-            if 'PRESENTE' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG003',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+            # carrello emergenza (col 9)
+            if len(values) > 9:
+                stato = values[9].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG010',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
 
-        # emogasanalizzatore (col 13)
-        if len(values) > 13:
-            stato = values[13].strip().upper()
-            if 'PRESENTE' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG008',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+            # defibrillatore (col 10)
+            if len(values) > 10:
+                stato = values[10].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG006',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
 
-        # POC (col 14)
-        if len(values) > 14:
-            stato = values[14].strip().upper()
-            if 'PRESENTE' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG009',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+            # SPIROMETRO (col 11)
+            if len(values) > 11:
+                stato = values[11].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG003',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
 
-        # ECG portatile (col 15)
-        if len(values) > 15:
-            stato = values[15].strip().upper()
-            if 'PRESENTE' in stato:
-                dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG001',
-                                'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+            # emogasanalizzatore (col 13)
+            if len(values) > 13:
+                stato = values[13].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG008',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+
+            # POC (col 14)
+            if len(values) > 14:
+                stato = values[14].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG009',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
+
+            # ECG portatile (col 15)
+            if len(values) > 15:
+                stato = values[15].strip().upper()
+                if 'PRESENTE' in stato:
+                    dotazioni.append({'Codice_Struttura': codice, 'Codice_Dotazione': 'DIAG001',
+                                    'Quantita_Presente': 1, 'Quantita_Richiesta': 1, 'Note': 'Presente'})
 
     return strutture, dotazioni
 

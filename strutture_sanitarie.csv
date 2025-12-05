@@ -52,27 +52,15 @@ CdC,CDC050,CdC Piombino-Via Veneto,Valli Etrusche,Hub,Piombino-Via Veneto,,Via V
 CdC,CDC051,CdC Donoratico,Valli Etrusche,Spoke,Donoratico,,Piazza Euopoa,,NO,
 CdC,CDC052,CdC San Vincenzo,Valli Etrusche,Spoke,San Vincenzo,,Piazza Papa Giovanni 23,,NO,
 CdC,CDC053,CdC Venturina,Valli Etrusche,Spoke,Venturina,,Via del lavoro 1/f,,NO,
-OdC,ODC001,"OdC ""MASSA",Apuane,,"""MASSA",,,,NO,
-OdC,ODC002,OdC 20,"P.zza 4 Novembre (MS)""",,20,,,,NO,1
-OdC,ODC003,"OdC ""FOSSONE -CARRARA",Apuane,,"""FOSSONE",,,,NO,
-OdC,ODC004,OdC 20,"Carrara (MS) Piazza Sacco e Vanzetti 1""",,20,,,,NO,1
-OdC,ODC005,"OdC ""BIENTINA",Alta val di Cecina - Valdera,,"""BIENTINA",,,,NO,
-OdC,ODC006,OdC 40,"Bientina (PI) Via Don Falaschi snc""",,40,,,,NO,2
-OdC,ODC007,"OdC ""SANTA MARIA MADDALENA DI VOLTERRA",Alta val di Cecina - Valdera,,"""SANTA MARIA MADDALENA DI VOLTERRA",,,,NO,
-OdC,ODC008,OdC 18,"Volterra (PI) Borgo San Lazzaro 5""",,18,,,,NO,1
-OdC,ODC009,"OdC ""OSPEDALE DI COMUNITA PORTOFERRAIO",Elba,,"""OSPEDALE DI COMUNITA PORTOFERRAIO",,,,NO,
-OdC,ODC010,OdC 8,"Via S.Rocco, Portoferraio (LI)""",,8,,,,NO,2
-OdC,ODC011,"OdC ""OSPEDALE DI COMUNITA' PADIGLIONE 5",Livornese,,"""OSPEDALE DI COMUNITA' PADIGLIONE 5",,,,NO,
-OdC,ODC012,OdC 40,"Livorno (LI) Viale Alfieri 36""",,40,,,,NO,20 da 1 e 20 da 2
-OdC,ODC013,"OdC ""CAMPO DI MARTE",Piana Lucca,,"""CAMPO DI MARTE",,,,NO,
-OdC,ODC014,OdC 40,"Lucca (LU) Via Ospedale, 1""",,40,,,,NO,20 da 1 e 20 da 2
-OdC,ODC015,"OdC ""OSPEDALE DI COMUNITA CECINA",Valli Etrusche,,"""OSPEDALE DI COMUNITA CECINA",,,,NO,
-OdC,ODC016,OdC 16,"Cecina (LI) Via Montanara, 52""",,16,,,,NO,1
-OdC,ODC017,"OdC ""OSPEDALE DI COMUNITA PIOMBINO",Valli Etrusche,,"""OSPEDALE DI COMUNITA PIOMBINO",,,,NO,
-OdC,ODC018,OdC 20,"Piombino (LI) Via Carlo Forlanini, 24""",,20,,,,NO,2
-OdC,ODC019,"OdC ""OSPEDALE DI COMUNITA' BARGA",Valle del Serchio,,"""OSPEDALE DI COMUNITA' BARGA",,,,NO,
-OdC,ODC020,OdC 20,"Barga (LU) Via dei Frati 1""",,20,,,,NO,1
-OdC,ODC021,"OdC ""LE PIANE (DETTA VILLETTA)",Valle del Serchio,,"""LE PIANE (DETTA VILLETTA)",,,,NO,
-OdC,ODC022,OdC 8,"San Romano Garfagnana (LU) Via delle Piane """,,8,,,,NO,2
-OdC,ODC023,"OdC ""OSPEDALE DI COMUNITA' TABARRACCI",Versilia,,"""OSPEDALE DI COMUNITA' TABARRACCI",,,,NO,
-OdC,ODC024,OdC 36,"Viareggio (LU) Via Fratti 530""",,36,,,,NO,20 da 1 e 20 da 2
+OdC,ODC001,OdC MASSA,Apuane,,MASSA,,,,SI,20
+OdC,ODC002,OdC FOSSONE -CARRARA Carrara,Apuane,,FOSSONE,,,,NO,20
+OdC,ODC003,OdC BIENTINA Bientina,Alta val di Cecina - Valdera,,BIENTINA Bientina,,,,NO,40
+OdC,ODC004,OdC SANTA MARIA MADDALENA DI VOLTERRA Volterra,Alta val di Cecina - Valdera,,SANTA MARIA MADDALENA DI VOLTERRA Volterra,,,,NO,18
+OdC,ODC005,OdC OSPEDALE DI COMUNITA PORTOFERRAIO,Elba,,OSPEDALE DI COMUNITA PORTOFERRAIO,,,,NO,8
+OdC,ODC006,OdC PADIGLIONE 5 Livorno,Livornese,,PADIGLIONE 5 Livorno,,,,SI,40
+OdC,ODC007,OdC CAMPO DI MARTE Lucca,Piana Lucca,,CAMPO DI MARTE Lucca,,,,SI,40
+OdC,ODC008,OdC OSPEDALE DI COMUNITA CECINA Cecina,Valli Etrusche,,OSPEDALE DI COMUNITA CECINA Cecina,,,,SI,16
+OdC,ODC009,OdC OSPEDALE DI COMUNITA PIOMBINO Piombino,Valli Etrusche,,OSPEDALE DI COMUNITA PIOMBINO Piombino,,,,SI,20
+OdC,ODC010,OdC BARGA Barga,Valle del Serchio,,BARGA Barga,,,,SI,20
+OdC,ODC011,OdC LE PIANE (DETTA VILLETTA) San Romano Garfagnana (LU),Valle del Serchio,,LE PIANE,,,,NO,8
+OdC,ODC012,OdC TABARRACCI,Versilia,,TABARRACCI,,,,SI,36
