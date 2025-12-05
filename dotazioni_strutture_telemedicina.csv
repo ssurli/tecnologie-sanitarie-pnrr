@@ -1,0 +1,109 @@
+Codice_Struttura,Codice_Dotazione,Quantita_Presente,Quantita_Richiesta,Note
+CDC001,DIAG001,0,1,Da acquistare
+CDC001,DIAG002,0,1,Da acquistare
+CDC001,DIAG003,0,1,Da acquistare
+CDC001,DIAG005,0,1,Da acquistare
+CDC001,ATTR001,1,2,Integrare dotazione
+CDC001,ATTR004,0,1,Da acquistare
+CDC001,ATTR005,0,1,Da acquistare
+CDC001,ATTR006,0,1,Da acquistare
+CDC002,DIAG001,0,1,Da acquistare
+CDC002,DIAG003,0,1,Da acquistare
+CDC002,ATTR001,9,9,Completo
+CDC002,ATTR004,0,1,Da acquistare
+CDC003,DIAG001,0,1,Da acquistare
+CDC003,DIAG005,0,1,Da acquistare
+CDC003,ATTR001,16,16,Completo
+CDC003,ATTR006,0,1,Da acquistare
+CDC004,DIAG001,0,2,Da acquistare
+CDC004,DIAG002,0,1,Da acquistare
+CDC004,DIAG003,0,2,Da acquistare
+CDC004,DIAG004,0,1,Da acquistare
+CDC004,DIAG005,0,2,Da acquistare
+CDC004,ATTR001,40,40,Completo
+CDC004,ATTR004,0,2,Da acquistare
+CDC004,ATTR006,0,2,Da acquistare
+CDC005,DIAG001,0,1,Da acquistare
+CDC005,ATTR001,2,2,Completo
+CDC005,ATTR006,1,1,Completo
+CDC006,DIAG001,0,1,Da acquistare
+CDC006,ATTR001,2,2,Completo
+CDC007,DIAG001,0,1,Da acquistare
+CDC007,DIAG003,0,1,Da acquistare
+CDC007,DIAG005,0,1,Da acquistare
+CDC007,ATTR001,3,3,Completo
+CDC007,ATTR004,1,1,Completo
+CDC007,ATTR005,1,1,Completo
+CDC007,ATTR006,1,1,Completo
+CDC008,DIAG001,0,1,Da acquistare
+CDC008,DIAG002,0,1,Da acquistare
+CDC008,DIAG005,0,1,Da acquistare
+CDC008,ATTR001,8,8,Completo
+CDC008,ATTR006,0,1,Da acquistare
+CDC009,DIAG001,0,1,Da acquistare
+CDC009,ATTR001,6,6,Completo
+CDC010,DIAG001,0,1,Da acquistare
+CDC010,ATTR001,4,4,Completo
+CDC011,DIAG001,0,1,Da acquistare
+CDC011,ATTR001,5,5,Completo
+CDC012,DIAG001,0,1,Da acquistare
+CDC012,DIAG003,0,1,Da acquistare
+CDC012,ATTR001,11,11,Completo
+CDC013,DIAG001,0,1,Da acquistare
+CDC013,ATTR001,4,4,Completo
+CDC013,ATTR002,2,2,Completo
+CDC014,DIAG001,0,1,Da acquistare
+CDC014,DIAG002,0,1,Da acquistare
+CDC014,ATTR001,16,16,Completo
+CDC015,DIAG001,0,1,Da acquistare
+CDC015,ATTR001,4,4,Completo
+CDC015,ATTR002,1,1,Completo
+CDC016,DIAG001,0,1,Da acquistare
+CDC016,DIAG004,0,1,Da acquistare
+CDC016,ATTR001,10,10,Completo
+CDC016,ATTR002,2,2,Completo
+CDC017,DIAG001,0,1,Da acquistare
+CDC017,ATTR001,4,4,Completo
+CDC017,ATTR002,1,1,Completo
+ODC001,DIAG001,1,2,Integrare dotazione
+ODC001,DIAG002,0,2,Da acquistare
+ODC001,DIAG003,0,2,Da acquistare
+ODC001,DIAG004,0,1,Da acquistare
+ODC001,DIAG005,0,3,Da acquistare
+ODC001,ATTR001,0,2,Da acquistare
+ODC001,ATTR003,36,36,Completo
+ODC001,ATTR004,1,2,Integrare dotazione
+ODC001,ATTR006,1,2,Integrare dotazione
+ODC001,ATTR007,2,2,Completo
+ODC001,ATTR008,2,2,Completo
+ODC001,ATTR009,2,2,Completo
+ODC002,DIAG001,0,1,Da acquistare
+ODC002,DIAG002,0,1,Da acquistare
+ODC002,DIAG003,0,1,Da acquistare
+ODC002,DIAG005,0,2,Da acquistare
+ODC002,ATTR001,0,1,Da acquistare
+ODC002,ATTR003,20,20,Completo
+ODC002,ATTR006,1,1,Completo
+ODC002,ATTR007,1,1,Completo
+ODC002,ATTR008,1,1,Completo
+ODC002,ATTR009,1,1,Completo
+ODC003,DIAG001,1,1,Completo
+ODC003,DIAG003,0,1,Da acquistare
+ODC003,DIAG005,0,1,Da acquistare
+ODC003,ATTR001,0,1,Da acquistare
+ODC003,ATTR003,8,8,Completo
+ODC003,ATTR004,0,1,Da acquistare
+ODC003,ATTR006,1,1,Completo
+ODC003,ATTR007,1,1,Completo
+ODC004,DIAG001,0,1,Da acquistare
+ODC004,DIAG005,0,1,Da acquistare
+ODC004,ATTR003,5,5,Completo
+ODC005,DIAG001,0,1,Da acquistare
+ODC005,DIAG002,0,1,Da acquistare
+ODC005,DIAG003,0,1,Da acquistare
+ODC005,DIAG004,0,1,Da acquistare
+ODC005,DIAG005,0,2,Da acquistare
+ODC005,ATTR003,20,20,Completo
+ODC005,ATTR007,1,1,Completo
+ODC005,ATTR008,1,1,Completo
+ODC005,ATTR009,1,1,Completo
