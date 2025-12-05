@@ -228,4 +228,78 @@ CDC053,DIAG002,1,1,Presente
 CDC053,DIAG003,1,1,Presente
 CDC053,DIAG004,1,1,Presente
 CDC053,DIAG005,1,1,Presente
-ODC012,ATTR004,1,1,Presente
+ODC002,DIAG007,1,1,Presente
+ODC002,DIAG010,1,1,Presente
+ODC002,DIAG009,1,1,Presente
+ODC004,DIAG007,1,1,Presente
+ODC004,DIAG010,1,1,Presente
+ODC004,DIAG009,1,1,Presente
+ODC006,DIAG007,1,1,Presente
+ODC006,DIAG010,1,1,Presente
+ODC006,DIAG008,1,1,Presente
+ODC006,DIAG009,1,1,Presente
+ODC008,DIAG007,1,1,Presente
+ODC008,DIAG010,1,1,Presente
+ODC008,DIAG009,1,1,Presente
+ODC010,DIAG007,1,1,Presente
+ODC010,DIAG010,1,1,Presente
+ODC010,DIAG009,1,1,Presente
+ODC012,DIAG007,1,1,Presente
+ODC012,DIAG010,1,1,Presente
+ODC012,DIAG006,1,1,Presente
+ODC012,DIAG009,1,1,Presente
+ODC014,DIAG007,1,1,Presente
+ODC014,DIAG010,1,1,Presente
+ODC014,DIAG009,1,1,Presente
+ODC016,DIAG007,1,1,Presente
+ODC016,DIAG010,1,1,Presente
+ODC016,DIAG009,1,1,Presente
+ODC018,DIAG007,1,1,Presente
+ODC018,DIAG010,1,1,Presente
+ODC018,DIAG009,1,1,Presente
+ODC022,DIAG010,1,1,Presente
+ODC022,DIAG008,1,1,Presente
+ODC022,DIAG009,1,1,Presente
+CDC006,ATTR001,1,1,Presente (da file PNRR)
+CDC002,ATTR001,9,9,Presente (da file PNRR)
+CDC005,ATTR001,16,16,Presente (da file PNRR)
+CDC004,ATTR001,40,40,Presente (da file PNRR)
+CDC018,ATTR001,2,2,Presente (da file PNRR)
+CDC017,ATTR001,3,3,Presente (da file PNRR)
+CDC027,ATTR001,8,8,Presente (da file PNRR)
+CDC030,ATTR001,6,6,Presente (da file PNRR)
+CDC026,ATTR001,5,5,Presente (da file PNRR)
+CDC033,ATTR001,11,11,Presente (da file PNRR)
+CDC032,ATTR001,4,4,Presente (da file PNRR)
+CDC031,ATTR001,16,16,Presente (da file PNRR)
+CDC029,ATTR001,4,4,Presente (da file PNRR)
+CDC044,ATTR001,10,10,Presente (da file PNRR)
+CDC049,ATTR001,4,4,Presente (da file PNRR)
+CDC017,ATTR004,1,1,Presente (da file PNRR)
+CDC032,ATTR002,2,2,Presente (da file PNRR)
+CDC029,ATTR002,1,1,Presente (da file PNRR)
+CDC044,ATTR002,2,2,Presente (da file PNRR)
+CDC049,ATTR002,1,1,Presente (da file PNRR)
+CDC017,ATTR005,1,1,Presente (da file PNRR)
+CDC017,ATTR006,1,1,Presente (da file PNRR)
+ODC001,ATTR003,36,36,Presente (da file PNRR)
+ODC001,ATTR003,20,20,Presente (da file PNRR)
+ODC001,ATTR003,8,8,Presente (da file PNRR)
+ODC001,ATTR003,5,5,Presente (da file PNRR)
+ODC001,ATTR003,20,20,Presente (da file PNRR)
+ODC001,DIAG001,1,1,Presente (da file PNRR)
+ODC001,DIAG001,1,1,Presente (da file PNRR)
+ODC001,ATTR006,1,1,Presente (da file PNRR)
+ODC001,ATTR006,1,1,Presente (da file PNRR)
+ODC001,ATTR006,1,1,Presente (da file PNRR)
+ODC001,ATTR004,1,1,Presente (da file PNRR)
+ODC001,ATTR007,2,2,Presente (da file PNRR)
+ODC001,ATTR007,1,1,Presente (da file PNRR)
+ODC001,ATTR007,1,1,Presente (da file PNRR)
+ODC001,ATTR007,1,1,Presente (da file PNRR)
+ODC001,ATTR008,2,2,Presente (da file PNRR)
+ODC001,ATTR008,1,1,Presente (da file PNRR)
+ODC001,ATTR008,1,1,Presente (da file PNRR)
+ODC001,ATTR009,2,2,Presente (da file PNRR)
+ODC001,ATTR009,1,1,Presente (da file PNRR)
+ODC001,ATTR009,1,1,Presente (da file PNRR)
