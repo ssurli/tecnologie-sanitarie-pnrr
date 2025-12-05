@@ -111,31 +111,24 @@ def genera_html_report():
         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5)
     )
 
-    # GRAFICO 3: Bar chart fabbisogno per dotazione (FIX: mostra valori sulle barre)
+    # GRAFICO 3: Bar chart fabbisogno per dotazione - IDENTICO A DASHBOARD
     df_fabb_dot = df_da_acq.groupby('Descrizione').agg({
         'Quantita_Da_Acquistare': 'sum',
         'Costo_Totale': 'sum'
     }).reset_index().sort_values('Costo_Totale', ascending=False).head(10)
 
-    # Pre-formatto i valori come stringhe
-    df_fabb_dot['Testo_Costo'] = df_fabb_dot['Costo_Totale'].apply(lambda x: f'€{x:,.0f}')
-
     fig_bar = px.bar(
         df_fabb_dot,
-        y='Descrizione',
         x='Costo_Totale',
+        y='Descrizione',
         orientation='h',
-        title='Top 10 Dotazioni per Fabbisogno',
+        title='Top 10 Dotazioni per Costo Totale',
         labels={'Costo_Totale': 'Costo Totale (€)', 'Descrizione': 'Dotazione'},
-        color='Costo_Totale',
-        color_continuous_scale='Reds',
-        text='Testo_Costo'  # Uso il testo già formattato
+        text='Costo_Totale'
     )
-    # Posiziono il testo fuori dalle barre
-    fig_bar.update_traces(
-        textposition='outside'
-    )
+    fig_bar.update_traces(texttemplate='€%{text:,.0f}', textposition='outside')
     fig_bar.update_layout(
+        yaxis={'categoryorder': 'total ascending'},
         height=500,
         showlegend=False
     )
