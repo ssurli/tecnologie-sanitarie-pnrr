@@ -99,8 +99,9 @@ def genera_html_report():
         y=df_fabb_dot['Descrizione'],
         orientation='h',
         text=[f'€{val:,.0f}'.replace(',', '.') for val in df_fabb_dot['Costo_Totale']],  # Punto come separatore migliaia
-        textposition='auto',
-        marker=dict(color='#1f77b4')
+        textposition='outside',
+        marker=dict(color='#1f77b4'),
+        cliponaxis=False  # Permette ai testi di uscire dall'area del grafico
     ))
     fig_bar.update_layout(
         title='Top 10 Dotazioni per Costo Totale',
@@ -109,8 +110,10 @@ def genera_html_report():
         height=500,
         showlegend=False,
         xaxis=dict(
-            tickformat=',.0f'  # Formato con migliaia
-        )
+            tickformat=',.0f',  # Formato con migliaia
+            automargin=True  # Margine automatico per i testi esterni
+        ),
+        margin=dict(r=100)  # Margine destro per valori esterni
     )
 
     # Genera HTML
