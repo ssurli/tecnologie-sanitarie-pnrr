@@ -260,9 +260,9 @@ def carica_attrezzature_sanitarie(df_strutture):
                 dotazioni_attr.append({
                     'Codice_Struttura': codice_strutt,
                     'Codice_Dotazione': mapping[tecnologia],
-                    'Quantita_Presente': quantita,
+                    'Quantita_Presente': 0,  # Da acquistare (file PNRR indica fabbisogno)
                     'Quantita_Richiesta': quantita,
-                    'Note': 'Presente (da file PNRR)'
+                    'Note': 'Da acquistare (da file PNRR)'
                 })
             elif tecnologia in mapping:
                 print(f"  ⚠️  CDC non trovato per: {struttura_nome}")
@@ -312,9 +312,9 @@ def carica_attrezzature_sanitarie(df_strutture):
                 dotazioni_attr.append({
                     'Codice_Struttura': codice_strutt,
                     'Codice_Dotazione': mapping[tecnologia],
-                    'Quantita_Presente': quantita,
+                    'Quantita_Presente': 0,  # Da acquistare (file PNRR indica fabbisogno)
                     'Quantita_Richiesta': quantita,
-                    'Note': 'Presente (da file PNRR)'
+                    'Note': 'Da acquistare (da file PNRR)'
                 })
             elif tecnologia in mapping:
                 print(f"  ⚠️  ODC non trovato per: {struttura_nome}")
