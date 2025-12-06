@@ -1,0 +1,25 @@
+Tipologia,Dispositivo,Quantita_Minima,Note
+CDC,ECG,1,Obbligatorio per CDC
+CDC,Holter cardiaco,1,Obbligatorio per CDC
+CDC,Spirometro,1,Obbligatorio per CDC
+CDC,Ecografo portatile,1,Obbligatorio per CDC
+CDC,Monitor multiparametrico,1,Obbligatorio per CDC
+ODC,Apparecchio radiologico,1,Obbligatorio per ODC
+ODC,Ecografo,1,Obbligatorio per ODC
+ODC,Carrello emergenza,1,Obbligatorio per ODC
+ODC,Defibrillatore,1,Obbligatorio per ODC
+ODC,Spirometro,1,Obbligatorio per ODC
+ODC,Emogasanalizzatore,1,Obbligatorio per ODC
+ODC,POC,1,Obbligatorio per ODC
+ODC,ECG portatile,1,Obbligatorio per ODC
+ODC,Telemedicina (STANZA),1,Obbligatorio per ODC
+COMUNE,Lettino visita elettrico,1,Comune a CDC e ODC
+COMUNE,Lettino ginecologico,1,Comune a CDC e ODC
+COMUNE,Letto degenza elettrico,1,Comune a CDC e ODC
+COMUNE,DAE con aspiratore,1,Comune a CDC e ODC
+COMUNE,Lampada visita,1,Comune a CDC e ODC
+COMUNE,Frigofarmaco,1,Comune a CDC e ODC
+COMUNE,Lavapadelle,1,Comune a CDC e ODC
+COMUNE,Vuotatorio,1,Comune a CDC e ODC
+COMUNE,Sollevatore,1,Comune a CDC e ODC
+COMUNE,Riunito oculistico completo,1,Comune a CDC e ODC

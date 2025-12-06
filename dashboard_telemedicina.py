@@ -38,7 +38,10 @@ def carica_dati():
         # Carica dotazioni per struttura
         df_dotazioni = pd.read_csv('dotazioni_strutture_telemedicina.csv')
 
-        return df_strutture, df_catalogo, df_dotazioni
+        # Carica dotazioni minime standard
+        df_dotazioni_minime = pd.read_csv('dotazioni_minime_standard.csv')
+
+        return df_strutture, df_catalogo, df_dotazioni, df_dotazioni_minime
     except FileNotFoundError as e:
         st.error(f"❌ Errore: File non trovato - {e}")
         st.stop()
@@ -491,6 +494,96 @@ def pagina_fabbisogno_complessivo(df_fabbisogno, df_strutture):
     st.success(f"### 💰 FABBISOGNO TOTALE COMPLESSIVO: €{totale_generale:,.2f}")
 
 
+def pagina_standard_conformita(df_strutture, df_catalogo, df_dotazioni, df_dotazioni_minime):
+    """Pagina Standard e Conformità - Verifica dotazioni minime"""
+    st.header("⭐ Standard e Conformità DM 77/2022")
+
+    st.info("📋 Questa pagina mostra le **dotazioni minime obbligatorie** per CDC e ODC secondo le linee guida nazionali")
+
+    # Tabs per CDC e ODC
+    tab_cdc, tab_odc, tab_comuni = st.tabs(["🏥 CDC - Case di Comunità", "🏥 ODC - Ospedali di Comunità", "🔧 Dotazioni Comuni"])
+
+    with tab_cdc:
+        st.subheader("Dotazioni Minime per Case di Comunità (CDC)")
+
+        # Filtra dotazioni minime CDC
+        dotazioni_cdc = df_dotazioni_minime[df_dotazioni_minime['Tipologia'] == 'CDC']
+
+        # Mostra tabella dotazioni minime
+        st.markdown("### 📌 Dotazioni Obbligatorie")
+        st.dataframe(
+            dotazioni_cdc[['Dispositivo', 'Quantita_Minima', 'Note']],
+            hide_index=True,
+            use_container_width=True
+        )
+
+        # Analisi conformità
+        st.markdown("### ✅ Analisi Conformità")
+
+        # Conta quante strutture CDC hanno ogni dotazione
+        strutture_cdc = df_strutture[df_strutture['Tipologia'] == 'CdC']
+        n_cdc = len(strutture_cdc)
+
+        st.metric("Totale Case di Comunità", n_cdc)
+
+        # Info box
+        st.info(f"📊 Ogni CDC deve avere **{len(dotazioni_cdc)}** dotazioni diagnostiche minime obbligatorie")
+
+    with tab_odc:
+        st.subheader("Dotazioni Minime per Ospedali di Comunità (ODC)")
+
+        # Filtra dotazioni minime ODC
+        dotazioni_odc = df_dotazioni_minime[df_dotazioni_minime['Tipologia'] == 'ODC']
+
+        # Mostra tabella dotazioni minime
+        st.markdown("### 📌 Dotazioni Obbligatorie")
+        st.dataframe(
+            dotazioni_odc[['Dispositivo', 'Quantita_Minima', 'Note']],
+            hide_index=True,
+            use_container_width=True
+        )
+
+        # Analisi conformità
+        st.markdown("### ✅ Analisi Conformità")
+
+        # Conta quante strutture ODC ci sono
+        strutture_odc = df_strutture[df_strutture['Tipologia'] == 'OdC']
+        n_odc = len(strutture_odc)
+
+        st.metric("Totale Ospedali di Comunità", n_odc)
+
+        # Info box
+        st.info(f"📊 Ogni ODC deve avere **{len(dotazioni_odc)}** dotazioni diagnostiche minime obbligatorie")
+
+    with tab_comuni:
+        st.subheader("Dotazioni Comuni a CDC e ODC")
+
+        # Filtra dotazioni comuni
+        dotazioni_comuni = df_dotazioni_minime[df_dotazioni_minime['Tipologia'] == 'COMUNE']
+
+        # Mostra tabella dotazioni comuni
+        st.markdown("### 📌 Attrezzature Sanitarie Standard")
+        st.dataframe(
+            dotazioni_comuni[['Dispositivo', 'Quantita_Minima', 'Note']],
+            hide_index=True,
+            use_container_width=True
+        )
+
+        st.info(f"🔧 Sia CDC che ODC devono avere **{len(dotazioni_comuni)}** attrezzature sanitarie standard")
+
+    # Sezione normativa
+    st.divider()
+    st.markdown("### 📜 Riferimenti Normativi")
+    st.markdown("""
+    Le dotazioni minime sono definite dal **DM 77/2022** - Decreto Ministeriale 23 maggio 2022, n. 77:
+    - **Regolamento recante la definizione di modelli e standard per lo sviluppo dell'assistenza territoriale**
+    - Pubblicato in G.U. Serie Generale n. 144 del 22-06-2022
+    - Allegati tecnici con specifiche dotazioni per CDC e ODC
+
+    🔗 [Maggiori informazioni sul sito del Ministero della Salute](https://www.salute.gov.it/)
+    """)
+
+
 def main():
     """Funzione principale"""
 
@@ -500,13 +593,13 @@ def main():
 
     # Carica dati
     with st.spinner("Caricamento dati in corso..."):
-        df_strutture_orig, df_catalogo, df_dotazioni_orig = carica_dati()
+        df_strutture_orig, df_catalogo, df_dotazioni_orig, df_dotazioni_minime = carica_dati()
 
     # Sidebar navigazione
     st.sidebar.title("Navigazione")
     pagina = st.sidebar.radio(
         "Seleziona una vista",
-        ["Riepilogo Generale", "Elenco Strutture", "Dettaglio Dotazioni Struttura", "Fabbisogno Complessivo"]
+        ["Riepilogo Generale", "Elenco Strutture", "Dettaglio Dotazioni Struttura", "Fabbisogno Complessivo", "⭐ Standard e Conformità"]
     )
 
     st.sidebar.divider()
@@ -607,6 +700,8 @@ def main():
         pagina_dotazioni_struttura(df_strutture, df_catalogo, df_fabbisogno)
     elif pagina == "Fabbisogno Complessivo":
         pagina_fabbisogno_complessivo(df_fabbisogno, df_strutture)
+    elif pagina == "⭐ Standard e Conformità":
+        pagina_standard_conformita(df_strutture, df_catalogo, df_dotazioni, df_dotazioni_minime)
 
 
 if __name__ == "__main__":
