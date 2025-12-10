@@ -1,0 +1,14 @@
+[Unit]
+Description=Dashboard Telemedicina USL Toscana Nord Ovest
+After=network.target
+
+[Service]
+Type=simple
+User=user
+WorkingDirectory=/home/user/tecnologie-sanitarie-pnrr
+ExecStart=/usr/local/bin/streamlit run dashboard_telemedicina.py --server.address 0.0.0.0 --server.port 8501 --server.headless true
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
