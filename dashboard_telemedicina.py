@@ -276,10 +276,12 @@ def pagina_strutture(df_strutture, df_fabbisogno):
             class_filtro = None
 
     with col4:
+        # Determina default in base al filtro sidebar già applicato
+        valori_pnrr_presenti = df_strutture['PNRR'].unique().tolist()
         pnrr_filtro = st.multiselect(
             "PNRR",
             options=['SI', 'NO'],
-            default=['SI', 'NO']
+            default=valori_pnrr_presenti  # Usa i valori già filtrati dalla sidebar
         )
 
     # Applica filtri
@@ -291,7 +293,9 @@ def pagina_strutture(df_strutture, df_fabbisogno):
     if class_filtro:
         df_filtrato = df_filtrato[df_filtrato['Classificazione'].isin(class_filtro)]
 
-    df_filtrato = df_filtrato[df_filtrato['PNRR'].isin(pnrr_filtro)]
+    # Applica filtro PNRR solo se ci sono entrambi i valori (altrimenti è già filtrato dalla sidebar)
+    if set(pnrr_filtro) != set(valori_pnrr_presenti):
+        df_filtrato = df_filtrato[df_filtrato['PNRR'].isin(pnrr_filtro)]
 
     # Calcola fabbisogno per struttura
     fabbisogno_struttura = df_fabbisogno.groupby('Codice_Struttura')['Costo_Totale'].sum().reset_index()
