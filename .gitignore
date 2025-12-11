@@ -52,6 +52,9 @@ ODC_CE_*.xlsx
 # Backup files
 *_backup_old.csv
 *_backup.csv
+*.csv.bak
+*.csv.pre_arredi
+*_INTEGRATO.csv
 # Report generati automaticamente
 report_direzione_telemedicina_*.xlsx
 report_direzione_telemedicina_*.html
