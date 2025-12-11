@@ -1,6 +1,16 @@
 # 🔄 Guida Aggiornamento Dati Dashboard
 
-## 📥 Processo di Aggiornamento
+## 📋 Tipi di File e Script
+
+| Tipo File | Contenuto | Script | Frequenza |
+|-----------|-----------|--------|-----------|
+| **CDC_CE_*.xlsx** | Anagrafiche strutture CDC | `aggiorna_dati.py` (preview)<br/>+ integrazione manuale | Ad hoc |
+| **ODC_CE_*.xlsx** | Anagrafiche strutture ODC | `aggiorna_dati.py` (preview)<br/>+ integrazione manuale | Ad hoc |
+| **Stima arredi PNRR.xlsx** | Tecnologie da sezione finale | `importa_arredi_pnrr.py`<br/>+ `integra_tecnologie_arredi.py` | Periodico |
+
+**⚠️ NOTA**: Per "Stima arredi PNRR" vengono estratte **SOLO le tecnologie** (righe in fondo), NON gli arredi.
+
+## 📥 Processo di Aggiornamento Generale
 
 ### 1. **Ricevi nuovi file**
 Quando ti arrivano file aggiornati (es. `CDC_CE_1.xlsx`, `Stima arredi PNRR.xlsx`):
@@ -101,27 +111,89 @@ git add . && git commit -m "feat: Aggiunge dotazioni per [strutture]" && git pus
 
 ---
 
-## 📊 File da Drive - Procedura
+## 📊 File da Drive - Procedure Specifiche
 
-### File: "Stima arredi PNRR.xlsx"
+### Tipo 1: File CDC_CE_*.xlsx (Anagrafiche CDC)
 
-**Opzione A - Download manuale:**
-1. Scarica da Google Drive
-2. Salva in `/home/user/tecnologie-sanitarie-pnrr/`
-3. Esegui: `python aggiorna_dati.py "Stima arredi PNRR.xlsx"`
+**Contenuto**: Strutture Case di Comunità con dotazioni
+**Frequenza**: Ad hoc quando ci sono nuove strutture/modifiche
 
-**Opzione B - Link pubblico:**
-1. Drive → File → Condividi → "Chiunque abbia il link"
-2. Copia link
-3. Esegui:
 ```bash
-# Converti link in formato download diretto
-# Da: https://drive.google.com/file/d/FILE_ID/view
-# A: https://drive.google.com/uc?export=download&id=FILE_ID
+# 1. Scarica da Google Drive
+# 2. Importa (opzionale, per vedere preview)
+python aggiorna_dati.py CDC_CE_1.xlsx
 
-wget "https://drive.google.com/uc?export=download&id=FILE_ID" -O "Stima_arredi_PNRR.xlsx"
-python aggiorna_dati.py Stima_arredi_PNRR.xlsx
+# 3. Integra manualmente in strutture_sanitarie.csv e dotazioni_strutture_telemedicina.csv
+# 4. Rigenera dati
+python integra_anagrafiche_v3.py
+
+# 5. Commit
+git add . && git commit -m "feat: Aggiorna strutture CDC da CDC_CE" && git push
 ```
+
+### Tipo 2: File ODC_CE_*.xlsx (Anagrafiche ODC)
+
+**Contenuto**: Strutture Ospedali di Comunità con dotazioni
+**Frequenza**: Ad hoc quando ci sono nuove strutture/modifiche
+
+```bash
+# Stesso procedimento dei file CDC_CE
+python aggiorna_dati.py ODC_CE_1.xlsx
+# ... seguito da integrazione manuale e rigenerazione
+```
+
+### Tipo 3: File "Stima arredi PNRR.xlsx" (Tecnologie)
+
+**Contenuto**: Tecnologie/attrezzature da fogli OdC e CdC (NON arredi)
+**Frequenza**: Periodico - file condiviso con aggiornamenti continui
+**⚠️ IMPORTANTE**: Estrae SOLO tecnologie dalla sezione in fondo (ignora arredi)
+
+**Workflow automatizzato**:
+
+```bash
+# 1. Scarica file aggiornato da Google Drive
+# 2. Esporta i 2 fogli come CSV:
+#    - "OdC" → Stima arredi PNRR.xlsx - OdC.csv
+#    - "CdC" → Stima arredi PNRR.xlsx - CdC.csv
+
+# 3. Estrai tecnologie dai CSV
+python importa_arredi_pnrr.py
+
+# Output:
+# ✅ File creato: tecnologie_arredi_pnrr.csv
+# 📊 Totale voci, strutture, attrezzature, costi
+
+# 4. Integra nelle dotazioni esistenti
+python integra_tecnologie_arredi.py
+
+# Output:
+# ✅ Aggiornamenti: X dotazioni esistenti
+# ✅ Nuove aggiunte: Y configurazioni
+# ✅ File creato: dotazioni_strutture_telemedicina_INTEGRATO.csv
+
+# 5. VERIFICA il file integrato
+head -20 dotazioni_strutture_telemedicina_INTEGRATO.csv
+tail -20 dotazioni_strutture_telemedicina_INTEGRATO.csv
+
+# 6. Se OK, applica l'integrazione
+cp dotazioni_strutture_telemedicina_INTEGRATO.csv dotazioni_strutture_telemedicina.csv
+
+# 7. Rigenera dati completi
+python integra_anagrafiche_v3.py
+
+# 8. Commit e push
+git add dotazioni_strutture_telemedicina.csv tecnologie_arredi_pnrr.csv
+git commit -m "feat: Aggiorna tecnologie da Stima Arredi PNRR del $(date +%Y-%m-%d)"
+git push
+```
+
+**Mappatura automatica strutture**:
+- OdC Viareggio → OdC TABARRACCI
+- OdC Campo Marte → OdC CAMPO DI MARTE Lucca
+- OdC Cecina → OdC OSPEDALE DI COMUNITA CECINA Cecina
+- OdC Piombino → OdC OSPEDALE DI COMUNITA PIOMBINO Piombino
+- OdC Livorno → OdC PADIGLIONE 5 Livorno
+- (CDC: mappatura automatica per nome)
 
 ---
 
