@@ -44,6 +44,11 @@ Thumbs.db
 ~$*.xlsx
 ~$*.xls
 
+# Excel input files (scaricati da Drive)
+Stima_arredi_PNRR.xlsx
+CDC_CE_*.xlsx
+ODC_CE_*.xlsx
+
 # Backup files
 *_backup_old.csv
 *_backup.csv
