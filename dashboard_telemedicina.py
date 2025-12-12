@@ -221,7 +221,10 @@ def pagina_riepilogo_generale(df_strutture, df_catalogo, df_dotazioni, df_fabbis
     tutte_dotazioni = df_fabbisogno.groupby(['Descrizione', 'Costo_Unitario_EUR']).agg({
         'Quantita_Da_Acquistare': 'sum',
         'Costo_Totale': 'sum'
-    }).reset_index().sort_values('Costo_Totale', ascending=False)
+    }).reset_index()
+
+    # Filtra solo dotazioni con costo > 0 (esclude quelle già complete)
+    tutte_dotazioni = tutte_dotazioni[tutte_dotazioni['Costo_Totale'] > 0].sort_values('Costo_Totale', ascending=False)
 
     # Altezza dinamica in base al numero di dotazioni (min 400px, 40px per dotazione)
     altezza_grafico = max(400, len(tutte_dotazioni) * 40)
