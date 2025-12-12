@@ -230,9 +230,13 @@ def pagina_riepilogo_generale(df_strutture, df_catalogo, df_dotazioni, df_fabbis
         orientation='h',
         title='Top 10 Dotazioni per Costo Totale',
         labels={'Costo_Totale': 'Costo Totale (€)', 'Descrizione': 'Dotazione'},
-        text='Costo_Totale'
+        text='Costo_Totale',
+        custom_data=['Quantita_Da_Acquistare']
     )
-    fig_bar.update_traces(texttemplate='€%{text:,.0f}', textposition='outside')
+    fig_bar.update_traces(
+        texttemplate='%{customdata[0]:.0f} unità - €%{text:,.0f}',
+        textposition='outside'
+    )
     fig_bar.update_layout(yaxis={'categoryorder': 'total ascending'})
     st.plotly_chart(fig_bar, use_container_width=True)
 
