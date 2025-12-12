@@ -28,16 +28,16 @@ MAPPATURA_STRUTTURE = {
 
 # Mappatura nomi attrezzature Stima Arredi → Codici Catalogo
 MAPPATURA_ATTREZZATURE = {
-    'Letto elettrico degenza (LINET)': 'ATTR002',  # Letto degenza elettrico
+    'Letto elettrico degenza (LINET)': 'ATTR003',  # Letto degenza elettrico ✓
     'ECG': 'DIAG001',  # ECG (con trasmissione tracciati)
-    'LAMPADA VISITA SU STATIVO': 'ATTR003',  # Lampada visita
+    'LAMPADA VISITA SU STATIVO': 'ATTR005',  # Lampada visita ✓
     'FRIGORIFERO': 'ATTR006',  # Frigofarmaco
-    'DAE+ ASPIRATORE PER CARRELLO EMERGENZA': 'EMER002',  # DAE con aspiratore
-    'Lavapadelle (ARJO)': 'ATTR004',  # Lavapadelle
-    'Vuotatoio (ARJO)': 'ATTR005',  # Vuotatorio
-    'Sollevatore (ARJO)': 'ATTR007',  # Sollevatore
+    'DAE+ ASPIRATORE PER CARRELLO EMERGENZA': 'ATTR004',  # DAE con aspiratore ✓
+    'Lavapadelle (ARJO)': 'ATTR007',  # Lavapadelle ✓
+    'Vuotatoio (ARJO)': 'ATTR008',  # Vuotatorio ✓
+    'Sollevatore (ARJO)': 'ATTR009',  # Sollevatore ✓
     'LETTINO VISITA ELETTRICO': 'ATTR001',  # Lettino visita elettrico
-    'Lettino visita di tipo ginecologico (FAVERO)': 'GINEC001',  # Lettino ginecologico
+    'Lettino visita di tipo ginecologico (FAVERO)': 'ATTR002',  # Lettino ginecologico ✓
     'ECOGRAFO': 'DIAG004',  # Ecografo portatile
     'spirometro da mettere in rete': 'DIAG003',  # Spirometro
 }
