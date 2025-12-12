@@ -51,11 +51,13 @@ def calcola_fabbisogno(df_dotazioni, df_catalogo):
     """Calcola il fabbisogno complessivo per dotazione con distinzione stati finanziamento"""
 
     # Merge con catalogo per ottenere descrizione e costo
+    # Suffissi: '' per dotazioni (mantiene 'Note'), '_cat' per catalogo (diventa 'Note_cat')
     df_merge = df_dotazioni.merge(
         df_catalogo,
         left_on='Codice_Dotazione',
         right_on='Codice',
-        how='left'
+        how='left',
+        suffixes=('', '_cat')
     )
 
     # Calcola quantità da acquistare
