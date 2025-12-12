@@ -237,7 +237,11 @@ def pagina_riepilogo_generale(df_strutture, df_catalogo, df_dotazioni, df_fabbis
         texttemplate='%{customdata[0]:.0f} unità - €%{text:,.0f}',
         textposition='outside'
     )
-    fig_bar.update_layout(yaxis={'categoryorder': 'total ascending'})
+    fig_bar.update_layout(
+        yaxis={'categoryorder': 'total ascending'},
+        margin=dict(r=200),  # Margine destro più ampio per etichette lunghe
+        xaxis=dict(range=[0, top_dotazioni['Costo_Totale'].max() * 1.25])  # Estendi asse X del 25%
+    )
     st.plotly_chart(fig_bar, use_container_width=True)
 
 
