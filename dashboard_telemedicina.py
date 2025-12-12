@@ -406,11 +406,12 @@ def pagina_dotazioni_struttura(df_strutture, df_catalogo, df_fabbisogno):
     if len(df_diag) > 0:
         st.dataframe(
             df_diag[['Descrizione', 'Stato_Finanziamento', 'Quantita_Presente', 'Quantita_Richiesta', 'Quantita_Da_Acquistare',
-                     'Costo_Unitario_EUR', 'Costo_Totale', 'Note']].style.format({
+                     'Costo_Unitario_EUR', 'IVA_Percentuale', 'Costo_Totale', 'Note']].style.format({
                 'Quantita_Presente': '{:.0f}',
                 'Quantita_Richiesta': '{:.0f}',
                 'Quantita_Da_Acquistare': '{:.0f}',
                 'Costo_Unitario_EUR': '€{:,.2f}',
+                'IVA_Percentuale': '{:.0f}%',
                 'Costo_Totale': '€{:,.2f}'
             }),
             hide_index=True,
@@ -428,11 +429,12 @@ def pagina_dotazioni_struttura(df_strutture, df_catalogo, df_fabbisogno):
     if len(df_attr) > 0:
         st.dataframe(
             df_attr[['Descrizione', 'Stato_Finanziamento', 'Quantita_Presente', 'Quantita_Richiesta', 'Quantita_Da_Acquistare',
-                     'Costo_Unitario_EUR', 'Costo_Totale', 'Note']].style.format({
+                     'Costo_Unitario_EUR', 'IVA_Percentuale', 'Costo_Totale', 'Note']].style.format({
                 'Quantita_Presente': '{:.0f}',
                 'Quantita_Richiesta': '{:.0f}',
                 'Quantita_Da_Acquistare': '{:.0f}',
                 'Costo_Unitario_EUR': '€{:,.2f}',
+                'IVA_Percentuale': '{:.0f}%',
                 'Costo_Totale': '€{:,.2f}'
             }),
             hide_index=True,
