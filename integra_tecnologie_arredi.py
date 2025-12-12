@@ -2,6 +2,9 @@
 """
 Script per integrare tecnologie da "Stima arredi PNRR" nelle dotazioni esistenti
 NON modifica l'anagrafica strutture, solo aggiunge/aggiorna dotazioni
+
+IMPORTANTE: Per le dotazioni già esistenti, SOSTITUISCE la quantità con il valore
+PNRR definitivo (non somma). Il file Stima Arredi PNRR è la fonte definitiva.
 """
 
 import pandas as pd
@@ -20,6 +23,7 @@ MAPPATURA_STRUTTURE = {
     'CdC Pisa': 'CdC Pisa Via Garibaldi',
     'CdC Marina Pisa': 'CdC Marina di Pisa',
     'CdC Crespina': 'CdC Crespina Lorenzana',
+    'CdC San Giuliano': 'CdC San Giuliano Terme',
 }
 
 # Mappatura nomi attrezzature Stima Arredi → Codici Catalogo
@@ -145,10 +149,10 @@ def integra_dotazioni(df_tech, df_strutture, df_catalogo, df_dotazioni_esistenti
         ]
 
         if len(esistente) > 0:
-            # Aggiorna quantità (somma)
+            # Aggiorna quantità (sostituisce con valore PNRR definitivo)
             idx = esistente.index[0]
-            qta_esistente = df_dotazioni_esistenti.loc[idx, 'Quantita_Richiesta']
-            df_dotazioni_esistenti.loc[idx, 'Quantita_Richiesta'] = qta_esistente + quantita
+            df_dotazioni_esistenti.loc[idx, 'Quantita_Richiesta'] = quantita
+            df_dotazioni_esistenti.loc[idx, 'Note'] = 'Da Stima Arredi PNRR'
             aggiornamenti += 1
         else:
             # Aggiungi nuova riga
@@ -207,9 +211,9 @@ def main():
     print("\n⚠️  IMPORTANTE:")
     print("  1. Verifica il file dotazioni_strutture_telemedicina_INTEGRATO.csv")
     print("  2. Se OK, rinomina:")
-    print("     mv dotazioni_strutture_telemedicina_INTEGRATO.csv dotazioni_strutture_telemedicina.csv")
-    print("  3. Rigenera dati integrati:")
-    print("     python integra_anagrafiche_v3.py")
+    print("     cp dotazioni_strutture_telemedicina_INTEGRATO.csv dotazioni_strutture_telemedicina.csv")
+    print("  3. ⚠️  NON eseguire integra_anagrafiche_v3.py dopo questa integrazione!")
+    print("     (quello script rigenera i file sovrascrivendo i dati PNRR)")
 
 if __name__ == "__main__":
     main()
