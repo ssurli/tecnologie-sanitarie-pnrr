@@ -8,11 +8,18 @@ import pandas as pd
 
 # Mappatura nomi strutture Stima Arredi → Nomi registro
 MAPPATURA_STRUTTURE = {
+    # ODC
     'OdC Campo Marte': 'OdC CAMPO DI MARTE Lucca',
     'OdC Cecina': 'OdC OSPEDALE DI COMUNITA CECINA Cecina',
     'OdC Piombino': 'OdC OSPEDALE DI COMUNITA PIOMBINO Piombino',
     'OdC Livorno': 'OdC PADIGLIONE 5 Livorno',
     'OdC Viareggio': 'OdC TABARRACCI',
+    # CDC
+    'CdC Carrara': 'CdC Carrara centro',
+    'CdC Viareggio (terminetto)': 'CdC Terminetto',
+    'CdC Pisa': 'CdC Pisa Via Garibaldi',
+    'CdC Marina Pisa': 'CdC Marina di Pisa',
+    'CdC Crespina': 'CdC Crespina Lorenzana',
 }
 
 # Mappatura nomi attrezzature Stima Arredi → Codici Catalogo

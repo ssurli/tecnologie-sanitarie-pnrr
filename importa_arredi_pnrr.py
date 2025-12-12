@@ -1,208 +1,179 @@
 #!/usr/bin/env python3
 """
-Script per importare tecnologie da file "Stima arredi PNRR"
-Estrae solo anagrafiche strutture e sezione "Tipologia Attrezzatura da acquistare"
+Importa tecnologie dai fogli PULITI cdc_tecnologie e odc_tecnologie
+(senza interferenze degli arredi)
+
+NOTA: I prezzi NON vengono usati da questi file, ma dal catalogo ufficiale
+      dotazioni_telemedicina_catalogo.csv durante l'integrazione
 """
 
 import pandas as pd
 import numpy as np
 
-def estrai_tecnologie_odc():
-    """Estrae tecnologie da file ODC"""
-    print("📥 Importazione ODC...")
+def pulisci_valore_euro(valore):
+    """Converte valori Euro in float (formato europeo: 1.000,00)"""
+    if pd.isna(valore) or valore == '':
+        return 0.0
 
-    df = pd.read_csv('Stima arredi PNRR.xlsx - OdC.csv', header=None)
+    # Rimuovi €, spazi
+    valore_str = str(valore).replace('€', '').replace(' ', '').strip()
 
-    # Trova riga con nomi strutture (riga 2, indice 2)
-    strutture_row = df.iloc[2]
-    strutture = []
-    indici_colonne = []
-
-    for idx, val in enumerate(strutture_row):
-        if 'OdC' in str(val):
-            nome_pulito = str(val).strip().replace('OdC ', 'OdC ')
-            strutture.append(nome_pulito)
-            # Trova indice colonna numero (nr.)
-            indici_colonne.append(idx + 2)  # Colonna "nr." dopo il nome
-
-    print(f"  ✅ Trovate {len(strutture)} strutture ODC")
-
-    # Trova inizio sezione tecnologie (cerca "Tipologia Attrezzatura")
-    inizio_tecnologie = None
-    for idx, row in df.iterrows():
-        if 'Tipologia Attrezzatura' in str(row[1]):
-            inizio_tecnologie = idx + 2  # Header è riga successiva, dati dopo ancora
-            break
-
-    if inizio_tecnologie is None:
-        print("  ❌ Sezione tecnologie non trovata")
-        return None
-
-    print(f"  📍 Sezione tecnologie inizia a riga {inizio_tecnologie}")
-
-    # Estrai dati tecnologie
-    tecnologie_data = []
-    for idx in range(inizio_tecnologie, len(df)):
-        row = df.iloc[idx]
-
-        # Salta righe vuote
-        if pd.isna(row[1]) or str(row[1]).strip() == '':
-            continue
-
-        locale = str(row[0]).strip() if not pd.isna(row[0]) else ''
-        attrezzatura = str(row[1]).strip()
-        costo_str = str(row[2]).strip()
-
-        # Estrai costo (rimuovi €, virgole, converti)
-        try:
-            costo = float(costo_str.replace('€', '').replace('.', '').replace(',', '.').strip())
-        except:
-            costo = 0.0
-
-        # Per ogni struttura, estrai quantità
-        for i, struttura in enumerate(strutture):
-            col_idx = indici_colonne[i]
-            if col_idx < len(row):
-                qta_str = str(row[col_idx]).strip()
-                try:
-                    qta = int(qta_str) if qta_str and qta_str != 'nan' else 0
-                except:
-                    qta = 0
-
-                if qta > 0:  # Solo se c'è una quantità
-                    tecnologie_data.append({
-                        'Struttura': struttura,
-                        'Tipologia': 'OdC',
-                        'Locale': locale,
-                        'Attrezzatura': attrezzatura,
-                        'Costo_Unitario': costo,
-                        'Quantita': qta,
-                        'Totale': costo * qta
-                    })
-
-    print(f"  ✅ Estratte {len(tecnologie_data)} voci tecnologie ODC")
-    return pd.DataFrame(tecnologie_data)
+    try:
+        # Formato europeo: 1.000,00 → rimuovi punto (migliaia), sostituisci , con .
+        if ',' in valore_str:
+            valore_str = valore_str.replace('.', '').replace(',', '.')
+        # Altrimenti potrebbe essere già in formato corretto
+        return float(valore_str)
+    except:
+        return 0.0
 
 def estrai_tecnologie_cdc():
-    """Estrae tecnologie da file CDC"""
+    """Estrae tecnologie dal foglio CDC pulito"""
     print("\n📥 Importazione CDC...")
 
-    df = pd.read_csv('Stima arredi PNRR.xlsx - CdC.csv', header=None)
+    df = pd.read_csv('Stima arredi PNRR.xlsx - cdc_tecnologie.csv', header=None)
 
-    # Trova riga con nomi strutture (simile a ODC)
+    # Riga 1 (indice 0) contiene i nomi delle strutture
+    strutture_row = df.iloc[0]
     strutture = []
-    indici_colonne = []
-
-    # Cerca nelle prime righe
-    for idx in range(10):
-        row = df.iloc[idx]
-        for col_idx, val in enumerate(row):
-            if 'CdC' in str(val) or 'Cdc' in str(val):
-                nome = str(val).strip()
-                if nome not in strutture and len(nome) < 50 and nome != 'CdC':
-                    strutture.append(nome)
-                    indici_colonne.append(col_idx + 2)  # Colonna nr.
+    for col_idx in range(2, len(strutture_row)):  # Salta prime 2 colonne
+        nome = strutture_row[col_idx]
+        if pd.notna(nome) and str(nome).strip() and 'CdC' in str(nome):
+            strutture.append((col_idx, str(nome).strip()))
 
     print(f"  ✅ Trovate {len(strutture)} strutture CDC")
 
-    # Trova sezione tecnologie
-    inizio_tecnologie = None
-    for idx, row in df.iterrows():
-        if 'Tipologia Attrezzatura' in str(row[1]):
-            inizio_tecnologie = idx + 2
-            break
+    # Estrai tecnologie (righe 2+)
+    tecnologie = []
 
-    if inizio_tecnologie is None:
-        print("  ❌ Sezione tecnologie non trovata")
-        return None
+    for row_idx in range(1, len(df)):  # Salta riga header
+        nome_tech = df.iloc[row_idx, 0]
+        costo_unitario = df.iloc[row_idx, 1]
 
-    print(f"  📍 Sezione tecnologie inizia a riga {inizio_tecnologie}")
-
-    # Estrai dati (stesso metodo di ODC)
-    tecnologie_data = []
-    for idx in range(inizio_tecnologie, len(df)):
-        row = df.iloc[idx]
-
-        if pd.isna(row[1]) or str(row[1]).strip() == '':
+        if pd.isna(nome_tech) or str(nome_tech).strip() == '':
             continue
 
-        locale = str(row[0]).strip() if not pd.isna(row[0]) else ''
-        attrezzatura = str(row[1]).strip()
-        costo_str = str(row[2]).strip()
+        nome_tech_str = str(nome_tech).strip()
+        costo = pulisci_valore_euro(costo_unitario)
 
-        try:
-            costo = float(costo_str.replace('€', '').replace('.', '').replace(',', '.').strip())
-        except:
-            costo = 0.0
+        # Estrai quantità per ogni struttura
+        for col_idx, nome_struttura in strutture:
+            quantita_val = df.iloc[row_idx, col_idx]
 
-        for i, struttura in enumerate(strutture):
-            if i < len(indici_colonne):
-                col_idx = indici_colonne[i]
-                if col_idx < len(row):
-                    qta_str = str(row[col_idx]).strip()
-                    try:
-                        qta = int(qta_str) if qta_str and qta_str != 'nan' else 0
-                    except:
-                        qta = 0
-
+            if pd.notna(quantita_val) and str(quantita_val).strip():
+                try:
+                    qta = float(str(quantita_val).replace(',', '.'))
                     if qta > 0:
-                        tecnologie_data.append({
-                            'Struttura': struttura,
+                        tecnologie.append({
+                            'Struttura': nome_struttura,
                             'Tipologia': 'CdC',
-                            'Locale': locale,
-                            'Attrezzatura': attrezzatura,
+                            'Attrezzatura': nome_tech_str,
                             'Costo_Unitario': costo,
                             'Quantita': qta,
                             'Totale': costo * qta
                         })
+                except:
+                    pass
 
-    print(f"  ✅ Estratte {len(tecnologie_data)} voci tecnologie CDC")
-    return pd.DataFrame(tecnologie_data)
+    print(f"  ✅ Estratte {len(tecnologie)} voci tecnologie CDC")
+    return tecnologie
+
+def estrai_tecnologie_odc():
+    """Estrae tecnologie dal foglio ODC pulito"""
+    print("\n📥 Importazione ODC...")
+
+    df = pd.read_csv('Stima arredi PNRR.xlsx - odc_tecnologie.csv', header=None)
+
+    # Riga 1 (indice 0) contiene i nomi delle strutture
+    strutture_row = df.iloc[0]
+    strutture = []
+    for col_idx in range(2, len(strutture_row)):  # Salta prime 2 colonne
+        nome = strutture_row[col_idx]
+        if pd.notna(nome) and str(nome).strip() and 'OdC' in str(nome):
+            strutture.append((col_idx, str(nome).strip()))
+
+    print(f"  ✅ Trovate {len(strutture)} strutture ODC")
+
+    # Estrai tecnologie (righe 2+)
+    tecnologie = []
+
+    for row_idx in range(1, len(df)):  # Salta riga header
+        nome_tech = df.iloc[row_idx, 0]
+        costo_unitario = df.iloc[row_idx, 1]
+
+        if pd.isna(nome_tech) or str(nome_tech).strip() == '':
+            continue
+
+        nome_tech_str = str(nome_tech).strip()
+        costo = pulisci_valore_euro(costo_unitario)
+
+        # Estrai quantità per ogni struttura
+        for col_idx, nome_struttura in strutture:
+            quantita_val = df.iloc[row_idx, col_idx]
+
+            if pd.notna(quantita_val) and str(quantita_val).strip():
+                try:
+                    qta = float(str(quantita_val).replace(',', '.'))
+                    if qta > 0:
+                        tecnologie.append({
+                            'Struttura': nome_struttura,
+                            'Tipologia': 'OdC',
+                            'Attrezzatura': nome_tech_str,
+                            'Costo_Unitario': costo,
+                            'Quantita': qta,
+                            'Totale': costo * qta
+                        })
+                except:
+                    pass
+
+    print(f"  ✅ Estratte {len(tecnologie)} voci tecnologie ODC")
+    return tecnologie
 
 def main():
     print("="*70)
-    print("IMPORTAZIONE TECNOLOGIE DA STIMA ARREDI PNRR")
+    print("IMPORTAZIONE TECNOLOGIE DA FOGLI PULITI")
     print("="*70)
 
-    # Estrai ODC
-    df_odc = estrai_tecnologie_odc()
-
-    # Estrai CDC
-    df_cdc = estrai_tecnologie_cdc()
+    # Estrai da entrambi i fogli
+    tecnologie_cdc = estrai_tecnologie_cdc()
+    tecnologie_odc = estrai_tecnologie_odc()
 
     # Combina
-    if df_odc is not None and df_cdc is not None:
-        df_tecnologie = pd.concat([df_odc, df_cdc], ignore_index=True)
-    elif df_odc is not None:
-        df_tecnologie = df_odc
-    elif df_cdc is not None:
-        df_tecnologie = df_cdc
-    else:
-        print("\n❌ Nessun dato estratto!")
+    tutte_tecnologie = tecnologie_cdc + tecnologie_odc
+
+    if not tutte_tecnologie:
+        print("\n❌ Nessuna tecnologia estratta!")
         return
+
+    # Crea DataFrame
+    df_tech = pd.DataFrame(tutte_tecnologie)
 
     # Salva
     output_file = 'tecnologie_arredi_pnrr.csv'
-    df_tecnologie.to_csv(output_file, index=False)
+    df_tech.to_csv(output_file, index=False)
 
     print("\n" + "="*70)
     print("✅ IMPORTAZIONE COMPLETATA")
     print("="*70)
-    print(f"📊 Totale voci: {len(df_tecnologie)}")
-    print(f"🏥 Strutture: {df_tecnologie['Struttura'].nunique()}")
-    print(f"🔧 Attrezzature: {df_tecnologie['Attrezzatura'].nunique()}")
-    print(f"💰 Totale costi: €{df_tecnologie['Totale'].sum():,.2f}")
+    print(f"📊 Totale voci: {len(df_tech)}")
+    print(f"🏥 Strutture: {df_tech['Struttura'].nunique()}")
+    print(f"   - CDC: {len(df_tech[df_tech['Tipologia']=='CdC']['Struttura'].unique())}")
+    print(f"   - ODC: {len(df_tech[df_tech['Tipologia']=='OdC']['Struttura'].unique())}")
+    print(f"🔧 Attrezzature: {df_tech['Attrezzatura'].nunique()}")
+    print(f"💰 Totale costi (indicativi): €{df_tech['Totale'].sum():,.2f}")
+    print(f"\n⚠️  I prezzi mostrati sono dal file, ma durante l'integrazione")
+    print(f"    verranno usati i prezzi UFFICIALI da dotazioni_telemedicina_catalogo.csv")
     print(f"\n💾 File salvato: {output_file}")
 
-    # Mostra riepilogo per attrezzatura
-    print("\n📦 Riepilogo per attrezzatura:")
-    riepilogo = df_tecnologie.groupby('Attrezzatura').agg({
+    # Riepilogo per attrezzatura
+    print(f"\n📦 Riepilogo per attrezzatura:")
+    riepilogo = df_tech.groupby('Attrezzatura').agg({
         'Quantita': 'sum',
         'Totale': 'sum'
     }).sort_values('Totale', ascending=False)
 
-    for idx, row in riepilogo.iterrows():
-        print(f"  • {idx:40} | Qta: {row['Quantita']:3.0f} | €{row['Totale']:,.2f}")
+    for attrezzatura, row in riepilogo.iterrows():
+        print(f"  • {attrezzatura:45s} | Qta: {row['Quantita']:3.0f} | €{row['Totale']:,.2f}")
 
 if __name__ == "__main__":
     main()
