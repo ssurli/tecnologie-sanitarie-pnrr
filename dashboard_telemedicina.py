@@ -215,23 +215,27 @@ def pagina_riepilogo_generale(df_strutture, df_catalogo, df_dotazioni, df_fabbis
 
     st.divider()
 
-    # Top 10 dotazioni per costo
-    st.subheader("🔝 Top 10 Dotazioni per Fabbisogno")
+    # Tutte le dotazioni per costo
+    st.subheader("🔝 Dotazioni per Fabbisogno")
 
-    top_dotazioni = df_fabbisogno.groupby(['Descrizione', 'Costo_Unitario_EUR']).agg({
+    tutte_dotazioni = df_fabbisogno.groupby(['Descrizione', 'Costo_Unitario_EUR']).agg({
         'Quantita_Da_Acquistare': 'sum',
         'Costo_Totale': 'sum'
-    }).reset_index().sort_values('Costo_Totale', ascending=False).head(10)
+    }).reset_index().sort_values('Costo_Totale', ascending=False)
+
+    # Altezza dinamica in base al numero di dotazioni (min 400px, 40px per dotazione)
+    altezza_grafico = max(400, len(tutte_dotazioni) * 40)
 
     fig_bar = px.bar(
-        top_dotazioni,
+        tutte_dotazioni,
         x='Costo_Totale',
         y='Descrizione',
         orientation='h',
-        title='Top 10 Dotazioni per Costo Totale',
+        title=f'Tutte le Dotazioni per Costo Totale ({len(tutte_dotazioni)} dotazioni)',
         labels={'Costo_Totale': 'Costo Totale (€)', 'Descrizione': 'Dotazione'},
         text='Costo_Totale',
-        custom_data=['Quantita_Da_Acquistare']
+        custom_data=['Quantita_Da_Acquistare'],
+        height=altezza_grafico
     )
     fig_bar.update_traces(
         texttemplate='%{customdata[0]:.0f} unità - €%{text:,.0f}',
@@ -240,7 +244,7 @@ def pagina_riepilogo_generale(df_strutture, df_catalogo, df_dotazioni, df_fabbis
     fig_bar.update_layout(
         yaxis={'categoryorder': 'total ascending'},
         margin=dict(r=200),  # Margine destro più ampio per etichette lunghe
-        xaxis=dict(range=[0, top_dotazioni['Costo_Totale'].max() * 1.25])  # Estendi asse X del 25%
+        xaxis=dict(range=[0, tutte_dotazioni['Costo_Totale'].max() * 1.25])  # Estendi asse X del 25%
     )
     st.plotly_chart(fig_bar, use_container_width=True)
 
