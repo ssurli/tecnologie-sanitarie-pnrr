@@ -67,6 +67,9 @@ def calcola_fabbisogno(df_dotazioni, df_catalogo):
     # Calcola costo per struttura (solo ciò che serve acquistare)
     df_merge['Costo_Totale'] = df_merge['Quantita_Da_Acquistare'] * df_merge['Costo_Unitario_EUR']
 
+    # Calcola costo IVA inclusa
+    df_merge['Costo_Totale_IVA_Inclusa'] = df_merge['Costo_Totale'] * (1 + df_merge['IVA_Percentuale'] / 100)
+
     # Calcola costi separati per stato finanziamento
     df_merge['Costo_Da_Finanziare'] = df_merge.apply(
         lambda row: row['Costo_Totale'] if row.get('Stato_Finanziamento') == 'DA_ACQUISTARE' else 0, axis=1
@@ -386,15 +389,18 @@ def pagina_dotazioni_struttura(df_strutture, df_catalogo, df_fabbisogno):
 
     # Calcola totali
     fabbisogno_totale = df_strutt['Costo_Totale'].sum()
+    fabbisogno_totale_iva = df_strutt['Costo_Totale_IVA_Inclusa'].sum()
     dotazioni_da_acquistare = (df_strutt['Quantita_Da_Acquistare'] > 0).sum()
     dotazioni_complete = (df_strutt['Quantita_Da_Acquistare'] == 0).sum()
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("Fabbisogno Totale", f"€{fabbisogno_totale:,.2f}")
+        st.metric("Fabbisogno (senza IVA)", f"€{fabbisogno_totale:,.2f}")
     with col2:
-        st.metric("Dotazioni da Acquistare", dotazioni_da_acquistare)
+        st.metric("Fabbisogno (IVA inclusa)", f"€{fabbisogno_totale_iva:,.2f}")
     with col3:
+        st.metric("Dotazioni da Acquistare", dotazioni_da_acquistare)
+    with col4:
         st.metric("Dotazioni Complete", dotazioni_complete)
 
     st.divider()
@@ -406,18 +412,23 @@ def pagina_dotazioni_struttura(df_strutture, df_catalogo, df_fabbisogno):
     if len(df_diag) > 0:
         st.dataframe(
             df_diag[['Descrizione', 'Stato_Finanziamento', 'Quantita_Presente', 'Quantita_Richiesta', 'Quantita_Da_Acquistare',
-                     'Costo_Unitario_EUR', 'IVA_Percentuale', 'Costo_Totale', 'Note']].style.format({
+                     'Costo_Unitario_EUR', 'IVA_Percentuale', 'Costo_Totale', 'Costo_Totale_IVA_Inclusa', 'Note']].style.format({
                 'Quantita_Presente': '{:.0f}',
                 'Quantita_Richiesta': '{:.0f}',
                 'Quantita_Da_Acquistare': '{:.0f}',
                 'Costo_Unitario_EUR': '€{:,.2f}',
                 'IVA_Percentuale': '{:.0f}%',
-                'Costo_Totale': '€{:,.2f}'
+                'Costo_Totale': '€{:,.2f}',
+                'Costo_Totale_IVA_Inclusa': '€{:,.2f}'
             }),
             hide_index=True,
             use_container_width=True
         )
-        st.metric("Subtotale Dispositivi Diagnostici", f"€{df_diag['Costo_Totale'].sum():,.2f}")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Subtotale (senza IVA)", f"€{df_diag['Costo_Totale'].sum():,.2f}")
+        with col2:
+            st.metric("Subtotale (IVA inclusa)", f"€{df_diag['Costo_Totale_IVA_Inclusa'].sum():,.2f}")
     else:
         st.info("Nessun dispositivo diagnostico configurato")
 
@@ -429,18 +440,23 @@ def pagina_dotazioni_struttura(df_strutture, df_catalogo, df_fabbisogno):
     if len(df_attr) > 0:
         st.dataframe(
             df_attr[['Descrizione', 'Stato_Finanziamento', 'Quantita_Presente', 'Quantita_Richiesta', 'Quantita_Da_Acquistare',
-                     'Costo_Unitario_EUR', 'IVA_Percentuale', 'Costo_Totale', 'Note']].style.format({
+                     'Costo_Unitario_EUR', 'IVA_Percentuale', 'Costo_Totale', 'Costo_Totale_IVA_Inclusa', 'Note']].style.format({
                 'Quantita_Presente': '{:.0f}',
                 'Quantita_Richiesta': '{:.0f}',
                 'Quantita_Da_Acquistare': '{:.0f}',
                 'Costo_Unitario_EUR': '€{:,.2f}',
                 'IVA_Percentuale': '{:.0f}%',
-                'Costo_Totale': '€{:,.2f}'
+                'Costo_Totale': '€{:,.2f}',
+                'Costo_Totale_IVA_Inclusa': '€{:,.2f}'
             }),
             hide_index=True,
             use_container_width=True
         )
-        st.metric("Subtotale Attrezzature Sanitarie", f"€{df_attr['Costo_Totale'].sum():,.2f}")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Subtotale (senza IVA)", f"€{df_attr['Costo_Totale'].sum():,.2f}")
+        with col2:
+            st.metric("Subtotale (IVA inclusa)", f"€{df_attr['Costo_Totale_IVA_Inclusa'].sum():,.2f}")
     else:
         st.info("Nessuna attrezzatura sanitaria configurata")
 
