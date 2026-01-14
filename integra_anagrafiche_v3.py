@@ -282,8 +282,8 @@ def carica_odc_dispositivi():
 
             # Determina PNRR
             pnrr = 'SI'  # Default per ODC
-            if len(values) > 3:
-                pnrr_col = values[3].strip().upper()
+            if len(values) > 4:
+                pnrr_col = values[4].strip().upper()
                 if pnrr_col in ['NO', 'N']:
                     pnrr = 'NO'
 

@@ -1,7 +1,7 @@
 "Compilare riportando nelle caselle vuote una delle seguenti diciture:
 
-PRESENTE se già individuato presso la struttura/zona
-FINANZIATO se previsto dal RUP nel progetto PNRR oppure se già ordinato
+PRESENTE se giï¿½ individuato presso la struttura/zona
+FINANZIATO se previsto dal RUP nel progetto PNRR oppure se giï¿½ ordinato
 DA ACQUISTARE se non presente e non ancora finanziato
 NON RICHIESTO ove al momento non occorresse presso la specifica struttura
 
@@ -9,23 +9,23 @@ Nelle caselle in giallo, per ELETTROCARDIOGRAFI, SPIROMETRI ed ECOGRAFI ove indi
 ";;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
 Zona;STRUTTURA;POSTI LETTO;SETTING;PNRR;DATA FINE LAVORI;apparecchio radiologico;ECOGRAFO;ECOGRAFO - INSERIRE SE PRESENTE IL NUMERO DI INVENTARIO ;carrello emergenza;defibrillatore;SPIROMETRO;SPIROMETRO - INSERIRE SE PRESENTE IL NUMERO DI INVENTARIO ;emogasanalizzatore;POC;ECG portatile;ECG - INSERIRE SE PRESENTE IL NUMERO DI INVENTARIO ;telemedicina (STANZA);
-Apuane;"OSPEDALE DI COMUNITA' DI MASSA 
-P.zza 4 Novembre (MS)";20;1;x;02/02/2026;PRESENTE;PRESENTE;;PRESENTE;PRESENTE;;;PRESENTE;;PRESENTE;;PRESENTE;
-Apuane;"CURE INTERMEDIE FOSSONE -CARRARA 
-Carrara (MS) Piazza Sacco e Vanzetti 1";20;1;;;;PRESENTE;;PRESENTE;PRESENTE;;;PRESENTE;;PRESENTE;;PRESENTE;
+Apuane;"OSPEDALE DI COMUNITA' DI MASSA
+P.zza 4 Novembre (MS)";20;1;NO;ATTIVO;PRESENTE;PRESENTE;;PRESENTE;PRESENTE;;;PRESENTE;;PRESENTE;;PRESENTE;
+Apuane;"CURE INTERMEDIE FOSSONE -CARRARA
+Carrara (MS) Piazza Sacco e Vanzetti 1";20;1;x;31/03/2026;PRESENTE;;PRESENTE;PRESENTE;;;PRESENTE;;PRESENTE;;PRESENTE;
 Alta val di Cecina - Valdera;"CURE INTERMEDIE BIENTINA
-Bientina (PI) Via Don Falaschi snc";40;2;;;;PRESENTE;;PRESENTE;PRESENTE;;;;PRESENTE;PRESENTE;;;
+Bientina (PI) Via Don Falaschi snc";40;2;NO;;PRESENTE;;PRESENTE;PRESENTE;;;;PRESENTE;PRESENTE;;;
 Alta val di Cecina - Valdera;"CURE INTERMEDIE SANTA MARIA MADDALENA DI VOLTERRA
-Volterra (PI) Borgo San Lazzaro 5";18;1;;;;PRESENTE;;PRESENTE;PRESENTE;;;;;PRESENTE;;;
-Elba;"OSPEDALE DI COMUNITA’ PORTOFERRAIO
-Via S.Rocco, Portoferraio (LI)";8;2;;;;PRESENTE;;PRESENTE;PRESENTE;;;;;PRESENTE;;;
+Volterra (PI) Borgo San Lazzaro 5";18;1;NO;;PRESENTE;;PRESENTE;PRESENTE;;;;;PRESENTE;;;
+Elba;"OSPEDALE DI COMUNITAï¿½ PORTOFERRAIO
+Via S.Rocco, Portoferraio (LI)";8;2;NO;;PRESENTE;;PRESENTE;PRESENTE;;;;;PRESENTE;;;
 Livornese;"OSPEDALE DI COMUNITA' PADIGLIONE 5
 Livorno (LI) Viale Alfieri 36";40;20 da 1 e 20 da 2;X;31/03/2026;;PRESENTE;;;PRESENTE;PRESENTE;;PRESENTE;;PRESENTE;;;
 Piana Lucca;"CAMPO DI MARTE
 Lucca (LU) Via Ospedale, 1";40;20 da 1 e 20 da 2;X;31/03/2026;;PRESENTE;;PRESENTE;PRESENTE;;;PRESENTE;;PRESENTE;;;
-Valli Etrusche;"OSPEDALE DI COMUNITA’ CECINA 
+Valli Etrusche;"OSPEDALE DI COMUNITAï¿½ CECINA 
 Cecina (LI) Via Montanara, 52";16;1;X;31/10/2025;NON RICHIESTO;PRESENTE;;;PRESENTE;FINANZIATO;;;;PRESENTE;;;
-Valli Etrusche;"OSPEDALE DI COMUNITA’ PIOMBINO
+Valli Etrusche;"OSPEDALE DI COMUNITAï¿½ PIOMBINO
 Piombino (LI) Via Carlo Forlanini, 24";20;2;X;31/12/2026;NON RICHIESTO;PRESENTE;;;PRESENTE;FINANZIATO;;;;PRESENTE;;;
 Valle del Serchio;"OSPEDALE DI COMUNITA' BARGA
 Barga (LU) Via dei Frati 1";20;1;X;31/03/2026;;;;;;;;;;;;;
