@@ -1,0 +1,66 @@
+Tipologia,Codice,Nome_Struttura,Zona,Classificazione,Comune,Provincia,Indirizzo,CAP,PNRR,Posti_Letto
+CdC,CDC001,CdC Aulla,Lunigiana,Hub,Aulla,,Piazza Roma,,NO,
+CdC,CDC002,CdC Pontremoli,Lunigiana,Spoke,Pontremoli,,Via Mazzini 44,,SI,
+CdC,CDC003,CdC Villafranca in Lunigiana,Lunigiana,Spoke,Villafranca in Lunigiana,,Via Baracchini,,NO,
+CdC,CDC004,CdC Massa,Apuane,Hub,Massa,,Piazza 4 Novembre,,NO,
+CdC,CDC005,CdC Montignoso,Apuane,Spoke,Montignoso,,Via Carlo Sforza 52,,SI,
+CdC,CDC006,CdC Carrara centro,Apuane,Spoke,Carrara centro,,Piazza Sacco e Vanzetti 5,,SI,
+CdC,CDC007,CdC Carrara Avenza,Apuane,Hub,Carrara Avenza,,Via Campo d'Appio,,NO,
+CdC,CDC008,CdC Castelnuovo,Valle del Serchio,Hub,Castelnuovo,,Via Della Fabbrica (Castel),,NO,
+CdC,CDC009,CdC Gallicano,Valle del Serchio,Spoke,Gallicano,,Via Beata Elena Guerra (Gall),,NO,
+CdC,CDC010,CdC Piazza al Serchio,Valle del Serchio,Spoke,Piazza al Serchio,,Via Comunale 1 (Piazza),,NO,
+CdC,CDC011,CdC Fornoli,Valle del Serchio,Spoke,Fornoli,,P.zza Aldo Moro (Bagni Lucca),,NO,
+CdC,CDC012,CdC S. Leonardo In Treponzio,Piana di Lucca,Spoke,S. Leonardo In Treponzio,,Via Sottomonte snc,,SI,
+CdC,CDC013,CdC Pescaglia,Piana di Lucca,Spoke,Pescaglia,,Via Donaldo Mei snc,,SI,
+CdC,CDC014,CdC Marlia,Piana di Lucca,Hub,Marlia,,Via del Parco 3,,NO,
+CdC,CDC015,CdC Turchetto,Piana di Lucca,Hub,Turchetto,,Piazza Nenni,,NO,
+CdC,CDC016,CdC Campo di Marte,Piana di Lucca,Hub,Campo di Marte,,Via Ospedale 1,,NO,
+CdC,CDC017,CdC Camaiore,Versilia,Spoke,Camaiore,,Via Guglielmo Oberdan 28,,SI,
+CdC,CDC018,CdC Pietrasanta,Versilia,Spoke,Pietrasanta,,Martiri di Sant'anna snc,,SI,
+CdC,CDC019,CdC Terminetto,Versilia,Spoke,Terminetto,,"Piazza Bonconsiglio 1, loc Terminetto",,SI,
+CdC,CDC020,CdC Tabarracci,Versilia,Hub,Tabarracci,,Via Fratti,,NO,
+CdC,CDC021,CdC Querceta,Versilia,Spoke,Querceta,,Via delle Contrade,,NO,
+CdC,CDC022,CdC Seravezza,Versilia,Spoke,Seravezza,,Via Campana,,NO,
+CdC,CDC023,CdC Torre del Lago,Versilia,Spoke,Torre del Lago,,Via Aurelia sud253,,NO,
+CdC,CDC024,CdC Massarosa,Versilia,Spoke,Massarosa,,Via Cavalieri di Vittorio Veneto,,NO,
+CdC,CDC025,CdC Cascina,Pisana,Hub,Cascina,,Via Fabrizio De André 43,,SI,
+CdC,CDC026,CdC Crespina Lorenzana,Pisana,Spoke,Crespina Lorenzana,,Località Pian di Laura NUOVA COSTRUZIONE,,SI,
+CdC,CDC027,CdC Pisa Via Garibaldi,Pisana,Hub,Pisa Via Garibaldi,,Via Garibaldi 198,,SI,
+CdC,CDC028,CdC Marina di Pisa,Pisana,Spoke,Marina di Pisa,,Via Flavio Andò 5,,SI,
+CdC,CDC029,CdC San Giuliano Terme,Pisana,Spoke,San Giuliano Terme,,Via Martin Luther King 10,,SI,
+CdC,CDC030,CdC Vecchiano,Pisana,Spoke,Vecchiano,,Via Della Rocca 26,,SI,
+CdC,CDC031,CdC Bientina,Valdera,Spoke,Bientina,,Via Don Falaschi,,SI,
+CdC,CDC032,CdC Pomarance,AVC,Hub,Pomarance,,Via Roma snc,,SI,
+CdC,CDC033,CdC Pontedera,Valdera,Hub,Pontedera,,Via Fleming 1,,SI,
+CdC,CDC034,CdC Volterra,AVC,Hub,Volterra,,Borgo San Lazzaro 5,,SI,
+CdC,CDC035,CdC La Rosa,Valdera,Hub,La Rosa,,Via G. Verdi,,NO,
+CdC,CDC036,CdC Rospicciano Ponsacco,Valdera,Spoke,Rospicciano Ponsacco,,Via Rospicciano,,SI,
+CdC,CDC037,CdC Collesalvetti,Livornese,Spoke,Collesalvetti,,Via Armando Picchi snc,,SI,
+CdC,CDC038,CdC Livorno Sud,Livornese,Spoke,Livorno Sud,,Via del Mare 82,,NO,
+CdC,CDC039,CdC Livorno Est,Livornese,Spoke,Livorno Est,,Via Peppino Impastato 10,,SI,
+CdC,CDC040,CdC Livorno Nord,Livornese,Hub,Livorno Nord,,Via della Fiera di Sant'Antonio,,NO,
+CdC,CDC041,CdC Stagno,Livornese,Spoke,Stagno,,Via Carlo Marx,,NO,
+CdC,CDC042,CdC Padiglione 24,Livornese,Hub,Padiglione 24,,Viale Alfieri 36,,NO,
+CdC,CDC043,CdC Livorno Centro,Livornese,Spoke,Livorno Centro,,Via Ernesto Rossi 46,,SI,
+CdC,CDC044,CdC Portoferraio,Elbana,Hub,Portoferraio,,Largo Torchiana snc,,SI,
+CdC,CDC045,CdC Rio Marina,Elbana,Spoke,Rio Marina,,Via della Rimembranza 2,,NO,
+CdC,CDC046,CdC Marciana Marina,Elbana,Spoke,Marciana Marina,,Via Regina Margherita 39/40,,NO,
+CdC,CDC047,CdC Cecina,Valli Etrusche,Hub,Cecina,,Via Girolamo Savonarola 82,,SI,
+CdC,CDC048,CdC Rosignano Marittimo,Valli Etrusche,Hub,Rosignano Marittimo,,Via Di Lungomonte snc,,NO,
+CdC,CDC049,CdC Suvereto,Valli Etrusche,Spoke,Suvereto,,Località Il Logo snc,,SI,
+CdC,CDC050,CdC Piombino-Via Veneto,Valli Etrusche,Hub,Piombino-Via Veneto,,Via Veneto,,NO,
+CdC,CDC051,CdC Donoratico,Valli Etrusche,Spoke,Donoratico,,Piazza Euopoa,,NO,
+CdC,CDC052,CdC San Vincenzo,Valli Etrusche,Spoke,San Vincenzo,,Piazza Papa Giovanni 23,,NO,
+CdC,CDC053,CdC Venturina,Valli Etrusche,Spoke,Venturina,,Via del lavoro 1/f,,NO,
+OdC,ODC001,OdC MASSA,Apuane,,MASSA,,,,SI,20.0
+OdC,ODC002,OdC FOSSONE -CARRARA Carrara,Apuane,,FOSSONE -CARRARA CARRARA,,,,SI,20.0
+OdC,ODC003,OdC BIENTINA Bientina,Alta val di Cecina - Valdera,,BIENTINA BIENTINA,,,,SI,40.0
+OdC,ODC004,OdC SANTA MARIA MADDALENA DI VOLTERRA Volterra,Alta val di Cecina - Valdera,,SANTA MARIA MADDALENA DI VOLTERRA VOLTERRA,,,,SI,18.0
+OdC,ODC005,OdC OSPEDALE DI COMUNITA PORTOFERRAIO,Elba,,OSPEDALE DI COMUNITA PORTOFERRAIO,,,,SI,8.0
+OdC,ODC006,OdC PADIGLIONE 5 Livorno,Livornese,,PADIGLIONE 5 LIVORNO,,,,SI,40.0
+OdC,ODC007,OdC CAMPO DI MARTE Lucca,Piana Lucca,,CAMPO DI MARTE LUCCA,,,,SI,40.0
+OdC,ODC008,OdC OSPEDALE DI COMUNITA CECINA Cecina,Valli Etrusche,,OSPEDALE DI COMUNITA CECINA CECINA,,,,SI,16.0
+OdC,ODC009,OdC OSPEDALE DI COMUNITA PIOMBINO Piombino,Valli Etrusche,,OSPEDALE DI COMUNITA PIOMBINO PIOMBINO,,,,SI,20.0
+OdC,ODC010,OdC BARGA Barga,Valle del Serchio,,BARGA BARGA,,,,SI,20.0
+OdC,ODC011,OdC LE PIANE (DETTA VILLETTA) San Romano Garfagnana (LU),Valle del Serchio,,LE PIANE (DETTA VILLETTA) SAN ROMANO GARFAGNANA (LU),,,,SI,8.0
+OdC,ODC012,OdC TABARRACCI,Versilia,,TABARRACCI,,,,SI,36.0

@@ -1,0 +1,123 @@
+REPORT CORREZIONI PNRR
+================================================================================
+
+Data: 2025-12-12 09:22:07
+File Master: ELENCO PROGETTI CdC E OdC.xlsx - PNRR.csv
+File Attuale: strutture_sanitarie.csv
+
+Correzioni applicate: 17
+
+DETTAGLIO CORREZIONI:
+--------------------------------------------------------------------------------
+
+CdC Pontremoli
+  Master: CdC di PONTREMOLI
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Carrara Avenza
+  Master: CdC CARRARA CENTRO
+  PNRR: NO → SI
+  Match score: 76.5%
+
+CdC Pescaglia
+  Master: CdC PESCAGLIA
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Camaiore
+  Master: CdC di CAMAIORE
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Terminetto
+  Master: CdC TERMINETTO
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Cascina
+  Master: CdC CASCINA
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Crespina Lorenzana
+  Master: CdC CRESPINA LORENZANA
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Pisa Via Garibaldi
+  Master: CdC PISA VIA GARIBALDI
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Marina di Pisa
+  Master: CdC MARINA DI PISA
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Vecchiano
+  Master: CdC VECCHIANO
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Bientina
+  Master: CdC CECINA
+  PNRR: SI → NO
+  Match score: 70.0%
+
+CdC Collesalvetti
+  Master: CdC COLLESALVETTI
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Livorno Sud
+  Master: CdC LIVORNO EST
+  PNRR: NO → SI
+  Match score: 85.7%
+
+CdC Livorno Centro
+  Master: CdC LIVORNO CENTRO
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Portoferraio
+  Master: CdC PORTOFERRAIO
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Cecina
+  Master: CdC CECINA
+  PNRR: SI → NO
+  Match score: 100.0%
+
+CdC Suvereto
+  Master: CdC SUVERETO
+  PNRR: SI → NO
+  Match score: 100.0%
+
+
+STRUTTURE NON NEL MASTER (mantenute invariate):
+--------------------------------------------------------------------------------
+  - CdC Aulla
+  - CdC Villafranca in Lunigiana
+  - CdC Massa
+  - CdC Castelnuovo
+  - CdC Gallicano
+  - CdC Piazza al Serchio
+  - CdC Fornoli
+  - CdC Marlia
+  - CdC Tabarracci
+  - CdC Seravezza
+  - CdC Torre del Lago
+  - CdC Massarosa
+  - CdC La Rosa
+  - CdC Rospicciano Ponsacco
+  - CdC Stagno
+  - CdC Padiglione 24
+  - CdC Rio Marina
+  - CdC Marciana Marina
+  - CdC Rosignano Marittimo
+  - CdC Piombino-Via Veneto
+  - CdC Donoratico
+  - CdC San Vincenzo
+  - CdC Venturina
