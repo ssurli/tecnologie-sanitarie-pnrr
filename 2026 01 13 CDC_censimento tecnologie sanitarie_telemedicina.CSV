@@ -1,0 +1,61 @@
+;;;;;;;;;;;;;;;;;;;;;
+"Nelle caselle in giallo, per ELETTROCARDIOGRAFI, SPIROMETRI ed ECOGRAFI ove indicato PRESENTE occorre inserire il relativo numero di inventario
+
+PRESENTE se già individuato presso la struttura/zona
+FINANZIATO se previsto dal RUP nel progetto PNRR oppure se già ordinato
+DA ACQUISTARE se non presente e non ancora finanziato
+NON RICHIESTO ove al momento non occorresse presso la specifica struttura";;;;;;;;;;;;;;;;;;;;;
+Zona;Denominazione;Tipologia;PNRR;indirizzo;ECG;ECG - INSERIRE SE PRESENTE IL NUMERO DI INVENTARIO ;Holter cardiaco - NB: FORNITI PNRR ALLE ZONE PER COT N. 14 STAZIONI SCARICO E N. 23 HOLTER;Spirometro - NB: FORNITI PNRR ALLE ZONE PER COT n. 34 SPIROMETRI con licenza di rete;SPIROMETRO - INSERIRE SE PRESENTE IL NUMERO DI INVENTARIO ;Ecografo portatile - NB: FORNITI PNRR ALLE ZONE PER COT n. 35 ECOGRAFI con DUE SONDE;ECOGRAFO - INSERIRE SE PRESENTE IL NUMERO DI INVENTARIO ;Monitor multiparametrico NB: FORNITI PNRR ALLE ZONE PER COT n. 34 MON ;;;;;;;;;
+Lunigiana;Aulla;Hub;;Piazza Roma;DA ACQUISTARE;;DA ACQUISTARE;PRESENTE;;PRESENTE;;PRESENTE;;;;;;;;;
+Lunigiana;Pontremoli;Spoke;PNRR;Via Mazzini 44;DA ACQUISTARE;;DA ACQUISTARE;PRESENTE;;DA ACQUISTARE;;NON RICHIESTO;;;;;;;;;
+Lunigiana;Villafranca in Lunigiana;Spoke;;Via Baracchini;**PRESENTE;;DA ACQUISTARE;PRESENTE;;PRESENTE;;PRESENTE;** da verificare modulo DICOM per trasmissione;;;;;;;;
+Apuane;Massa;Hub;;Piazza 4 Novembre;PRESENTE;;DA ACQUISTARE;PRESENTE;;PRESENTE;;PRESENTE;;;;;;;;;
+Apuane;Montignoso;Spoke;PNRR;Via Carlo Sforza 52;PRESENTE;;PRESENTE;PRESENTE;;PRESENTE;;PRESENTE;;;;;;;;;
+Apuane;Carrara centro;Spoke;PNRR;Piazza Sacco e Vanzetti 5;PRESENTE;;PRESENTE;PRESENTE;;PRESENTE;;PRESENTE;;;;;;;;;
+Apuane;Carrara Avenza;Hub;;Via Campo d'Appio;PRESENTE;;DA ACQUISTARE;DA ACQUISTARE;;PRESENTE;;DA ACQUISTARE;;;;;;;;;
+Valle del Serchio;Castelnuovo;Hub;;Via Della Fabbrica (Castel);* FINANZIATO;;PRESENTE;PRESENTE;;PRESENTE;;***PRESENTE ;* Fondi a disposizione della Zona;;;;;;;;
+Valle del Serchio;Gallicano;Spoke;;Via Beata Elena Guerra (Gall);**PRESENTE;;DA ACQUISTARE;PRESENTE;;PRESENTE;;***PRESENTE ;** da verificare  presenza del modulo DICOM;;;;;;;;
+Valle del Serchio;Piazza al Serchio;Spoke;;Via Comunale 1 (Piazza);**PRESENTE;;DA ACQUISTARE;PRESENTE;;PRESENTE;;PRESENTE ;*** multiparametrico già presente da verificare caratteristiche;;;;;;;;
+Valle del Serchio;Fornoli;Spoke;;P.zza Aldo Moro (Bagni Lucca);**PRESENTE;;DA ACQUISTARE;PRESENTE;;PRESENTE;;PRESENTE;;;;;;;;;
+Piana di Lucca;S. Leonardo In Treponzio;Spoke;PNRR;Via Sottomonte snc;FINANZIATO ;;PRESENTE;PRESENTE;;PRESENTE;;PRESENTE;;;;;;;;;
+Piana di Lucca;Pescaglia;Spoke;PNRR;Via Donaldo Mei snc;FINANZIATO ;;DA ACQUISTARE;PRESENTE;;DA ACQUISTARE;;PRESENTE;;;;;;;;;
+Piana di Lucca;Marlia;Hub;;Via del Parco 3;DA ACQUISTARE;;PRESENTE;PRESENTE;;PRESENTE;;PRESENTE;;;;;;;;;
+Piana di Lucca;Turchetto;Hub;;Piazza Nenni;FINANZIATO ;;DA ACQUISTARE;PRESENTE;;PRESENTE;;PRESENTE;;;;;;;;;
+Piana di Lucca;Campo di Marte;Hub;;Via Ospedale 1;PRESENTE;;PRESENTE;PRESENTE;;PRESENTE;;PRESENTE;;;;;;;;;
+Versilia;Camaiore;Spoke;PNRR;Via Guglielmo Oberdan 28;DA ACQUISTARE;;NON RICHIESTO;DA ACQUISTARE;;DA ACQUISTARE;;DA ACQUISTARE;;;;;;;;;
+Versilia;Pietrasanta;Spoke;PNRR;Martiri di Sant'anna snc;DA ACQUISTARE;;NON RICHIESTO;PRESENTE;;DA ACQUISTARE;;PRESENTE;;;;;;;;;
+Versilia;Terminetto;Spoke;PNRR;Piazza Bonconsiglio 1, loc Terminetto;DA ACQUISTARE;;NON RICHIESTO;DA ACQUISTARE;;DA ACQUISTARE;;DA ACQUISTARE;;;;;;;;;
+Versilia;Tabarracci;Hub;;Via Fratti;PRESENTE;;PRESENTE;PRESENTE;;PRESENTE;;DA ACQUISTARE;;;;;;;;;
+Versilia;Querceta;Spoke;;Via delle Contrade;PRESENTE;;NON RICHIESTO;NON RICHIESTO;;PRESENTE ;;PRESENTE;;;;;;;;;
+Versilia;Seravezza;Spoke;;Via Campana;PRESENTE;;NON RICHIESTO;PRESENTE;;PRESENTE;;PRESENTE;;;;;;;;;
+Versilia;Torre del Lago;Spoke;;Via Aurelia sud253;NON RICHIESTO;;NON RICHIESTO;NON RICHIESTO;;NON RICHIESTO;;NON RICHIESTO;;;;;;;;;
+Versilia;Massarosa;Spoke;;Via Cavalieri di Vittorio Veneto;NON RICHIESTO;;NON RICHIESTO;NON RICHIESTO;;NON RICHIESTO;;NON RICHIESTO;;;;;;;;;
+Pisana;Cascina;Hub;PNRR;Via Fabrizio De André 43;PRESENTE;;"PRESENTE""";PRESENTE;;"PRESENTE""";;"PRESENTE""";""" ASSEGNATO COT";;;;;;;;
+Pisana;Crespina Lorenzana;Spoke;PNRR;Località Pian di Laura NUOVA COSTRUZIONE;DA ACQUISTARE;;DA ACQUISTARE;DA ACQUISTARE;;DA ACQUISTARE;;DA ACQUISTARE;""" ASSEGNATO COT";;;;;;;;
+Pisana;Pisa Via Garibaldi;Hub;PNRR;Via Garibaldi 198;PRESENTE;;"PRESENTE""";PRESENTE;;PRESENTE;;"PRESENTE""";""" ASSEGNATO COT";;;;;;;;
+Pisana;Marina di Pisa;Spoke;PNRR;Via Flavio Andò 5;PRESENTE;;DA ACQUISTARE;PRESENTE;;"PRESENTE""";;"PRESENTE""";""" ASSEGNATO COT";;;;;;;;
+Pisana;San Giuliano Terme;Spoke;PNRR;Via Martin Luther King 10;PRESENTE;;DA ACQUISTARE;PRESENTE;;"PRESENTE""";;"PRESENTE""";""" ASSEGNATO COT";;;;;;;;
+Pisana;Vecchiano;Spoke;PNRR;Via Della Rocca 26;PRESENTE;;DA ACQUISTARE;PRESENTE;;DA ACQUISTARE;;"PRESENTE""";""" ASSEGNATO COT";;;;;;;;
+Valdera;Bientina;Spoke;PNRR;Via Don Falaschi;PRESENTE;;DA ACQUISTARE;PRESENTE;;PRESENTE;;DA ACQUISTARE;;;;;;;;;
+AVC;Pomarance;Hub;PNRR;Via Roma snc;PRESENTE*;715227;DA ACQUISTARE;PRESENTE;S008007;PRESENTE;S010382;DA ACQUISTARE;*NON UTILIZZABILE PER TELEMEDICINA PER ASSENZA DEI REQUISITI TECNICI (NEL PRECEDENTE MONITORAGGIO ERA CENSITO “ DA ACQUISTARE”);;;;;;;;
+Valdera;Pontedera;Hub;PNRR;Via Fleming 1;PRESENTE;;PRESENTE;DA ACQUISTARE;;DA ACQUISTARE;;PRESENTE;;;;;;;;;
+AVC ;Volterra;Hub;PNRR;Borgo San Lazzaro 5;PRESENTE*;711795;PRESENTE;DA ACQUISTARE;;PRESENTE**;S003441;DA ACQUISTARE;"**e’ presente un ecografo, ma per le attività previste ne servirebbero 2; *NON UTILIZZABILE PER TELEMEDICINA PER ASSENZA DEI REQUISITI TECNICI (NEL PRECEDENTE MONITORAGGIO ERA CENSITO “ DA ACQUISTARE”)";;;;;;;;
+Valdera;La Rosa;Hub;;Via G. Verdi;PRESENTE;;PRESENTE;PRESENTE;;PRESENTE;;PRESENTE;;;;;;;;;
+Valdera;Rospicciano Ponsacco;Spoke;PNRR;Via Rospicciano;PRESENTE;;DA ACQUISTARE;DA ACQUISTARE;;DA ACQUISTARE;;DA ACQUISTARE;;;;;;;;;
+Livornese;Collesalvetti;Spoke;PNRR;Via Armando Picchi snc;PRESENTE;;DA ACQUISTARE;PRESENTE;;DA ACQUISTARE;;NON RICHIESTO;;;;;;;;;
+Livornese;Livorno Sud;Spoke;;Via del Mare 82;PRESENTE;;NON RICHIESTO;PRESENTE ;;PRESENTE;;PRESENTE;;;;;;;;;
+Livornese;Livorno Est;Spoke;PNRR;Via Peppino Impastato 10;PRESENTE;;PRESENTE;DA ACQUISTARE;;PRESENTE;;NON RICHIESTO;;;;;;;;;
+Livornese;Livorno Nord;Hub;no 2026;Via della Fiera di Sant'Antonio;;;;;;;;;aperta come CSS, in attesa finanziamento ex art. 20;;;;;;;;
+Livornese;Stagno;Spoke;;Via Carlo Marx;DA ACQUISTARE;;NON RICHIESTO;DA ACQUISTARE;;DA ACQUISTARE;;NON RICHIESTO;;;;;;;;;
+Livornese;Padiglione 24;Hub;;Viale Alfieri 36;DA ACQUISTARE;;DA ACQUISTARE;DA ACQUISTARE;;DA ACQUISTARE;;PRESENTE;OCCORRE ECG 12 Derivazioni;;;;;;;;
+Livornese;Livorno Centro;Spoke;PNRR;Via Ernesto Rossi 46;DA ACQUISTARE;;DA ACQUISTARE;PRESENTE;;DA ACQUISTARE;;NON RICHIESTO;OCCORRE ECG 12 Derivazioni;;;;;;;;
+Elbana;Portoferraio;Hub;PNRR;Largo Torchiana snc;DA ACQUISTARE;;PRESENTE;DA ACQUISTARE;;DA ACQUISTARE;;DA ACQUISTARE;;;;;;;;;
+Elbana;Rio Marina;Spoke;;Via della Rimembranza 2;DA ACQUISTARE;;DA ACQUISTARE;DA ACQUISTARE;;PRESENTE;;PRESENTE;già fornito PNRR, messo a Campo Nell'Elba;;;;;;;;
+Elbana;Marciana Marina;Spoke;;Via Regina Margherita 39/40;DA ACQUISTARE;;DA ACQUISTARE;DA ACQUISTARE;;PRESENTE;;PRESENTE;già fornito PNRR, messo a Porto Azzurro;;;;;;;;
+Valli Etrusche;Cecina;Hub;PNRR;Via Girolamo Savonarola 82;DA ACQUISTARE;;PRESENTE;DA ACQUISTARE;;DA ACQUISTARE;;PRESENTE;;;;;;;;;
+Valli Etrusche;Rosignano Marittimo;Hub;;Via Di Lungomonte snc;DA ACQUISTARE;;PRESENTE;PRESENTE;;DA ACQUISTARE;;NON RICHIESTO;in considerazione della prevista attivazione del PIR al 1.4.26;;;;;;;;
+Valli Etrusche;Suvereto;Spoke;PNRR;Località Il Logo snc;FINANZIATO;;NON RICHIESTO;FINANZIATO;;FINANZIATO;;PRESENTE;;;;;;;;;
+Valli Etrusche;Piombino-Via Veneto;Hub;no 2026;Via Veneto;;;PRESENTE;;;;;;apertura non prevista nel 2026;;;;;;;;
+Valli Etrusche;Donoratico;Spoke;;Piazza Euopoa;DA ACQUISTARE;;PRESENTE;DA ACQUISTARE;;PRESENTE;;NON RICHIESTO;;;;;;;;;
+Valli Etrusche;San Vincenzo;Spoke;;Piazza Papa Giovanni 23;DA ACQUISTARE;;DA ACQUISTARE;DA ACQUISTARE;;DA ACQUISTARE;;NON RICHIESTO;;;;;;;;;
+Valli Etrusche;Venturina;Spoke;;Via del lavoro 1/f;DA ACQUISTARE;;PRESENTE;PRESENTE;;PRESENTE;;PRESENTE;;;;;;;;;
