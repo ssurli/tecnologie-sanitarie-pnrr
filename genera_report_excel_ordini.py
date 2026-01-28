@@ -417,9 +417,114 @@ def create_fabbisogno_acquisti_sheet(wb, df):
         ws.cell(row=row, column=c).fill = TOTAL_FILL
         ws.cell(row=row, column=c).border = THIN_BORDER
 
-    # SEZIONE 3: Riepilogo per PNRR/non-PNRR
+    # SEZIONE 3: TABELLA FABBISOGNI PER TIPOLOGIA ATTREZZATURA (PNRR vs non-PNRR)
     row += 3
-    ws.cell(row=row, column=1, value="RIEPILOGO PNRR / non-PNRR").font = Font(bold=True, size=12)
+    ws.cell(row=row, column=1, value="FABBISOGNO PER TIPOLOGIA ATTREZZATURA (PNRR vs non-PNRR)").font = Font(bold=True, size=12, color="1F4E79")
+    row += 1
+    ws.cell(row=row, column=1, value="Tabella riepilogativa per procedere agli acquisti").font = Font(italic=True, size=10)
+    row += 2
+
+    # Crea pivot table per dispositivo e PNRR
+    pivot = da_acquistare.pivot_table(
+        index=['Codice_Dispositivo', 'Descrizione', 'Costo_Unitario_EUR'],
+        columns='PNRR',
+        values=['Quantita_Da_Acquistare', 'Costo_Totale'],
+        aggfunc='sum',
+        fill_value=0
+    ).reset_index()
+
+    # Appiattisci le colonne multi-livello
+    pivot.columns = ['_'.join(col).strip('_') if isinstance(col, tuple) else col for col in pivot.columns]
+
+    # Rinomina e riordina colonne
+    col_mapping = {
+        'Codice_Dispositivo': 'Codice',
+        'Descrizione': 'Descrizione Attrezzatura',
+        'Costo_Unitario_EUR': 'Costo Unit. €'
+    }
+
+    # Gestisci colonne PNRR e non-PNRR
+    for old_col in pivot.columns:
+        if 'Quantita_Da_Acquistare_SI' in old_col:
+            col_mapping[old_col] = 'Qtà PNRR'
+        elif 'Quantita_Da_Acquistare_NO' in old_col:
+            col_mapping[old_col] = 'Qtà non-PNRR'
+        elif 'Costo_Totale_SI' in old_col:
+            col_mapping[old_col] = 'Importo PNRR €'
+        elif 'Costo_Totale_NO' in old_col:
+            col_mapping[old_col] = 'Importo non-PNRR €'
+
+    pivot = pivot.rename(columns=col_mapping)
+
+    # Assicurati che tutte le colonne esistano
+    for col in ['Qtà PNRR', 'Qtà non-PNRR', 'Importo PNRR €', 'Importo non-PNRR €']:
+        if col not in pivot.columns:
+            pivot[col] = 0
+
+    # Calcola totali
+    pivot['Qtà TOTALE'] = pivot['Qtà PNRR'] + pivot['Qtà non-PNRR']
+    pivot['Importo TOTALE €'] = pivot['Importo PNRR €'] + pivot['Importo non-PNRR €']
+
+    # Ordina per importo totale decrescente
+    pivot = pivot.sort_values('Importo TOTALE €', ascending=False)
+
+    # Seleziona colonne finali nell'ordine desiderato
+    final_cols = ['Codice', 'Descrizione Attrezzatura', 'Costo Unit. €',
+                  'Qtà PNRR', 'Importo PNRR €', 'Qtà non-PNRR', 'Importo non-PNRR €',
+                  'Qtà TOTALE', 'Importo TOTALE €']
+    pivot = pivot[[c for c in final_cols if c in pivot.columns]]
+
+    # Scrivi header
+    headers = list(pivot.columns)
+    for c, h in enumerate(headers, 1):
+        cell = ws.cell(row=row, column=c, value=h)
+        cell.fill = HEADER_FILL
+        cell.font = HEADER_FONT
+        cell.border = THIN_BORDER
+        cell.alignment = Alignment(horizontal='center', wrap_text=True)
+    row += 1
+
+    # Scrivi dati
+    for _, data_row in pivot.iterrows():
+        for c, col in enumerate(headers, 1):
+            cell = ws.cell(row=row, column=c, value=data_row[col])
+            cell.border = THIN_BORDER
+            # Formatta numeri
+            if '€' in col:
+                cell.number_format = '€ #,##0.00'
+            # Evidenzia colonne PNRR
+            if 'PNRR' in col and 'non' not in col:
+                cell.fill = PNRR_FILL
+            elif 'non-PNRR' in col:
+                cell.fill = NON_PNRR_FILL
+        row += 1
+
+    # Riga totale
+    ws.cell(row=row, column=1, value="TOTALE").font = TOTAL_FONT
+
+    # Calcola totali per ogni colonna numerica
+    totals = {
+        'Qtà PNRR': pivot['Qtà PNRR'].sum() if 'Qtà PNRR' in pivot.columns else 0,
+        'Importo PNRR €': pivot['Importo PNRR €'].sum() if 'Importo PNRR €' in pivot.columns else 0,
+        'Qtà non-PNRR': pivot['Qtà non-PNRR'].sum() if 'Qtà non-PNRR' in pivot.columns else 0,
+        'Importo non-PNRR €': pivot['Importo non-PNRR €'].sum() if 'Importo non-PNRR €' in pivot.columns else 0,
+        'Qtà TOTALE': pivot['Qtà TOTALE'].sum() if 'Qtà TOTALE' in pivot.columns else 0,
+        'Importo TOTALE €': pivot['Importo TOTALE €'].sum() if 'Importo TOTALE €' in pivot.columns else 0
+    }
+
+    for c, col in enumerate(headers, 1):
+        cell = ws.cell(row=row, column=c)
+        if col in totals:
+            cell.value = totals[col]
+            if '€' in col:
+                cell.number_format = '€ #,##0.00'
+        cell.fill = TOTAL_FILL
+        cell.font = TOTAL_FONT
+        cell.border = THIN_BORDER
+
+    # SEZIONE 4: Riepilogo semplice PNRR/non-PNRR
+    row += 3
+    ws.cell(row=row, column=1, value="RIEPILOGO TOTALE").font = Font(bold=True, size=12)
     row += 1
 
     pnrr_summary = da_acquistare.groupby('PNRR').agg({
@@ -432,7 +537,16 @@ def create_fabbisogno_acquisti_sheet(wb, df):
 
     row = write_df_to_sheet(ws, pnrr_summary, start_row=row)
 
-    auto_adjust_column_width(ws, dettaglio)
+    # Imposta larghezza colonne
+    ws.column_dimensions['A'].width = 12
+    ws.column_dimensions['B'].width = 45
+    ws.column_dimensions['C'].width = 14
+    ws.column_dimensions['D'].width = 12
+    ws.column_dimensions['E'].width = 16
+    ws.column_dimensions['F'].width = 14
+    ws.column_dimensions['G'].width = 18
+    ws.column_dimensions['H'].width = 12
+    ws.column_dimensions['I'].width = 18
 
 
 def create_base_aggiornamenti_sheet(wb, strutture, catalogo, dotazioni):
