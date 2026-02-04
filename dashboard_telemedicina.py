@@ -875,7 +875,11 @@ def main():
     st.sidebar.subheader("📥 Export Report")
 
     # Genera report Excel
-    excel_data = genera_report_excel_filtrato(df_strutture, df_catalogo, df_dotazioni, df_fabbisogno)
+    try:
+        excel_data = genera_report_excel_filtrato(df_strutture, df_catalogo, df_dotazioni, df_fabbisogno)
+    except Exception as e:
+        st.sidebar.error(f"Errore generazione: {e}")
+        excel_data = None
 
     if excel_data:
         from datetime import datetime
