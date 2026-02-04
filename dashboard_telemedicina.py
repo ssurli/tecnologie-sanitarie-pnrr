@@ -877,21 +877,21 @@ def main():
     # Genera report Excel
     try:
         excel_data = genera_report_excel_filtrato(df_strutture, df_catalogo, df_dotazioni, df_fabbisogno)
+        if excel_data:
+            from datetime import datetime
+            filename = f"Report_Fabbisogno_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
+            st.sidebar.download_button(
+                label="📊 Scarica Report Excel",
+                data=excel_data,
+                file_name=filename,
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                use_container_width=True
+            )
+            st.sidebar.caption(f"📋 Report con {len(df_strutture)} strutture")
+        else:
+            st.sidebar.warning("⚠️ Nessun dato per il report")
     except Exception as e:
-        st.sidebar.error(f"Errore generazione: {e}")
-        excel_data = None
-
-    if excel_data:
-        from datetime import datetime
-        filename = f"Report_Fabbisogno_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
-        st.sidebar.download_button(
-            label="📊 Scarica Report Excel",
-            data=excel_data,
-            file_name=filename,
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            use_container_width=True
-        )
-        st.sidebar.caption(f"📋 Report con {len(df_strutture)} strutture")
+        st.sidebar.error(f"❌ Errore: {e}")
 
     st.sidebar.divider()
 
