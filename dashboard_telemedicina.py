@@ -588,6 +588,216 @@ def pagina_standard_conformita(df_strutture, df_catalogo, df_dotazioni, df_dotaz
     """)
 
 
+def genera_report_excel_filtrato(df_strutture, df_catalogo, df_dotazioni, df_fabbisogno):
+    """Genera un report Excel con i dati filtrati per il download."""
+    from io import BytesIO
+    from openpyxl import Workbook
+    from openpyxl.styles import Font, PatternFill, Border, Side, Alignment
+    from openpyxl.utils.dataframe import dataframe_to_rows
+    from datetime import datetime
+
+    try:
+        wb = Workbook()
+
+        # Stili
+        header_fill = PatternFill(start_color="1F4E79", end_color="1F4E79", fill_type="solid")
+        header_font = Font(color="FFFFFF", bold=True)
+        pnrr_fill = PatternFill(start_color="C6EFCE", end_color="C6EFCE", fill_type="solid")
+        non_pnrr_fill = PatternFill(start_color="FFEB9C", end_color="FFEB9C", fill_type="solid")
+        total_fill = PatternFill(start_color="FFC000", end_color="FFC000", fill_type="solid")
+        thin_border = Border(
+            left=Side(style='thin'), right=Side(style='thin'),
+            top=Side(style='thin'), bottom=Side(style='thin')
+        )
+
+        # === FOGLIO 1: Riepilogo ===
+        ws = wb.active
+        ws.title = "Riepilogo"
+        ws['A1'] = "REPORT FABBISOGNO TECNOLOGIE SANITARIE"
+        ws['A1'].font = Font(bold=True, size=14)
+        ws['A2'] = f"Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}"
+        ws['A3'] = f"Strutture incluse: {len(df_strutture)}"
+
+        row = 5
+        # Statistiche
+        da_acq = df_fabbisogno[df_fabbisogno['Stato_Finanziamento'] == 'DA_ACQUISTARE']
+
+        stats = [
+            ("Strutture totali", len(df_strutture)),
+            ("CDC", len(df_strutture[df_strutture['Tipologia'] == 'CdC'])),
+            ("ODC/Cure Int.", len(df_strutture[df_strutture['Tipologia'].isin(['OdC', 'Cure Intermedie'])])),
+            ("PNRR", len(df_strutture[df_strutture['PNRR'] == 'SI'])),
+            ("non-PNRR", len(df_strutture[df_strutture['PNRR'] == 'NO'])),
+            ("", ""),
+            ("Dispositivi da acquistare", int(da_acq['Quantita_Da_Acquistare'].sum()) if not da_acq.empty else 0),
+            ("Costo totale €", da_acq['Costo_Totale'].sum() if not da_acq.empty else 0),
+        ]
+
+        for label, value in stats:
+            ws.cell(row=row, column=1, value=label)
+            ws.cell(row=row, column=2, value=value)
+            if isinstance(value, float):
+                ws.cell(row=row, column=2).number_format = '€ #,##0.00'
+            row += 1
+
+        # === FOGLIO 2: Fabbisogno per Tipologia Attrezzatura (PNRR vs non-PNRR) ===
+        ws2 = wb.create_sheet("Fabbisogno_Attrezzature")
+
+        ws2['A1'] = "FABBISOGNO PER TIPOLOGIA ATTREZZATURA"
+        ws2['A1'].font = Font(bold=True, size=14)
+        ws2['A2'] = "Tabella per procedere agli acquisti - Solo stato DA_ACQUISTARE"
+
+        # Merge con strutture per PNRR
+        df_fabb_strutt = df_fabbisogno.merge(
+            df_strutture[['Codice', 'PNRR']],
+            left_on='Codice_Struttura', right_on='Codice', how='left'
+        )
+
+        da_acq_merged = df_fabb_strutt[df_fabb_strutt['Stato_Finanziamento'] == 'DA_ACQUISTARE'].copy()
+
+        if not da_acq_merged.empty and 'PNRR' in da_acq_merged.columns:
+            # Crea pivot
+            pivot = da_acq_merged.pivot_table(
+                index=['Codice_Dotazione', 'Descrizione', 'Costo_Unitario_EUR'],
+                columns='PNRR',
+                values=['Quantita_Da_Acquistare', 'Costo_Totale'],
+                aggfunc='sum',
+                fill_value=0
+            ).reset_index()
+
+            # Appiattisci colonne
+            new_cols = []
+            for col in pivot.columns:
+                if isinstance(col, tuple):
+                    new_cols.append('_'.join([str(c) for c in col if c]).strip('_'))
+                else:
+                    new_cols.append(col)
+            pivot.columns = new_cols
+
+            # Aggiungi colonne mancanti
+            for col in ['Quantita_Da_Acquistare_SI', 'Quantita_Da_Acquistare_NO', 'Costo_Totale_SI', 'Costo_Totale_NO']:
+                if col not in pivot.columns:
+                    pivot[col] = 0
+
+            # Calcola totali
+            pivot['Qta_TOTALE'] = pivot.get('Quantita_Da_Acquistare_SI', 0) + pivot.get('Quantita_Da_Acquistare_NO', 0)
+            pivot['Importo_TOTALE'] = pivot.get('Costo_Totale_SI', 0) + pivot.get('Costo_Totale_NO', 0)
+
+            pivot = pivot.sort_values('Importo_TOTALE', ascending=False)
+
+            # Header
+            row = 4
+            headers = ['Codice', 'Descrizione', 'Costo Unit. €', 'Qtà PNRR', 'Importo PNRR €',
+                      'Qtà non-PNRR', 'Importo non-PNRR €', 'Qtà TOTALE', 'Importo TOTALE €']
+            for c, h in enumerate(headers, 1):
+                cell = ws2.cell(row=row, column=c, value=h)
+                cell.fill = header_fill
+                cell.font = header_font
+                cell.border = thin_border
+            row += 1
+
+            # Dati
+            for _, r in pivot.iterrows():
+                values = [
+                    r.get('Codice_Dotazione', ''),
+                    r.get('Descrizione', ''),
+                    r.get('Costo_Unitario_EUR', 0),
+                    int(r.get('Quantita_Da_Acquistare_SI', 0)),
+                    r.get('Costo_Totale_SI', 0),
+                    int(r.get('Quantita_Da_Acquistare_NO', 0)),
+                    r.get('Costo_Totale_NO', 0),
+                    int(r.get('Qta_TOTALE', 0)),
+                    r.get('Importo_TOTALE', 0)
+                ]
+                for c, v in enumerate(values, 1):
+                    cell = ws2.cell(row=row, column=c, value=v)
+                    cell.border = thin_border
+                    if c in [3, 5, 7, 9]:
+                        cell.number_format = '€ #,##0.00'
+                    if c in [4, 5]:
+                        cell.fill = pnrr_fill
+                    elif c in [6, 7]:
+                        cell.fill = non_pnrr_fill
+                row += 1
+
+            # Totale
+            totals = [
+                'TOTALE', '', '',
+                int(pivot.get('Quantita_Da_Acquistare_SI', pd.Series([0])).sum()),
+                pivot.get('Costo_Totale_SI', pd.Series([0])).sum(),
+                int(pivot.get('Quantita_Da_Acquistare_NO', pd.Series([0])).sum()),
+                pivot.get('Costo_Totale_NO', pd.Series([0])).sum(),
+                int(pivot.get('Qta_TOTALE', pd.Series([0])).sum()),
+                pivot.get('Importo_TOTALE', pd.Series([0])).sum()
+            ]
+            for c, v in enumerate(totals, 1):
+                cell = ws2.cell(row=row, column=c, value=v)
+                cell.fill = total_fill
+                cell.font = Font(bold=True)
+                cell.border = thin_border
+                if c in [3, 5, 7, 9]:
+                    cell.number_format = '€ #,##0.00'
+
+        # Imposta larghezza colonne
+        ws2.column_dimensions['A'].width = 12
+        ws2.column_dimensions['B'].width = 40
+        ws2.column_dimensions['C'].width = 14
+        ws2.column_dimensions['D'].width = 12
+        ws2.column_dimensions['E'].width = 16
+        ws2.column_dimensions['F'].width = 14
+        ws2.column_dimensions['G'].width = 18
+        ws2.column_dimensions['H'].width = 12
+        ws2.column_dimensions['I'].width = 18
+
+        # === FOGLIO 3: Dettaglio per Struttura ===
+        ws3 = wb.create_sheet("Dettaglio_Strutture")
+        ws3['A1'] = "DETTAGLIO FABBISOGNO PER STRUTTURA"
+        ws3['A1'].font = Font(bold=True, size=14)
+
+        # Prepara dati dettaglio
+        df_detail = df_fabbisogno.merge(
+            df_strutture[['Codice', 'Nome_Struttura', 'Tipologia', 'PNRR', 'Zona']],
+            left_on='Codice_Struttura', right_on='Codice', how='left'
+        )
+
+        df_detail = df_detail[df_detail['Stato_Finanziamento'] == 'DA_ACQUISTARE'].copy()
+
+        if not df_detail.empty:
+            export_cols = ['Codice_Struttura', 'Nome_Struttura', 'Tipologia', 'PNRR', 'Zona',
+                          'Codice_Dotazione', 'Descrizione', 'Quantita_Da_Acquistare',
+                          'Costo_Unitario_EUR', 'Costo_Totale']
+            df_export = df_detail[[c for c in export_cols if c in df_detail.columns]].copy()
+            df_export = df_export.sort_values(['PNRR', 'Tipologia', 'Nome_Struttura'], ascending=[False, True, True])
+
+            # Scrivi header
+            row = 3
+            for c, col in enumerate(df_export.columns, 1):
+                cell = ws3.cell(row=row, column=c, value=col)
+                cell.fill = header_fill
+                cell.font = header_font
+                cell.border = thin_border
+            row += 1
+
+            # Scrivi dati
+            for _, r in df_export.iterrows():
+                for c, col in enumerate(df_export.columns, 1):
+                    cell = ws3.cell(row=row, column=c, value=r[col])
+                    cell.border = thin_border
+                    if 'Costo' in col or 'EUR' in col:
+                        cell.number_format = '€ #,##0.00'
+                row += 1
+
+        # Salva in memoria
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+        return output.getvalue()
+
+    except Exception as e:
+        st.error(f"Errore generazione report: {e}")
+        return None
+
+
 def main():
     """Funzione principale"""
 
@@ -632,8 +842,52 @@ def main():
         df_strutture = df_strutture_orig.copy()
         df_dotazioni = df_dotazioni_orig.copy()
 
+    st.sidebar.divider()
+
+    # Filtro per selezione strutture specifiche (priorità attivazione)
+    st.sidebar.subheader("🎯 Selezione Strutture")
+
+    # Crea lista strutture con nome e codice
+    strutture_lista = df_strutture.apply(
+        lambda x: f"{x['Codice']} - {x['Nome_Struttura']}", axis=1
+    ).tolist()
+
+    strutture_selezionate = st.sidebar.multiselect(
+        "Seleziona strutture (priorità)",
+        options=strutture_lista,
+        default=[],
+        help="Seleziona le strutture per cui generare il report parziale"
+    )
+
+    # Applica filtro strutture se selezionate
+    if strutture_selezionate:
+        codici_selezionati = [s.split(' - ')[0] for s in strutture_selezionate]
+        df_strutture = df_strutture[df_strutture['Codice'].isin(codici_selezionati)].copy()
+        df_dotazioni = df_dotazioni[df_dotazioni['Codice_Struttura'].isin(codici_selezionati)].copy()
+        st.sidebar.success(f"✅ {len(codici_selezionati)} strutture selezionate")
+
     # Calcola fabbisogno con dati filtrati
     df_fabbisogno = calcola_fabbisogno(df_dotazioni, df_catalogo)
+
+    st.sidebar.divider()
+
+    # Sezione Export Report
+    st.sidebar.subheader("📥 Export Report")
+
+    # Genera report Excel
+    excel_data = genera_report_excel_filtrato(df_strutture, df_catalogo, df_dotazioni, df_fabbisogno)
+
+    if excel_data:
+        from datetime import datetime
+        filename = f"Report_Fabbisogno_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
+        st.sidebar.download_button(
+            label="📊 Scarica Report Excel",
+            data=excel_data,
+            file_name=filename,
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            use_container_width=True
+        )
+        st.sidebar.caption(f"📋 Report con {len(df_strutture)} strutture")
 
     st.sidebar.divider()
 
