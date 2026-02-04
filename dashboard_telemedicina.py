@@ -424,6 +424,31 @@ def pagina_fabbisogno_complessivo(df_fabbisogno, df_strutture):
     """Pagina fabbisogno complessivo dettagliato"""
     st.header("💰 Fabbisogno Complessivo")
 
+    # Pulsante download report Excel
+    col1, col2, col3 = st.columns([2, 1, 1])
+    with col1:
+        st.info("📥 **Scarica il report Excel** per procedere agli acquisti")
+    with col2:
+        try:
+            # Carica catalogo per generare report
+            df_catalogo = pd.read_csv('dotazioni_telemedicina_catalogo.csv')
+            df_dotazioni = pd.read_csv('dotazioni_strutture_telemedicina.csv')
+            excel_data = genera_report_excel_filtrato(df_strutture, df_catalogo, df_dotazioni, df_fabbisogno)
+            if excel_data:
+                from datetime import datetime
+                filename = f"Report_Fabbisogno_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
+                st.download_button(
+                    label="📊 Scarica Excel",
+                    data=excel_data,
+                    file_name=filename,
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    type="primary"
+                )
+        except Exception as e:
+            st.error(f"Errore: {e}")
+
+    st.divider()
+
     # Fabbisogno per dotazione
     st.subheader("Riepilogo per Dotazione")
 
